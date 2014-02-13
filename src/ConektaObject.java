@@ -72,15 +72,13 @@ public class ConektaObject extends ArrayList {
                 }
             } else {
                 if (!obj.equals(null)) {
+                    // Set field of instance
                     try {
                     this.getClass().getMethod(
                             "set" + ConektaObject.toCamelCase(key),
                             Object.class).invoke(this, obj);
                     } catch (Exception e) {
-                        // do nothing
-                    }
-                    if (key.equals("id")) {
-                        this.id = obj.toString();
+                        // method was not found
                     }
                     this.setVal(key, obj);
                 }
