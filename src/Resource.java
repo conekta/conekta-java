@@ -1,9 +1,6 @@
 
-import java.io.IOException;
 import java.lang.reflect.Constructor;
-import java.net.MalformedURLException;
 import org.json.JSONArray;
-import org.json.JSONException;
 import org.json.JSONObject;
 
 
@@ -28,7 +25,6 @@ public class Resource extends ConektaObject {
         return base;
     }
     public String instanceUrl() throws Exception {
-        String id = this.id;
         if (id.length() == 0) {
             throw new Exception("no id");
         }

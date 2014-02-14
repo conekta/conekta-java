@@ -12,12 +12,13 @@ import org.json.JSONObject;
  */
 public class ConektaJava {
     public static void main(String[] args) throws Exception {
-        //Charge charge = (Charge) Charge.find("52f567a8cfc26c8e6c000006");
-        //System.out.println(charge.toString());
-
-        Charge charge = (Charge) Charge.find("52fc0a6ecfc26c87bc00000e");
-        System.out.println(charge.getAmount());
+        Charge charge = (Charge) Charge.find("52f567a8cfc26c8e6c000006");
         System.out.println(charge.toString());
+        System.out.println(charge.status);
+
+        //Charge charge = (Charge) Charge.find("52fc0a6ecfc26c87bc00000e");
+        //System.out.println(charge.getAmount());
+        //System.out.println(charge.toString());
         JSONObject params = new JSONObject("{'description':'Stogies'," +
                                             "'reference_id':'9839-wolf_pack',"+
                                             "'amount':20000,"+
