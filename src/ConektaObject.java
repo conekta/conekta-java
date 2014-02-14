@@ -7,7 +7,6 @@
  *
  * @author mauricio
  */
-import java.lang.reflect.Constructor;
 import java.lang.reflect.Field;
 import java.util.HashMap;
 import java.util.ArrayList;
@@ -48,10 +47,10 @@ public class ConektaObject extends ArrayList {
 
     public void loadFromArray(JSONArray jsonArray) throws Exception {
         for (int i = 0; i < jsonArray.length(); i++) {
-            Object conektaObject = (Object) Class.forName(
-                    ConektaObject.toCamelCase(jsonArray.getJSONObject(i).getString("object"))).newInstance();
-            jsonArray.getJSONObject(i).getString("object");
-            ((ConektaObject) conektaObject).loadFromObject(jsonArray.getJSONObject(i));
+            String key = jsonArray.getJSONObject(i).getString("object");
+            JSONObject jsonObject = jsonArray.getJSONObject(i);
+            ConektaObject conektaObject = ConektaObjectFromJSONFactory.ConektaObjectFactory(jsonObject, key);
+            conektaObject.loadFromObject(jsonObject);
             this.add(conektaObject);
         }
     }
@@ -61,36 +60,19 @@ public class ConektaObject extends ArrayList {
         while (itr.hasNext()) {
             String key = itr.next().toString();
             Object obj = jsonObject.get(key);
-            if (obj instanceof JSONObject) {
-                // convert to conekta object
-                if (((JSONObject) obj).has("object")) {
-                    if (((JSONObject) obj).getString("object").equals("card_payment")) {
-                        PaymentMethod payment_method = new CardPayment((JSONObject)obj);
-                        payment_method.loadFromObject((JSONObject)obj);
-                        this.setVal(key, payment_method);
-                    } else {
-                        ConektaObject conektaObject = (ConektaObject) Class.forName(ConektaObject.toCamelCase(key)).newInstance();
-                        conektaObject.loadFromObject(((JSONObject) obj));
-                        this.setVal(key, conektaObject);
-                    }
-                }
-            } else if (obj instanceof JSONArray) {
-                if (((JSONArray) obj).length() > 0) {
+            try {
+                Field field = this.getClass().getField(key);
+                field.setAccessible(true);
+                if (obj instanceof JSONObject && ((JSONObject) obj).has("object")) {
+                    ConektaObject conektaObject = ConektaObjectFromJSONFactory.ConektaObjectFactory((JSONObject)obj, key);
+                    field.set(this, conektaObject);
+                    this.setVal(key, conektaObject);
+                } else if (obj instanceof JSONArray || !obj.equals(null)) {
+                    field.set(this, obj);
                     this.setVal(key, obj);
                 }
-            } else {
-                if (!obj.equals(null)) {
-                    // Set field of instance
-                    try {
-                        Field field = this.getClass().getField(key);
-                        Object o = new Object();
-                        field.setAccessible(true);
-                        field.set(this, obj);
-                    } catch (Exception e) {
-                        // field was not found or type did not match
-                    }
-                    this.setVal(key, obj);
-                }
+            } catch(NoSuchFieldException e) {
+                // No field found
             }
         }
     }

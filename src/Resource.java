@@ -34,19 +34,19 @@ public class Resource extends ConektaObject {
     }
     protected static Object scpFind(String className, String id) throws Exception {
         Constructor c = Class.forName(className).getConstructor(String.class);
-        Object resource = c.newInstance(id);
+        ConektaObject resource = (ConektaObject) c.newInstance(id);
         Requestor requestor = new Requestor();
         String url = ((Resource)resource).instanceUrl();
         JSONObject jsonObject = (JSONObject) requestor.request("GET", url, null);
-        ((ConektaObject)resource).loadFromObject(jsonObject);
+        resource.loadFromObject(jsonObject);
         return resource;
     }
     protected static Object scpCreate(String className, JSONObject params) throws Exception {
         Requestor requestor = new Requestor();
         String url = Resource.classUrl(className);
         JSONObject jsonObject = (JSONObject) requestor.request("POST", url, params);
-        Object resource = Class.forName(className).newInstance();
-        ((ConektaObject)resource).loadFromObject(jsonObject);
+        ConektaObject resource = (ConektaObject) Class.forName(className).newInstance();
+        resource.loadFromObject(jsonObject);
         return resource;
     }
 

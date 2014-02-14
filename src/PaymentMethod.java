@@ -34,3 +34,17 @@ class CardPayment extends PaymentMethod {
         this.name = jsonObject.getString("name");
     }
 }
+
+class OxxoPayment extends PaymentMethod {
+    public OxxoPayment(JSONObject jsonObject) throws Exception {
+        super();
+        this.type = "cash_payment";
+    }
+}
+
+class BankTransferPayment extends PaymentMethod {
+    public BankTransferPayment(JSONObject jsonObject) throws Exception {
+        super();
+        this.type = "bank_transfer_payment";
+    }
+}

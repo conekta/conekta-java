@@ -15,6 +15,7 @@ public class ConektaJava {
         Charge charge = (Charge) Charge.find("52f567a8cfc26c8e6c000006");
         System.out.println(charge.toString());
         System.out.println(charge.status);
+        System.out.println(((CardPayment)charge.payment_method).toString());
 
         //Charge charge = (Charge) Charge.find("52fc0a6ecfc26c87bc00000e");
         //System.out.println(charge.getAmount());
@@ -26,10 +27,11 @@ public class ConektaJava {
                                             "'card':'tok_test_visa_4242'}");
         //Charge charge2 = (Charge) Charge.create(params);
         //System.out.println(charge2.toString());
-        //ConektaObject charges = (ConektaObject) Charge.where(null);
-        //System.out.println(charges.toString());
-        //Charge charge = (Charge) charges.get(0);
-        //System.out.println(charge.toString());
+        ConektaObject charges = (ConektaObject) Charge.where(null);
+        System.out.println(charges.toString());
+        Charge charge2 = (Charge) charges.get(0);
+        System.out.println(charge2.getClass().toString());
+        System.out.println(charge2.toString());
         
     }
 }
