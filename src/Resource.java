@@ -32,7 +32,7 @@ public class Resource extends ConektaObject {
         String base = Resource.classUrl(className);
         return base + "/" + id;
     }
-    protected static Object scpFind(String className, String id) throws Exception {
+    protected static ConektaObject scpFind(String className, String id) throws Exception {
         Constructor c = Class.forName(className).getConstructor(String.class);
         ConektaObject resource = (ConektaObject) c.newInstance(id);
         Requestor requestor = new Requestor();
@@ -41,7 +41,7 @@ public class Resource extends ConektaObject {
         resource.loadFromObject(jsonObject);
         return resource;
     }
-    protected static Object scpCreate(String className, JSONObject params) throws Exception {
+    protected static ConektaObject scpCreate(String className, JSONObject params) throws Exception {
         Requestor requestor = new Requestor();
         String url = Resource.classUrl(className);
         JSONObject jsonObject = (JSONObject) requestor.request("POST", url, params);
@@ -58,4 +58,24 @@ public class Resource extends ConektaObject {
         resource.loadFromArray(jsonArray);
         return resource;
     }
+
+    protected ConektaObject delete(String className, JSONObject params) throws Exception {
+        return this.customAction("delete", null, null);
+        // TODO ConektaObjects
+    }
+
+    protected ConektaObject customAction(String method, String action, JSONObject params) throws Exception {
+        if (!method.isEmpty()) {
+            method = "post";
+        }
+        Requestor requestor = new Requestor();
+        String url = this.instanceUrl();
+        if (!action.isEmpty()) {
+            url = url + "/" + action;
+        }
+        JSONObject jsonObject = (JSONObject) requestor.request(method, url, params);
+        this.loadFromObject(jsonObject);
+        return this;
+    }
+
 }

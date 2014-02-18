@@ -23,7 +23,7 @@ class CardPayment extends PaymentMethod {
     public String exp_year;
     public String name;
 
-    public CardPayment(JSONObject jsonObject) throws Exception {
+    public CardPayment(JSONObject jsonObject) throws JSONException {
         super();
         this.type = "card_payment";
         this.brand = jsonObject.getString("brand");
@@ -36,15 +36,27 @@ class CardPayment extends PaymentMethod {
 }
 
 class OxxoPayment extends PaymentMethod {
-    public OxxoPayment(JSONObject jsonObject) throws Exception {
+     public String expiry_date;
+     public String barcode;
+     public String barcode_url;
+    public OxxoPayment(JSONObject jsonObject) throws JSONException {
         super();
         this.type = "cash_payment";
+        this.expiry_date = jsonObject.getString("expiry_date");
+        this.barcode = jsonObject.getString("barcode");
+        this.barcode_url = jsonObject.getString("barcode_url");
     }
 }
 
 class BankTransferPayment extends PaymentMethod {
-    public BankTransferPayment(JSONObject jsonObject) throws Exception {
+    public String service_name;
+    public String service_number;
+    public String reference;
+    public BankTransferPayment(JSONObject jsonObject) throws JSONException {
         super();
         this.type = "bank_transfer_payment";
+        this.service_name = jsonObject.getString("service_name");
+        this.service_number = jsonObject.getString("service_number");
+        this.reference = jsonObject.getString("reference");
     }
 }

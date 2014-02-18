@@ -27,11 +27,11 @@ public class ConektaJava {
                                             "'card':'tok_test_visa_4242'}");
         //Charge charge2 = (Charge) Charge.create(params);
         //System.out.println(charge2.toString());
-        ConektaObject charges = (ConektaObject) Charge.where(null);
-        System.out.println(charges.toString());
-        Charge charge2 = (Charge) charges.get(0);
-        System.out.println(charge2.getClass().toString());
-        System.out.println(charge2.toString());
+        //ConektaObject charges = (ConektaObject) Charge.where(null);
+        //System.out.println(charges.toString());
+        //Charge charge2 = (Charge) charges.get(0);
+        //System.out.println(charge2.getClass().toString());
+        //System.out.println(charge2.toString());
         
     }
 }
