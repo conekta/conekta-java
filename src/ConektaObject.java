@@ -17,7 +17,7 @@ import org.json.JSONObject;
 public class ConektaObject extends ArrayList {
 
     private HashMap values;
-    String id;
+    public String id;
 
     public ConektaObject(String id) {
         this.values = new HashMap();
@@ -61,7 +61,8 @@ public class ConektaObject extends ArrayList {
             String key = itr.next().toString();
             Object obj = jsonObject.get(key);
             try {
-                Field field = this.getClass().getField(key);
+                Field field;
+                field = this.getClass().getField(key);
                 field.setAccessible(true);
                 if (obj instanceof JSONObject && ((JSONObject) obj).has("object")) {
                     ConektaObject conektaObject = ConektaObjectFromJSONFactory.ConektaObjectFactory((JSONObject)obj, key);
@@ -73,6 +74,7 @@ public class ConektaObject extends ArrayList {
                 }
             } catch(NoSuchFieldException e) {
                 // No field found
+                //System.out.println(e.toString());
             }
         }
     }

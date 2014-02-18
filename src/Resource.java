@@ -1,6 +1,7 @@
 
 import java.lang.reflect.Constructor;
 import org.json.JSONArray;
+import org.json.JSONException;
 import org.json.JSONObject;
 
 
@@ -60,7 +61,8 @@ public class Resource extends ConektaObject {
     }
 
     protected ConektaObject delete(String className, JSONObject params) throws Exception {
-        return this.customAction("delete", null, null);
+        this.customAction("delete", null, null);
+        return this;
         // TODO ConektaObjects
     }
 
