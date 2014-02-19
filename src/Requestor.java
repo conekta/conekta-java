@@ -44,7 +44,7 @@ public class Requestor {
         this.connection.setRequestProperty("X-Conekta-Client-User-Agent", userAgent.toString());
         this.connection.setRequestProperty("User-Agent", "Conekta/v1 JavaBindings/" + Conekta.VERSION);
         this.connection.setRequestProperty("Accept", "application/vnd.conekta-v0.3.0+json");
-        this.connection.setRequestProperty("Authorization", "Basic " + Base64.encode("1tv5yJp3xnVZ7eK67m4h ".getBytes()));
+        this.connection.setRequestProperty("Authorization", "Basic " + Base64.encode((Conekta.apiKey + " ").getBytes()));
     }
 
     public Object request(String method, String url, JSONObject params) throws Exception {
@@ -58,18 +58,28 @@ public class Requestor {
         this.setHeaders();
 
         if (params != null) {
-            OutputStream os = connection.getOutputStream();
-            BufferedWriter writer = new BufferedWriter(
-                    new OutputStreamWriter(os, "UTF-8"));
-            writer.write(Requestor.getQuery(params, null));
-            writer.flush();
-            writer.close();
-            os.close();
+            try {
+                OutputStream os = connection.getOutputStream();
+                BufferedWriter writer = new BufferedWriter(
+                        new OutputStreamWriter(os, "UTF-8"));
+                writer.write(Requestor.getQuery(params, null));
+                writer.flush();
+                writer.close();
+                os.close();
+            } catch(Exception e) {
+                throw new NoConnectionError("Could not connect to " + Conekta.apiBase, null, null, null);
+            }
         }
 
         int responseCode = connection.getResponseCode();
-        BufferedReader in = new BufferedReader(
+        BufferedReader in;
+        if (responseCode != 200) {
+            in = new BufferedReader(
+                new InputStreamReader(connection.getErrorStream()));
+        } else {
+            in = new BufferedReader(
                 new InputStreamReader(connection.getInputStream()));
+        }
         String inputLine;
         StringBuffer response = new StringBuffer();
         while ((inputLine = in.readLine()) != null) {
@@ -89,6 +99,9 @@ public class Requestor {
                 throw new Exception("invalid response");
             // Other
         }
+        if (responseCode != 200) {
+            Error.errorHandler((JSONObject) object, responseCode);
+        }
         in.close();
         return object;
     }
@@ -105,23 +118,23 @@ public class Requestor {
             }
             String key = itr.next().toString();
             Object obj = jsonObject.get(key);
-
             if (obj instanceof JSONObject) {
+                //System.out.println(key + " " + obj.toString());
                 // convert to conekta object
-                if (((JSONObject) obj).has("object")) {
-                    Requestor.getQuery(((JSONObject) obj), null);
-                }
+                //if (((JSONObject) obj).has("object")) {
+                    result.append(Requestor.getQuery(((JSONObject) obj), key));
+                //}
                 //break;
             } else if (obj instanceof JSONArray) {
                 JSONArray array = ((JSONArray)obj);
                 for (int i = 0; i < array.length(); i ++) {
-                    Requestor.getQuery(array.getJSONObject(i), key);
+                    result.append(Requestor.getQuery(array.getJSONObject(i), key));
                 }
 
             } else {
                 if (!obj.equals(null)) {
                     if (arrayKey != null) {
-                        result.append(URLEncoder.encode((key + "[" + arrayKey + "]"), "UTF-8"));
+                        result.append(URLEncoder.encode((arrayKey + "[" + key + "]"), "UTF-8"));
                     } else {
                         result.append(URLEncoder.encode(key, "UTF-8"));
                     }

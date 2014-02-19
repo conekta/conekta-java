@@ -36,13 +36,27 @@ public class Charge extends Resource {
         return (Charge) scpFind(className, id);
     }
 
+    public static ConektaObject where(JSONObject params) throws Exception {
+        String className = Charge.class.getName();
+        return (ConektaObject) scpWhere(className, params);
+    }
+
+    public static ConektaObject where() throws Exception {
+        String className = Charge.class.getName();
+        return (ConektaObject) scpWhere(className, null);
+    }
+
     public static Charge create(JSONObject params) throws Exception {
         String className = Charge.class.getName();
         return (Charge) scpCreate(className, params);
     }
 
-    public static ConektaObject where(JSONObject params) throws Exception {
-        String className = Charge.class.getName();
-        return (ConektaObject) scpWhere(className, params);
+    public Charge capture() throws Exception {
+        return (Charge) customAction("POST", "capture", null);
+    }
+
+    public Charge refund(Integer amount) throws Exception {
+        JSONObject params = new JSONObject("{'amount':" + amount + "}");
+        return (Charge) customAction("POST", "refund", params);
     }
 }

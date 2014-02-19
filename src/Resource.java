@@ -61,14 +61,14 @@ public class Resource extends ConektaObject {
     }
 
     protected ConektaObject delete(String className, JSONObject params) throws Exception {
-        this.customAction("delete", null, null);
+        this.customAction("DELETE", null, null);
         return this;
         // TODO ConektaObjects
     }
 
     protected ConektaObject customAction(String method, String action, JSONObject params) throws Exception {
         if (!method.isEmpty()) {
-            method = "post";
+            method = "POST";
         }
         Requestor requestor = new Requestor();
         String url = this.instanceUrl();
