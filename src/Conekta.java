@@ -10,8 +10,8 @@
 public abstract class Conekta {
 
     public static String apiKey;
-    public static String apiBase = "https://api.conekta.io";
-    //public static String apiBase = "http://localhost:3000";
+    //public static String apiBase = "https://api.conekta.io";
+    public static String apiBase = "http://localhost:3000";
     public static String apiVersion = "0.3.0";
     public static final String VERSION = "0.1.0";
 

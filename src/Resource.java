@@ -66,13 +66,20 @@ public class Resource extends ConektaObject {
         // TODO ConektaObjects
     }
 
+    protected void update(JSONObject params) throws Exception {
+        Requestor requestor = new Requestor();
+        String url = this.instanceUrl();
+        JSONObject jsonObject = (JSONObject) requestor.request("PUT", url, params);
+        this.loadFromObject(jsonObject);
+    }
+
     protected ConektaObject customAction(String method, String action, JSONObject params) throws Exception {
-        if (!method.isEmpty()) {
+        if (method == null) {
             method = "POST";
         }
         Requestor requestor = new Requestor();
         String url = this.instanceUrl();
-        if (!action.isEmpty()) {
+        if (action != null) {
             url = url + "/" + action;
         }
         JSONObject jsonObject = (JSONObject) requestor.request(method, url, params);

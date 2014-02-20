@@ -12,6 +12,7 @@ import java.util.HashMap;
 import java.util.ArrayList;
 import java.util.Iterator;
 import org.json.JSONArray;
+import org.json.JSONException;
 import org.json.JSONObject;
 
 public class ConektaObject extends ArrayList {
@@ -46,13 +47,27 @@ public class ConektaObject extends ArrayList {
     }
 
     public void loadFromArray(JSONArray jsonArray) throws Exception {
+        loadFromArray(jsonArray, null);
+    }
+
+    public void loadFromArray(JSONArray jsonArray, String className) throws Exception {
         for (int i = 0; i < jsonArray.length(); i++) {
-            String key = jsonArray.getJSONObject(i).getString("object");
-            JSONObject jsonObject = jsonArray.getJSONObject(i);
-            ConektaObject conektaObject = ConektaObjectFromJSONFactory.ConektaObjectFactory(jsonObject, key);
-            conektaObject.loadFromObject(jsonObject);
+            ConektaObject conektaObject = aux(jsonArray, className, i);
             this.add(conektaObject);
         }
+    }
+
+    protected static ConektaObject aux(JSONArray jsonArray, String className, Integer i) throws Exception {
+        String key;
+        if (className != null) {
+            key = className;
+        } else {
+            key = jsonArray.getJSONObject(i).getString("object");
+        }
+        JSONObject jsonObject = jsonArray.getJSONObject(i);
+        ConektaObject conektaObject = ConektaObjectFromJSONFactory.ConektaObjectFactory(jsonObject, key);
+        conektaObject.loadFromObject(jsonObject);
+        return conektaObject;
     }
 
     public void loadFromObject(JSONObject jsonObject) throws Exception {
@@ -65,14 +80,26 @@ public class ConektaObject extends ArrayList {
                 field = this.getClass().getField(key);
                 field.setAccessible(true);
                 if (obj instanceof JSONObject && ((JSONObject) obj).has("object")) {
-                    ConektaObject conektaObject = ConektaObjectFromJSONFactory.ConektaObjectFactory((JSONObject)obj, key);
+                    ConektaObject conektaObject = ConektaObjectFromJSONFactory.ConektaObjectFactory((JSONObject) obj, key);
                     field.set(this, conektaObject);
                     this.setVal(key, conektaObject);
                 } else if (obj instanceof JSONArray || !obj.equals(null)) {
-                    field.set(this, obj);
-                    this.setVal(key, obj);
+                    if (obj instanceof JSONArray) {
+                        JSONArray jsonArray = (JSONArray) obj;
+                        if (jsonArray.length() > 0 && jsonArray.getJSONObject(0).has("object")) {
+                            ConektaObject conektaObject = new ConektaObject();
+                            for (int i = 0; i < jsonArray.length(); i++) {
+                                conektaObject.add(ConektaObjectFromJSONFactory.ConektaObjectFactory(jsonArray.getJSONObject(i), jsonArray.getJSONObject(i).getString("object")));
+                            }
+                            field.set(this, conektaObject);
+                            this.setVal(key, conektaObject);
+                        }
+                    } else {
+                        field.set(this, obj);
+                        this.setVal(key, obj);
+                    }
                 }
-            } catch(NoSuchFieldException e) {
+            } catch (NoSuchFieldException e) {
                 // No field found
                 //System.out.println(e.toString());
             }

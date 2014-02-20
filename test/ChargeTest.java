@@ -3,7 +3,6 @@
  * and open the template in the editor.
  */
 
-import junit.framework.TestCase;
 import org.json.JSONException;
 import org.json.JSONObject;
 import static org.junit.Assert.*;

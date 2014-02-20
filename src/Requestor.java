@@ -44,6 +44,7 @@ public class Requestor {
         this.connection.setRequestProperty("X-Conekta-Client-User-Agent", userAgent.toString());
         this.connection.setRequestProperty("User-Agent", "Conekta/v1 JavaBindings/" + Conekta.VERSION);
         this.connection.setRequestProperty("Accept", "application/vnd.conekta-v0.3.0+json");
+        this.connection.setRequestProperty("Content-Type", "application/x-www-form-urlencoded");
         this.connection.setRequestProperty("Authorization", "Basic " + Base64.encode((Conekta.apiKey + " ").getBytes()));
     }
 
@@ -58,27 +59,29 @@ public class Requestor {
         this.setHeaders();
 
         if (params != null) {
+            OutputStream os = null;
             try {
-                OutputStream os = connection.getOutputStream();
-                BufferedWriter writer = new BufferedWriter(
-                        new OutputStreamWriter(os, "UTF-8"));
-                writer.write(Requestor.getQuery(params, null));
-                writer.flush();
-                writer.close();
-                os.close();
-            } catch(Exception e) {
+                os = connection.getOutputStream();
+            } catch (Exception e) {
                 throw new NoConnectionError("Could not connect to " + Conekta.apiBase, null, null, null);
             }
+            BufferedWriter writer = new BufferedWriter(
+                    new OutputStreamWriter(os, "UTF-8"));
+            writer.write(Requestor.getQuery(params, null));
+            writer.flush();
+            writer.close();
+            os.close();
+
         }
 
         int responseCode = connection.getResponseCode();
         BufferedReader in;
         if (responseCode != 200) {
             in = new BufferedReader(
-                new InputStreamReader(connection.getErrorStream()));
+                    new InputStreamReader(connection.getErrorStream()));
         } else {
             in = new BufferedReader(
-                new InputStreamReader(connection.getInputStream()));
+                    new InputStreamReader(connection.getInputStream()));
         }
         String inputLine;
         StringBuffer response = new StringBuffer();
@@ -96,7 +99,7 @@ public class Requestor {
                 object = new JSONArray(response.toString());
                 break;
             default:
-                throw new Exception("invalid response");
+                throw new Error("invalid response", null, null, null);
             // Other
         }
         if (responseCode != 200) {
@@ -110,7 +113,7 @@ public class Requestor {
         StringBuilder result = new StringBuilder();
         Iterator itr = jsonObject.keys();
         Boolean first = true;
-        while(itr.hasNext()) {
+        while (itr.hasNext()) {
             if (first) {
                 first = false;
             } else {
@@ -119,20 +122,24 @@ public class Requestor {
             String key = itr.next().toString();
             Object obj = jsonObject.get(key);
             if (obj instanceof JSONObject) {
-                //System.out.println(key + " " + obj.toString());
-                // convert to conekta object
-                //if (((JSONObject) obj).has("object")) {
-                    result.append(Requestor.getQuery(((JSONObject) obj), key));
-                //}
-                //break;
+
+                result.append(Requestor.getQuery(((JSONObject) obj), key));
+
             } else if (obj instanceof JSONArray) {
-                JSONArray array = ((JSONArray)obj);
-                for (int i = 0; i < array.length(); i ++) {
-                    result.append(Requestor.getQuery(array.getJSONObject(i), key));
+                JSONArray array = ((JSONArray) obj);
+                for (int i = 0; i < array.length(); i++) {
+                    if (array.get(i) instanceof JSONObject) {
+                        result.append(Requestor.getQuery(array.getJSONObject(i), key));
+                    } else {
+                        result.append(URLEncoder.encode((key + "[]"), "UTF-8"));
+                        result.append("=");
+                        result.append(URLEncoder.encode(array.getString(i), "UTF-8"));
+                    }
+
                 }
 
             } else {
-                if (!obj.equals(null)) {
+                if (obj != null) {
                     if (arrayKey != null) {
                         result.append(URLEncoder.encode((arrayKey + "[" + key + "]"), "UTF-8"));
                     } else {
