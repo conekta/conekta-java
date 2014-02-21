@@ -4,11 +4,11 @@ package com.conekta;
  * To change this template, choose Tools | Templates
  * and open the template in the editor.
  */
-
 /**
  *
  * @author mauricio
  */
+import java.lang.reflect.Constructor;
 import java.lang.reflect.Field;
 import java.util.HashMap;
 import java.util.ArrayList;
@@ -81,46 +81,60 @@ public class ConektaObject extends ArrayList {
     }
 
     public void loadFromObject(JSONObject jsonObject) throws Exception {
-        
-            Iterator itr = jsonObject.keys();
-            while (itr.hasNext()) {
-                String key = itr.next().toString();
-                Object obj = jsonObject.get(key);
-                try {
-                    Field field;
-                    field = this.getClass().getField(key);
-                    field.setAccessible(true);
-                    if (obj instanceof JSONObject && ((JSONObject) obj).has("object")) {
-                        ConektaObject conektaObject = ConektaObjectFromJSONFactory.ConektaObjectFactory((JSONObject) obj, key);
-                        field.set(this, conektaObject);
-                        this.setVal(key, conektaObject);
-                    } else if (obj instanceof JSONArray || !obj.equals(null)) {
-                        if (obj instanceof JSONArray) {
-                            JSONArray jsonArray = (JSONArray) obj;
-                            if (jsonArray.length() > 0 && jsonArray.getJSONObject(0).has("object")) {
-                                ConektaObject conektaObject = new ConektaObject();
-                                for (int i = 0; i < jsonArray.length(); i++) {
+
+        Iterator itr = jsonObject.keys();
+        while (itr.hasNext()) {
+            String key = itr.next().toString();
+            Object obj = jsonObject.get(key);
+            try {
+                Field field;
+                field = this.getClass().getField(key);
+                field.setAccessible(true);
+                Boolean isConektaObject = field.getType().getPackage().getName().equals("com.conekta");
+                if (obj instanceof JSONObject && ((JSONObject) obj).has("object")) {
+                    ConektaObject conektaObject = ConektaObjectFromJSONFactory.ConektaObjectFactory((JSONObject) obj, key);
+                    field.set(this, conektaObject);
+                    this.setVal(key, conektaObject);
+                } else if (obj instanceof JSONArray || !obj.equals(null)) {
+                    if (obj instanceof JSONArray) {
+                        JSONArray jsonArray = (JSONArray) obj;
+                        if (jsonArray.length() > 0) {
+                            ConektaObject conektaObject = new ConektaObject();
+                            for (int i = 0; i < jsonArray.length(); i++) {
+                                if ((jsonArray.getJSONObject(0).has("object"))) {
                                     conektaObject.add(ConektaObjectFromJSONFactory.ConektaObjectFactory(jsonArray.getJSONObject(i), jsonArray.getJSONObject(i).getString("object")));
+                                } else {
+                                    conektaObject.add(ConektaObjectFromJSONFactory.ConektaObjectFactory(jsonArray.getJSONObject(i), key));
                                 }
-                                field.set(this, conektaObject);
-                                this.setVal(key, conektaObject);
                             }
+                            field.set(this, conektaObject);
+                            this.setVal(key, conektaObject);
+                        }
+                    } else {
+                        if (isConektaObject) {
+                            Constructor c;
+                            c = Class.forName(field.getType().getCanonicalName()).getConstructor();
+                            ConektaObject attr = (ConektaObject) c.newInstance();
+                            attr.loadFromObject((JSONObject) obj);
+                            field.set(this, attr);
+                            this.setVal(key, attr);
                         } else {
                             field.set(this, obj);
                             this.setVal(key, obj);
                         }
                     }
-                } catch (Exception e) {
-                    // No field found
-                    //System.out.println(e.toString());
                 }
+            } catch (Exception e) {
+                // No field found
+                //System.out.println(e.toString());
             }
-        
+        }
+
     }
 
     @Override
     public String toString() {
-        if (this.getClass().getCanonicalName().equals("ConektaObject")) {
+        if (this.getClass().getSimpleName().equals("ConektaObject")) {
             StringBuilder result = new StringBuilder();
             result.append("[");
             for (int i = 0; i < this.size(); i++) {

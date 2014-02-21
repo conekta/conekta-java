@@ -24,7 +24,9 @@ public class ChargeTest extends ConektaTest {
         valid_payment_method = new JSONObject("{'description':'Stogies'," +
                 "'reference_id':'9839-wolf_pack'," +
                 "'amount':20000," +
-                "'currency':'MXN'}");
+                "'currency':'MXN',"+
+                "'details':{'name':'Wolverine', 'billing_address': {'street1':'tamesis'}, line_items: [{'name':'Box of Cohiba S1s', 'sku':'cohb_s1','unit_price': 20000,'description':'Imported from Mex.','quantity':1,'type':'other_human_consumption'}]}"+
+                "}");
         invalid_payment_method = new JSONObject("{'description':'Stogies'," +
                 "'reference_id':'9839-wolf_pack'," +
                 "'amount':10," +
@@ -32,11 +34,16 @@ public class ChargeTest extends ConektaTest {
         valid_visa_card = new JSONObject("{'card':'tok_test_visa_4242'}");
     }
 
-    //@Test
+    
     public Charge testSuccesfulCardPMCreate() throws Exception {
         JSONObject params = valid_payment_method.put("card", valid_visa_card.get("card"));
         Charge charge = Charge.create(params);
         assertTrue(charge.status.equals("paid"));
+        assertTrue(charge.details instanceof Details);
+        assertTrue(charge.details.billing_address instanceof Address);
+        assertTrue(charge.details.line_items instanceof ConektaObject);
+        assertTrue(charge.details.line_items.get(0) instanceof LineItems);
+        assertTrue(charge.details.name.equals("Wolverine"));
         assertTrue(charge.payment_method instanceof CardPayment);
         return charge;
     }

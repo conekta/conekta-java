@@ -12,8 +12,7 @@ import org.json.JSONObject;
  * @author mauricio
  */
 public abstract class PaymentMethod extends ConektaObject {
-
-    String type;
+    public String type;
 }
 
 class CardPayment extends PaymentMethod {
@@ -27,7 +26,7 @@ class CardPayment extends PaymentMethod {
 
     public CardPayment(JSONObject jsonObject) throws Error {
         super();
-        this.type = "card_payment";
+        //this.type = "card_payment";
         try {
             this.brand = jsonObject.getString("brand");
             this.auth_code = jsonObject.getString("auth_code");
@@ -46,10 +45,11 @@ class OxxoPayment extends PaymentMethod {
     public String expiry_date;
     public String barcode;
     public String barcode_url;
+    public Integer expires_at;
 
     public OxxoPayment(JSONObject jsonObject) throws Error {
         super();
-        this.type = "cash_payment";
+        //this.type = "cash_payment";
         try {
             this.expiry_date = jsonObject.getString("expiry_date");
             this.barcode = jsonObject.getString("barcode");
@@ -68,7 +68,7 @@ class BankTransferPayment extends PaymentMethod {
 
     public BankTransferPayment(JSONObject jsonObject) throws Error {
         super();
-        this.type = "bank_transfer_payment";
+        //this.type = "bank_transfer_payment";
         try {
             this.service_name = jsonObject.getString("service_name");
             this.service_number = jsonObject.getString("service_number");

@@ -22,6 +22,10 @@ public class Charge extends Resource {
     public String failure_message;
     public Integer amount;
     public PaymentMethod payment_method;
+    public Details details;
+    public Integer fee;
+    public Integer monthly_installments;
+    public ConektaObject refunds;
 
     public Charge(String id) {
         super(id);

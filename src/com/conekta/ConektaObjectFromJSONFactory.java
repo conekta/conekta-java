@@ -14,7 +14,7 @@ public abstract class ConektaObjectFromJSONFactory {
 
     public static ConektaObject ConektaObjectFactory(JSONObject jsonObject, String attributeName) throws Error {
         ConektaObject conektaObject = new ConektaObject();
-        if (isPaymentMethod(jsonObject)) {
+        if (jsonObject.has("object") && isPaymentMethod(jsonObject)) {
             conektaObject = PaymentMethodFactory(jsonObject);
             try {
                 conektaObject.loadFromObject(jsonObject);

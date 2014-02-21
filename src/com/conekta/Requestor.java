@@ -4,7 +4,6 @@ package com.conekta;
  * To change this template, choose Tools | Templates
  * and open the template in the editor.
  */
-
 /**
  *
  * @author mauricio
@@ -163,51 +162,54 @@ public class Requestor {
         return object;
     }
 
-    private static String getQuery(JSONObject jsonObject, String arrayKey) throws Error {
-        try {
-            StringBuilder result = new StringBuilder();
-            Iterator itr = jsonObject.keys();
-            Boolean first = true;
-            while (itr.hasNext()) {
-                if (first) {
-                    first = false;
-                } else {
-                    result.append("&");
+    private static String getQuery(JSONObject jsonObject, String index) throws Exception {
+        StringBuilder result = new StringBuilder();
+        Iterator itr = jsonObject.keys();
+        Boolean first = true;
+        while (itr.hasNext()) {
+            if (first) {
+                first = false;
+            } else {
+                result.append("&");
+            }
+            String key = itr.next().toString();
+            Object value = jsonObject.get(key);
+            if (value instanceof JSONObject) {
+                if (index != null) {
+                    key = index + "[" + key + "]";
                 }
-                String key = itr.next().toString();
-                Object obj = jsonObject.get(key);
-                if (obj instanceof JSONObject) {
-
-                    result.append(Requestor.getQuery(((JSONObject) obj), key));
-
-                } else if (obj instanceof JSONArray) {
-                    JSONArray array = ((JSONArray) obj);
+                result.append(Requestor.getQuery(((JSONObject) value), key));
+            } else if (value instanceof JSONArray) {
+                JSONArray array = ((JSONArray) value);
                     for (int i = 0; i < array.length(); i++) {
                         if (array.get(i) instanceof JSONObject) {
+                            if (index != null) {
+                                key = index + "[" + key + "][]";
+                            }
                             result.append(Requestor.getQuery(array.getJSONObject(i), key));
                         } else {
-                            result.append(URLEncoder.encode((key + "[]"), "UTF-8"));
+                            if (index != null) {
+                                result.append(URLEncoder.encode(index + "[" + key + "]" + "[]", "UTF-8"));
+                            } else {
+                                result.append(URLEncoder.encode(key + "[]", "UTF-8"));
+                            }
                             result.append("=");
                             result.append(URLEncoder.encode(array.getString(i), "UTF-8"));
                         }
-
                     }
-
+                
+            } else {
+                if (index != null) {
+                    result.append(URLEncoder.encode(index + "[" + key + "]", "UTF-8"));
                 } else {
-                    if (obj != null) {
-                        if (arrayKey != null) {
-                            result.append(URLEncoder.encode((arrayKey + "[" + key + "]"), "UTF-8"));
-                        } else {
-                            result.append(URLEncoder.encode(key, "UTF-8"));
-                        }
-                        result.append("=");
-                        result.append(URLEncoder.encode(obj.toString(), "UTF-8"));
-                    }
+                    result.append(key);
+
                 }
+                result.append("=");
+                result.append(URLEncoder.encode(value.toString(), "UTF-8"));
             }
-            return result.toString();
-        } catch (Exception e) {
-            throw new Error(e.toString(), null, null, null);
+
         }
+        return result.toString();
     }
 }
