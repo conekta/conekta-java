@@ -65,7 +65,7 @@ public class Requestor {
         URL urlObj;
         try {
             // SSL
-            InputStream is = new FileInputStream("ssl_data/ca_bundle.crt");
+            InputStream is = getClass().getResourceAsStream("/ssl_data/ca_bundle.crt");
             CertificateFactory cf = CertificateFactory.getInstance("X.509");
             X509Certificate caCert = (X509Certificate) cf.generateCertificate(is);
             TrustManagerFactory tmf = TrustManagerFactory.getInstance(TrustManagerFactory.getDefaultAlgorithm());
