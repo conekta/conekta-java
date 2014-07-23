@@ -1,4 +1,6 @@
-# Conekta
+![alt tag](https://raw.github.com/conekta/conekta-java/master/readme_files/cover.png)
+
+# Conekta Java 1.0.1
 
 This is a java library that allows interaction with https://api.conekta.io API.
 
@@ -57,3 +59,7 @@ Please see https://www.conekta.io/docs/api for up-to-date documentation.
 ## Tests
 
 The library has JUnit tests and you can run them separately.
+
+License
+-------
+Developed by [Conekta](https://www.conekta.io). Available with [MIT License](LICENSE).
