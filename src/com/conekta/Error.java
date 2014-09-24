@@ -17,10 +17,10 @@ import org.json.JSONObject;
  */
 public class Error extends Exception {
 
-    String message;
-    String type;
-    Integer code;
-    String params;
+    public String message;
+    public String type;
+    public Integer code;
+    public String params;
 
     public Error(String message, String type, Integer code, String params) {
         super(message);
