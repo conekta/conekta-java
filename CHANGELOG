@@ -5,3 +5,5 @@
 === 1.0.2 2014-07-20
 * Fix ssl_data path.
 * Separate payment method classes.
+=== 1.0.3 2014-07-20
+* Make Error.java parameters public.
