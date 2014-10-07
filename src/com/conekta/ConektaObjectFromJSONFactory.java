@@ -37,9 +37,26 @@ public abstract class ConektaObjectFromJSONFactory {
         if (isKindOfPaymentMethod(jsonObject, "card_payment")) {
             payment_method = new CardPayment(jsonObject);
         } else if (isKindOfPaymentMethod(jsonObject, "cash_payment")) {
-            payment_method = new OxxoPayment(jsonObject);
+            try {
+                if (jsonObject.getString("type").equals("oxxo")) {
+                    payment_method = new OxxoPayment(jsonObject);
+                } else if (jsonObject.getString("type").equals("real_time")) {
+                    payment_method = new RealTimePayment(jsonObject);
+                }
+            } catch (Exception e) {
+                throw new Error(e.toString(), null, null, null);
+            }
         } else if (isKindOfPaymentMethod(jsonObject, "bank_transfer_payment")) {
-            payment_method = new BankTransferPayment(jsonObject);
+            try {
+                if (jsonObject.getString("type").equals("bank")) {
+                    payment_method = new BankTransferPayment(jsonObject);
+                } else if (jsonObject.getString("type").equals("spei")) {
+                    payment_method = new SpeiPayment(jsonObject);
+                }
+            } catch (Exception e) {
+                throw new Error(e.toString(), null, null, null);
+            }
+            
         }
         if (isPaymentMethod(jsonObject)) {
             try {

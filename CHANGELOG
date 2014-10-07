@@ -7,3 +7,5 @@
 * Separate payment method classes.
 === 1.0.3 2014-07-20
 * Make Error.java parameters public.
+=== 1.0.4 2014-10-07
+* Add spei payment and real time payment.

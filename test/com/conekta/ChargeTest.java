@@ -70,6 +70,18 @@ public class ChargeTest extends ConektaTest {
         assertTrue(charge.payment_method instanceof BankTransferPayment);
         assertTrue(charge.status.equals("pending_payment"));
     }
+    
+    //@Test
+    public void testSuccesfulSPEIPMCreate() throws Exception {
+        JSONObject bank = new JSONObject("{'bank':{'type':'spei'}}");
+        JSONObject params = valid_payment_method.put("bank", bank.get("bank"));
+        Charge charge = Charge.create(params);
+        assertTrue(charge.payment_method instanceof SpeiPayment);
+        assertTrue(charge.status.equals("pending_payment"));
+        assertTrue(
+                !((SpeiPayment)charge.payment_method).clabe.isEmpty()
+                  );
+    }
 
     //@Test
     public void testSuccesfulOxxoPMCreate() throws Exception {
@@ -79,6 +91,20 @@ public class ChargeTest extends ConektaTest {
         assertTrue(charge.payment_method instanceof OxxoPayment);
         assertTrue(charge.status.equals("pending_payment"));
     }
+    
+    //@Test
+    public void testSuccesfulRealTimePMCreate() throws Exception {
+        JSONObject cash = new JSONObject("{'cash':{'type':'real_time'}}");
+        JSONObject params = valid_payment_method.put("cash", cash.get("cash"));
+        Charge charge = Charge.create(params);
+        assertTrue(charge.payment_method instanceof RealTimePayment);
+        assertTrue(charge.status.equals("pending_payment"));
+        assertTrue(
+                !((RealTimePayment)charge.payment_method).barcode.isEmpty()
+        );
+    }
+    
+    
 
     //@Test
     public void testUnsuccesfulPMCreate() throws Exception {
