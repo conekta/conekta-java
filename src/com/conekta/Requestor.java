@@ -47,7 +47,7 @@ public class Requestor {
         JSONObject userAgent = new JSONObject();
         try {
             userAgent.put("bindings_version", Conekta.VERSION);
-            userAgent.put("lang", "php");
+            userAgent.put("lang", "java");
             userAgent.put("lang_version", System.getProperty("java.version"));
             userAgent.put("publisher", "conekta");
             // Set Headers
