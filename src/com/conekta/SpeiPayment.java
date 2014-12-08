@@ -15,18 +15,16 @@ import org.json.JSONObject;
 public class SpeiPayment  extends PaymentMethod {
 
     public String clabe;
-    public String clave_rastreo;
-    public String nombre_ordenante;
-    public Integer expected_amount;
+    public String tracking_code;
+    public String bank;
 
     public SpeiPayment(JSONObject jsonObject) throws Error {
         super();
         //this.type = "real_time_payment";
         try {
             this.clabe = jsonObject.getString("clabe");
-            this.clave_rastreo = jsonObject.getString("clave_rastreo");
-            this.nombre_ordenante = jsonObject.getString("nombre_ordenante");
-            this.expected_amount = Integer.parseInt(jsonObject.getString("expected_amount"));
+            this.tracking_code = jsonObject.getString("tracking_code");
+            this.bank = jsonObject.getString("bank");
         } catch (Exception e) {
             throw new Error(e.toString(), null, null, null);
         }
