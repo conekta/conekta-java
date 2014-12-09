@@ -48,7 +48,7 @@ public abstract class ConektaObjectFromJSONFactory {
             }
         } else if (isKindOfPaymentMethod(jsonObject, "bank_transfer_payment")) {
             try {
-                if (jsonObject.getString("type").equals("bank")) {
+                if (jsonObject.getString("type").equals("banorte")) {
                     payment_method = new BankTransferPayment(jsonObject);
                 } else if (jsonObject.getString("type").equals("spei")) {
                     payment_method = new SpeiPayment(jsonObject);
