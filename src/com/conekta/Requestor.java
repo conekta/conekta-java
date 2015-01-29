@@ -183,7 +183,7 @@ public class Requestor {
                 JSONArray array = ((JSONArray) value);
                     for (int i = 0; i < array.length(); i++) {
                         if (array.get(i) instanceof JSONObject) {
-                            if (index != null) {
+                            if (index != null && i == 0) {
                                 key = index + "[" + key + "][]";
                             }
                             result.append(Requestor.getQuery(array.getJSONObject(i), key));
