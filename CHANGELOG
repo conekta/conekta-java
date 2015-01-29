@@ -13,3 +13,5 @@
 * Change url encoded to json data in http request.
 === 1.0.6 2014-10-07
 * Fix getRequest JSONArray to query logic.
+=== 1.0.7 2014-10-07
+* Fix getRequest JSONArray to query logic.

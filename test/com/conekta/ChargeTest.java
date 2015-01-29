@@ -18,6 +18,7 @@ public class ChargeTest extends ConektaTest {
     JSONObject valid_payment_method;
     JSONObject invalid_payment_method;
     JSONObject valid_visa_card;
+    JSONObject params;
 
     public ChargeTest() throws JSONException {
         super();
@@ -32,9 +33,50 @@ public class ChargeTest extends ConektaTest {
                 "'amount':10," +
                 "'currency':'MXN'}");
         valid_visa_card = new JSONObject("{'card':'tok_test_visa_4242'}");
-    }
 
-    
+        params = new JSONObject("{"+
+"    'currency': 'MXN',"+
+"    'details': {"+
+"        'billing_address': {"+
+"            'zip': '53422',"+
+"            'state': 'Estado de Mexico',"+
+"            'country': 'MX',"+
+"            'city': 'Naucalpan',"+
+"            'email': 'oscar.jimenez+loctommy@edgebound.com',"+
+"            'phone': '5514945290',"+
+"            'street1': 'Los Remedios 17, Loma Colorada 2a Seccion'"+
+"        },"+
+"        'line_items': ["+
+"            {"+
+"                'type': 'ecommerce_shopping',"+
+"                'quantity': 2,"+
+"                'name': 'Bg Ss Shoshanna Yd Polo Dress',"+
+"                'description': 'Un vestido que podría ser definido como sporty- chic. De cuello blanco y líneas horizontales en varios colores, hace referencia a la vida en altamar.  ',"+
+"                'sku': '7500244741187',"+
+"                'unit_price': 59000"+
+"            },"+
+"            {"+
+"                'type': 'ecommerce_shopping',"+
+"                'quantity': 1,"+
+"                'name': 'Farris Chino Gmd St',"+
+"                'description': 'Producto Tommy',"+
+"                'sku': '8718771353202',"+
+"                'unit_price': 69000"+
+"            }"+
+"        ],"+
+"        'name': 'Oscar',"+
+"        'email': 'oscar.jimenez+loctommy@edgebound.com',"+
+"        'phone': '5514945290'"+
+"    },"+
+"    'amount': 187000,"+
+"    'bank': {"+
+"        'type': 'banorte'"+
+"    },"+
+"    'description': 'Stogies',"+
+"    'reference_id': 'conekta.tommy_12014_11019'"+
+"}");
+    }   
+
     public Charge testSuccesfulCardPMCreate() throws Exception {
         JSONObject params = valid_payment_method.put("card", valid_visa_card.get("card"));
         Charge charge = Charge.create(params);
@@ -48,14 +90,14 @@ public class ChargeTest extends ConektaTest {
         return charge;
     }
 
-    // @Test
+    //@Test
     public void testSuccesfulFindCharge() throws Exception {
         Charge charge = testSuccesfulCardPMCreate();
         charge = Charge.find(charge.id);
         assertTrue(charge instanceof Charge);
     }
 
-    // @Test
+    //@Test
     public void testSuccesfulWhere() throws Exception {
         ConektaObject charges = Charge.where();
         assertTrue(charges instanceof ConektaObject);
@@ -102,9 +144,7 @@ public class ChargeTest extends ConektaTest {
         assertTrue(
                 !((RealTimePayment)charge.payment_method).barcode.isEmpty()
         );
-    }
-    
-    
+    }    
 
     //@Test
     public void testUnsuccesfulPMCreate() throws Exception {
@@ -115,7 +155,6 @@ public class ChargeTest extends ConektaTest {
         } catch (ParameterValidationError e) {
             assertTrue(e instanceof ParameterValidationError);
         }
-
     }
 
     //@Test

@@ -98,7 +98,8 @@ public class Requestor {
             try {
                 BufferedWriter writer = new BufferedWriter(
                         new OutputStreamWriter(os, "UTF-8"));
-                writer.write(Requestor.getQuery(params, null));
+                String r = Requestor.getQuery(params, null);
+                writer.write(r);
                 writer.flush();
                 writer.close();
                 os.close();
@@ -196,6 +197,7 @@ public class Requestor {
                             result.append("=");
                             result.append(URLEncoder.encode(array.getString(i), "UTF-8"));
                         }
+                        result.append("&");
                     }
                 
             } else {
