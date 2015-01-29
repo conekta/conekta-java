@@ -14,7 +14,7 @@ public abstract class Conekta {
     public static String apiKey;
     public static String apiBase = "https://api.conekta.io";
     public static String apiVersion = "1.0.0";
-    public static final String VERSION = "1.0.5";
+    public static final String VERSION = "1.0.6";
 
     public static void setApiKey(String apiKey) {
         Conekta.apiKey = apiKey;

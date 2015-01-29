@@ -11,3 +11,5 @@
 * Add spei payment and real time payment.
 === 1.0.5 2014-10-07
 * Change url encoded to json data in http request.
+=== 1.0.6 2014-10-07
+* Fix getRequest JSONArray to query logic.
