@@ -40,7 +40,7 @@ public class Customer extends Resource {
             try {
                 super.loadFromObject(jsonObject);
             } catch (Exception e) {
-                throw new Error(e.toString(), null, null, null);
+                throw new Error(e.toString(), null, null, null, null);
             }
         }
         for (int i = 0; i < cards.size(); i++) {

@@ -31,7 +31,7 @@ public class CardPayment extends PaymentMethod {
             this.exp_year = jsonObject.getString("exp_year");
             this.name = jsonObject.getString("name");
         } catch (Exception e) {
-            throw new Error(e.toString(), null, null, null);
+            throw new Error(e.toString(), null, null, null, null);
         }
     }
 }

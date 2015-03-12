@@ -25,7 +25,7 @@ public class BankTransferPayment extends PaymentMethod {
             this.service_number = jsonObject.getString("service_number");
             this.reference = jsonObject.getString("reference");
         } catch (Exception e) {
-            throw new Error(e.toString(), null, null, null);
+            throw new Error(e.toString(), null, null, null, null);
         }
     }
 }

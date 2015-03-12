@@ -26,7 +26,7 @@ public class SpeiPayment  extends PaymentMethod {
             this.tracking_code = jsonObject.getString("tracking_code");
             this.bank = jsonObject.getString("bank");
         } catch (Exception e) {
-            throw new Error(e.toString(), null, null, null);
+            throw new Error(e.toString(), null, null, null, null);
         }
     }
 }

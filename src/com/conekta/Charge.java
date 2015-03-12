@@ -64,7 +64,7 @@ public class Charge extends Resource {
         try {
             params = new JSONObject("{'amount':" + amount + "}");
         } catch(Exception e) {
-            throw new Error(e.toString(), null, null, null);
+            throw new Error(e.toString(), null, null, null, null);
         }
         return (Charge) customAction("POST", "refund", params);
     }
@@ -74,7 +74,7 @@ public class Charge extends Resource {
         try {
             params = new JSONObject("{'amount':" + amount + "}");
         } catch(Exception e) {
-            throw new Error(e.toString(), null, null, null);
+            throw new Error(e.toString(), null, null, null, null);
         }
         return (Charge) customAction("POST", "refund", params);
     }

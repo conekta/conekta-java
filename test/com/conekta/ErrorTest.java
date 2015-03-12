@@ -55,8 +55,8 @@ public class ErrorTest extends ConektaTest {
     public void testApiError() throws Error {
         try{
         Customer customer = Customer.create(invalid_visa_card);
-        } catch (ApiError e) {
-            assertTrue(e instanceof ApiError);
+        } catch (ParameterValidationError e) {
+            assertTrue(e instanceof ParameterValidationError);
         }
     }
 
@@ -91,6 +91,7 @@ public class ErrorTest extends ConektaTest {
         try {
             charge.refund();
         } catch(ProcessingError e) {
+            System.out.println(e.message_to_purchaser + "-----");
             assertTrue(e instanceof ProcessingError);
         }
     }

@@ -32,7 +32,7 @@ public class Resource extends ConektaObject {
 
     public String instanceUrl() throws Error {
         if (id == null || id.length() == 0) {
-            throw new Error("Could not get the id of Resource instance.", null, null, null);
+            throw new Error("Could not get the id of Resource instance.", null, null, null, null);
         }
         String className = this.getClass().getSimpleName();
         String base = Resource.classUrl(className);
@@ -46,7 +46,7 @@ public class Resource extends ConektaObject {
             c = Class.forName(className).getConstructor(String.class);
             resource = (ConektaObject) c.newInstance(id);
         } catch (Exception e) {
-            throw new Error(e.toString(), null, null, null);
+            throw new Error(e.toString(), null, null, null, null);
         }
         Requestor requestor = new Requestor();
         String url = ((Resource) resource).instanceUrl();
@@ -54,7 +54,7 @@ public class Resource extends ConektaObject {
         try {
             resource.loadFromObject(jsonObject);
         } catch (Exception e) {
-            throw new Error(e.toString(), null, null, null);
+            throw new Error(e.toString(), null, null, null, null);
         }
         return resource;
     }
@@ -68,7 +68,7 @@ public class Resource extends ConektaObject {
             resource = (ConektaObject) Class.forName(className).newInstance();
             resource.loadFromObject(jsonObject);
         } catch (Exception e) {
-            throw new Error(e.toString(), null, null, null);
+            throw new Error(e.toString(), null, null, null, null);
         }
         return resource;
     }
@@ -94,7 +94,7 @@ public class Resource extends ConektaObject {
         try {
             this.loadFromObject(jsonObject);
         } catch (Exception e) {
-            throw new Error(e.toString(), null, null, null);
+            throw new Error(e.toString(), null, null, null, null);
         }
 
     }
@@ -112,7 +112,7 @@ public class Resource extends ConektaObject {
         try {
             this.loadFromObject(jsonObject);
         } catch (Exception e) {
-            throw new Error(e.toString(), null, null, null);
+            throw new Error(e.toString(), null, null, null, null);
         }
         return this;
     }
@@ -149,7 +149,7 @@ public class Resource extends ConektaObject {
                 this.loadFromObject(null);
             }
         } catch (Exception e) {
-            throw new Error(e.toString(), null, null, null);
+            throw new Error(e.toString(), null, null, null, null);
         }
         return conektaObject;
     }

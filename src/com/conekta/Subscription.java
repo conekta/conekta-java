@@ -24,7 +24,7 @@ public class Subscription extends Resource {
     @Override
     public String instanceUrl() throws Error {
         if (id.length() == 0) {
-            throw new Error("Could not get the id of Resource instance.", null, null, null);
+            throw new Error("Could not get the id of Resource instance.", null, null, null, null);
         }
         String base = this.customer.instanceUrl();
         return base + "/subscription";

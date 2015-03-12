@@ -69,13 +69,13 @@ public class ConektaObject extends ArrayList {
             }
             jsonObject = jsonArray.getJSONObject(i);
         } catch (Exception e) {
-            throw new Error(e.toString(), null, null, null);
+            throw new Error(e.toString(), null, null, null, null);
         }
         ConektaObject conektaObject = ConektaObjectFromJSONFactory.ConektaObjectFactory(jsonObject, key);
         try {
             conektaObject.loadFromObject(jsonObject);
         } catch (Exception e) {
-            throw new Error(e.toString(), null, null, null);
+            throw new Error(e.toString(), null, null, null, null);
         }
         return conektaObject;
     }

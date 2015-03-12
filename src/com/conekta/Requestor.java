@@ -8,10 +8,10 @@ package com.conekta;
  *
  * @author mauricio
  */
-import com.sun.org.apache.xerces.internal.impl.dv.util.Base64;
+import android.util.Base64;
 import java.io.BufferedReader;
 import java.io.BufferedWriter;
-import java.io.FileInputStream;
+import java.io.IOException;
 import java.io.InputStream;
 import java.io.InputStreamReader;
 import java.io.OutputStream;
@@ -55,10 +55,19 @@ public class Requestor {
             this.connection.setRequestProperty("User-Agent", "Conekta/v1 JavaBindings/" + Conekta.VERSION);
             this.connection.setRequestProperty("Accept", "application/vnd.conekta-v"+ Conekta.apiVersion +"+json");
             this.connection.setRequestProperty("Content-Type", " application/x-www-form-urlencoded");
-            this.connection.setRequestProperty("Authorization", "Basic " + Base64.encode((Conekta.apiKey).getBytes()));
         } catch (Exception e) {
-            throw new Error(e.toString(), null, null, null);
+            throw new Error(e.toString(), null, null, null, null);
         }
+            String base64 = null;
+            if (Conekta.apiKey == null || Conekta.apiKey.isEmpty())
+                throw new AuthenticationError("api_key was not set!", null, null, null, null);
+        try {
+            base64 = Base64.encodeToString(Conekta.apiKey.getBytes("UTF-8"), Base64.NO_WRAP);
+            this.connection.setRequestProperty("Authorization", "Basic " + base64);
+        } catch (Exception e) {
+            throw new Error(e.toString(), null, null, null, null);
+        }
+        
     }
 
     public Object request(String method, String url, JSONObject params) throws Error {
@@ -75,7 +84,11 @@ public class Requestor {
             tmf.init(ks);
             SSLContext sslContext = SSLContext.getInstance("TLS");
             sslContext.init(null, tmf.getTrustManagers(), null);
-
+        } catch (Exception e) {
+            // Certificate exception
+            System.out.println(e.toString());
+        }
+        try {
             urlObj = new URL(Requestor.apiUrl(url));
             connection = (HttpURLConnection) urlObj.openConnection();
             connection.setReadTimeout(60000);
@@ -84,8 +97,12 @@ public class Requestor {
             connection.setDoOutput(true);
             connection.setRequestMethod(method);
             this.setHeaders();
-        } catch (Exception e) {
-            throw new Error(e.toString(), null, null, null);
+        } catch (IOException e) {
+            throw new Error(e.toString(), null, null, null, null);
+        } catch (AuthenticationError e) {
+            throw new AuthenticationError(e.toString(), e.message_to_purchaser, null, null, null);
+        } catch (Error e) {
+            throw new Error(e.toString(), e.message_to_purchaser, null, null, null);
         }
 
         if (params != null) {
@@ -93,7 +110,7 @@ public class Requestor {
             try {
                 os = connection.getOutputStream();
             } catch (Exception e) {
-                throw new NoConnectionError("Could not connect to " + Conekta.apiBase, null, null, null);
+                throw new NoConnectionError("Could not connect to " + Conekta.apiBase, null, null, null, null);
             }
             try {
                 BufferedWriter writer = new BufferedWriter(
@@ -104,7 +121,7 @@ public class Requestor {
                 writer.close();
                 os.close();
             } catch (Exception e) {
-                throw new Error(e.toString(), null, null, null);
+                throw new Error(e.toString(), null, null, null, null);
             }
 
         }
@@ -112,7 +129,7 @@ public class Requestor {
         try {
             responseCode = connection.getResponseCode();
         } catch (Exception e) {
-            throw new Error(e.toString(), null, null, null);
+            throw new Error(e.toString(), null, null, null, null);
         }
         BufferedReader in;
         if (responseCode != 200) {
@@ -123,7 +140,7 @@ public class Requestor {
                 in = new BufferedReader(
                         new InputStreamReader(connection.getInputStream()));
             } catch (Exception e) {
-                throw new Error(e.toString(), null, null, null);
+                throw new Error(e.toString(), null, null, null, null);
             }
         }
         String inputLine;
@@ -143,7 +160,7 @@ public class Requestor {
                     object = new JSONArray(response.toString());
                     break;
                 default:
-                    throw new Error("invalid response: " + response.toString(), null, null, null);
+                    throw new Error("invalid response: " + response.toString(), null, null, null, null);
                 // Other
             }
             if (responseCode != 200) {

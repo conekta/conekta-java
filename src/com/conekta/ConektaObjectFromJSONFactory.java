@@ -19,14 +19,14 @@ public abstract class ConektaObjectFromJSONFactory {
             try {
                 conektaObject.loadFromObject(jsonObject);
             } catch (Exception e) {
-                throw new Error(e.toString(), null, null, null);
+                throw new Error(e.toString(), null, null, null, null);
             }
         } else {
             try {
                 conektaObject = (ConektaObject) Class.forName("com.conekta."+ConektaObject.toCamelCase(attributeName)).newInstance();
                 conektaObject.loadFromObject(jsonObject);
             } catch (Exception e) {
-                throw new Error(e.toString(), null, null, null);
+                throw new Error(e.toString(), null, null, null, null);
             }
         }
         return conektaObject;
@@ -44,7 +44,7 @@ public abstract class ConektaObjectFromJSONFactory {
                     payment_method = new RealTimePayment(jsonObject);
                 }
             } catch (Exception e) {
-                throw new Error(e.toString(), null, null, null);
+                throw new Error(e.toString(), null, null, null, null);
             }
         } else if (isKindOfPaymentMethod(jsonObject, "bank_transfer_payment")) {
             try {
@@ -54,7 +54,7 @@ public abstract class ConektaObjectFromJSONFactory {
                     payment_method = new SpeiPayment(jsonObject);
                 }
             } catch (Exception e) {
-                throw new Error(e.toString(), null, null, null);
+                throw new Error(e.toString(), null, null, null, null);
             }
             
         }
@@ -62,11 +62,11 @@ public abstract class ConektaObjectFromJSONFactory {
             try {
             payment_method.loadFromObject(jsonObject);
             } catch (Exception e) {
-                throw new Error(e.toString(), null, null, null);
+                throw new Error(e.toString(), null, null, null, null);
             }
             return payment_method;
         }
-        throw new Error("Invalid PaymentMethod", null, null, null);
+        throw new Error("Invalid PaymentMethod", null, null, null, null);
     }
 
     protected static Boolean isPaymentMethod(JSONObject jsonObject) throws Error {
@@ -81,7 +81,7 @@ public abstract class ConektaObjectFromJSONFactory {
         try {
             return jsonObject.getString("object").equals(kind);
         } catch (Exception e) {
-            throw new Error(e.toString(), null, null, null);
+            throw new Error(e.toString(), null, null, null, null);
         }
     }
 }

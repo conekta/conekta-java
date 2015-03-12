@@ -24,7 +24,7 @@ public class OxxoPayment extends PaymentMethod {
             this.barcode = jsonObject.getString("barcode");
             this.barcode_url = jsonObject.getString("barcode_url");
         } catch (Exception e) {
-            throw new Error(e.toString(), null, null, null);
+            throw new Error(e.toString(), null, null, null, null);
         }
     }
 }
