@@ -56,7 +56,7 @@ public class Requestor {
             this.connection.setRequestProperty("Accept", "application/vnd.conekta-v"+ Conekta.apiVersion +"+json");
             this.connection.setRequestProperty("Content-Type", " application/x-www-form-urlencoded");
         } catch (Exception e) {
-            throw new Error(e.toString(), null, null, null, null);
+            throw new Error(e.getMessage(), null, null, null, null);
         }
             String base64 = null;
             if (Conekta.apiKey == null || Conekta.apiKey.isEmpty())
@@ -65,7 +65,7 @@ public class Requestor {
             base64 = Base64.encodeToString(Conekta.apiKey.getBytes("UTF-8"), Base64.NO_WRAP);
             this.connection.setRequestProperty("Authorization", "Basic " + base64);
         } catch (Exception e) {
-            throw new Error(e.toString(), null, null, null, null);
+            throw new Error(e.getMessage(), null, null, null, null);
         }
         
     }
@@ -98,11 +98,11 @@ public class Requestor {
             connection.setRequestMethod(method);
             this.setHeaders();
         } catch (IOException e) {
-            throw new Error(e.toString(), null, null, null, null);
+            throw new Error(e.getMessage(), null, null, null, null);
         } catch (AuthenticationError e) {
             throw new AuthenticationError(e.toString(), e.message_to_purchaser, null, null, null);
         } catch (Error e) {
-            throw new Error(e.toString(), e.message_to_purchaser, null, null, null);
+            throw new Error(e.getMessage(), e.message_to_purchaser, null, null, null);
         }
 
         if (params != null) {
@@ -121,7 +121,7 @@ public class Requestor {
                 writer.close();
                 os.close();
             } catch (Exception e) {
-                throw new Error(e.toString(), null, null, null, null);
+                throw new Error(e.getMessage(), null, null, null, null);
             }
 
         }
@@ -129,7 +129,7 @@ public class Requestor {
         try {
             responseCode = connection.getResponseCode();
         } catch (Exception e) {
-            throw new Error(e.toString(), null, null, null, null);
+            throw new Error(e.getMessage(), null, null, null, null);
         }
         BufferedReader in;
         if (responseCode != 200) {
@@ -140,7 +140,7 @@ public class Requestor {
                 in = new BufferedReader(
                         new InputStreamReader(connection.getInputStream()));
             } catch (Exception e) {
-                throw new Error(e.toString(), null, null, null, null);
+                throw new Error(e.getMessage(), null, null, null, null);
             }
         }
         String inputLine;
@@ -163,19 +163,16 @@ public class Requestor {
                     throw new Error("invalid response: " + response.toString(), null, null, null, null);
                 // Other
             }
+            in.close();
             if (responseCode != 200) {
                 Error.errorHandler((JSONObject) object, responseCode);
             }
-            in.close();
-        } catch (Exception e) {
-            JSONObject error = null;
-            try {
-                error = new JSONObject("{'message':'" + URLEncoder.encode(e.toString()) + "'}");
-            } catch (JSONException ex) {
-                System.out.println("");
-            }
-            Error.errorHandler(error, responseCode);
-
+        } catch (IOException e) {
+            throw new Error(e.getMessage(), null, null, null, null);
+        } catch (JSONException e) {
+            throw new Error(e.getMessage(), null, null, null, null);
+        } catch (Error e) {
+            throw e;
         }
         return object;
     }

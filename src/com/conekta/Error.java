@@ -5,8 +5,6 @@ package com.conekta;
  * and open the template in the editor.
  */
 
-import java.util.logging.Level;
-import java.util.logging.Logger;
 import org.json.JSONException;
 import org.json.JSONObject;
 
@@ -17,15 +15,16 @@ import org.json.JSONObject;
  */
 public class Error extends Exception {
 
-    public String message;
-    public String message_to_purchaser = "Hubo un error al enviar los datos al sistema de pagos.";
+    public String message = "There was an exception in the library";
+    public String message_to_purchaser = "Hubo un error al enviar los datos al sistema de pagos.";;
     public String type;
     public Integer code;
     public String params;
 
     public Error(String message, String message_to_purchaser, String type, Integer code, String params) {
         super(message);
-        this.message = message;
+        if (message != null)
+            this.message = message;
         if (message_to_purchaser != null)
             this.message_to_purchaser = message_to_purchaser;
         this.type = type;

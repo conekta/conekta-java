@@ -7,7 +7,6 @@ package com.conekta;
 
 import org.json.JSONException;
 import org.json.JSONObject;
-import static org.junit.Assert.*;
 
 /**
  *
@@ -77,6 +76,15 @@ public class ErrorTest extends ConektaTest {
             Charge.create(params);
             assertTrue(false);
         } catch (ParameterValidationError e) {
+            assertTrue(e instanceof ParameterValidationError);
+        }
+    }
+    
+    public void testNoCardError() throws Error, JSONException {
+        valid_visa_card = new JSONObject("{'card':{'number':'tok_test_visa_4242'}}");
+        try {
+            Token token = Token.create(valid_visa_card);
+        } catch(ParameterValidationError e) {
             assertTrue(e instanceof ParameterValidationError);
         }
     }
