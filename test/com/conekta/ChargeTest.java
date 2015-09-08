@@ -171,7 +171,7 @@ public class ChargeTest extends ConektaTest {
             charge.refund(30000);
             //assertTrue(false);
         } catch(Error e) {
-            assertTrue(e.message.equals("The order does not exist or the amount to refund is invalid."));
+            assertTrue(e.message.equals("The amount to refund exceeds the charge total."));
         }
     }
 

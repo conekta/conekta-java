@@ -126,7 +126,11 @@ public class ConektaObject extends ArrayList {
                 }
             } catch (Exception e) {
                 // No field found
-                //System.out.println(e.toString());
+                if (this.getClass().getCanonicalName().equals("com.conekta.LineItems")) {
+                    // Vertical related fields
+                    ((LineItems)this).addVerticalRelatedField(key, obj.toString());
+                    this.setVal(key, obj);
+                }
             }
         }
 
