@@ -1,6 +1,6 @@
 ![alt tag](https://raw.github.com/conekta/conekta-java/master/readme_files/cover.png)
 
-# Conekta Java 2.0.0
+# Conekta Java 2.0.1
 
 This is a java library that allows interaction with https://api.conekta.io API.
 
@@ -60,6 +60,14 @@ Please see https://www.conekta.io/docs/api for up-to-date documentation.
 ## Tests
 
 The library has JUnit tests and you can run them separately.
+
+
+## Notes on SSL cert
+
+If you cannot connect to https://api.conekta.io, try installing the ![certificate](https://raw.github.com/conekta/conekta-java/master/ssl_data/ca_bundle.pem) in your java environment:
+```
+keytool -import -noprompt -trustcacerts -alias conekta -file %PROJECT_PATH%\ssl_data\ca_bundle.pem -keystore %JAVA_HOME%\lib\security\cacerts -storepass changeit
+```
 
 License
 -------
