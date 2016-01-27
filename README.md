@@ -64,7 +64,7 @@ The library has JUnit tests and you can run them separately.
 
 ## Notes on SSL cert
 
-If you cannot connect to https://api.conekta.io, try installing the ![certificate](https://raw.github.com/conekta/conekta-java/master/ssl_data/ca_bundle.pem) in your java environment:
+If you cannot connect to https://api.conekta.io, try installing the ![certificate](https://github.com/conekta/conekta-java/blob/master/ssl_data/ca_bundle.pem) in your java environment:
 ```
 keytool -import -noprompt -trustcacerts -alias conekta -file %PROJECT_PATH%\ssl_data\ca_bundle.pem -keystore %JAVA_HOME%\lib\security\cacerts -storepass changeit
 ```
