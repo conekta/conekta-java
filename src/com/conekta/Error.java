@@ -5,6 +5,8 @@ package com.conekta;
  * and open the template in the editor.
  */
 
+import java.util.HashMap;
+import locales.Lang;
 import org.json.JSONException;
 import org.json.JSONObject;
 
@@ -15,18 +17,24 @@ import org.json.JSONObject;
  */
 public class Error extends Exception {
 
-    public String message = "There was an exception in the library";
-    public String message_to_purchaser = "Hubo un error al enviar los datos al sistema de pagos.";;
+    public String message;
+    public String message_to_purchaser;
     public String type;
     public Integer code;
     public String params;
 
     public Error(String message, String message_to_purchaser, String type, Integer code, String params) {
         super(message);
+        HashMap parameters = new HashMap();
+        parameters.put("BASE", Conekta.apiBase);
         if (message != null)
             this.message = message;
+        else
+            this.message = Lang.translate("error.requestor.connection", parameters, Lang.EN);
         if (message_to_purchaser != null)
             this.message_to_purchaser = message_to_purchaser;
+        else
+            this.message_to_purchaser = Lang.translate("error.requestor.connection_purchaser", parameters, Conekta.locale);
         this.type = type;
         this.code = code;
         this.params = params;

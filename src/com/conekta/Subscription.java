@@ -1,6 +1,8 @@
 package com.conekta;
 
 
+import java.util.HashMap;
+import locales.Lang;
 import org.json.JSONObject;
 
 /*
@@ -23,8 +25,11 @@ public class Subscription extends Resource {
 
     @Override
     public String instanceUrl() throws Error {
-        if (id.length() == 0) {
-            throw new Error("Could not get the id of Resource instance.", null, null, null, null);
+        if (id == null || id.length() == 0) {
+            HashMap parameters = new HashMap();
+            parameters.put("RESOURCE", this.getClass().getSimpleName());
+            throw new Error(Lang.translate("error.resource.id", parameters, Lang.EN),
+                    Lang.translate("error.resource.id_purchaser", parameters, Conekta.locale), null, null, null);
         }
         String base = this.customer.instanceUrl();
         return base + "/subscription";

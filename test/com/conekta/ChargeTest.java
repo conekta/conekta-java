@@ -7,7 +7,6 @@ package com.conekta;
 
 import org.json.JSONException;
 import org.json.JSONObject;
-import static org.junit.Assert.*;
 
 /**
  *
@@ -26,7 +25,7 @@ public class ChargeTest extends ConektaTest {
                 "'reference_id':'9839-wolf_pack'," +
                 "'amount':20000," +
                 "'currency':'MXN',"+
-                "'details':{'name':'Wolverine', 'billing_address': {'street1':'tamesis'}, line_items: [{'name':'Box of Cohiba S1s', 'sku':'cohb_s1','unit_price': 20000,'description':'Imported from Mex.','quantity':1,'type':'other_human_consumption'}]}"+
+                "'details':{'name':'Wolverine', 'phone':'403-342-0642', 'email':'logan@x-men.org', 'billing_address': {'street1':'tamesis'}, line_items: [{'name':'Box of Cohiba S1s', 'sku':'cohb_s1','unit_price': 20000,'description':'Imported from Mex.','quantity':1,'type':'other_human_consumption'}]}"+
                 "}");
         invalid_payment_method = new JSONObject("{'description':'Stogies'," +
                 "'reference_id':'9839-wolf_pack'," +
@@ -133,18 +132,7 @@ public class ChargeTest extends ConektaTest {
         assertTrue(charge.payment_method instanceof OxxoPayment);
         assertTrue(charge.status.equals("pending_payment"));
     }
-    
-    //@Test
-    public void testSuccesfulRealTimePMCreate() throws Exception {
-        JSONObject cash = new JSONObject("{'cash':{'type':'real_time'}}");
-        JSONObject params = valid_payment_method.put("cash", cash.get("cash"));
-        Charge charge = Charge.create(params);
-        assertTrue(charge.payment_method instanceof RealTimePayment);
-        assertTrue(charge.status.equals("pending_payment"));
-        assertTrue(
-                !((RealTimePayment)charge.payment_method).barcode.isEmpty()
-        );
-    }    
+      
 
     //@Test
     public void testUnsuccesfulPMCreate() throws Exception {

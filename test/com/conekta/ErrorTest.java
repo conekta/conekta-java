@@ -28,7 +28,14 @@ public class ErrorTest extends ConektaTest {
         valid_payment_method = new JSONObject("{'description':'Stogies'," +
                 "'reference_id':'9839-wolf_pack'," +
                 "'amount':20000," +
-                "'currency':'MXN'}");
+                "'currency':'MXN',"+
+                "'details':{"+
+                "   'name': 'Box of Cohiba S1s',"+
+                "   'phone': '403-342-0642',"+
+                "   'email': 'logan@x-men.org',"+
+                "   'line_items': [{'name':'Box of Cohiba S1s', 'description':'Imported from Mex.'}]"+
+                " }"+
+                "}");
     }
 
     // @Test
@@ -36,7 +43,7 @@ public class ErrorTest extends ConektaTest {
         try {
             Charge charge = Charge.find(null);
         } catch (Error e) {
-            assertTrue(e.message.equals("Could not get the id of Resource instance."));
+            assertTrue(e.message.equals("Could not get the id of Charge instance."));
         }
     }
 

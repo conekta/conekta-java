@@ -51,6 +51,7 @@ public class Requestor {
             userAgent.put("lang_version", System.getProperty("java.version"));
             userAgent.put("publisher", "conekta");
             // Set Headers
+            this.connection.setRequestProperty("Accept-Language", Conekta.locale);
             this.connection.setRequestProperty("X-Conekta-Client-User-Agent", userAgent.toString());
             this.connection.setRequestProperty("User-Agent", "Conekta/v1 JavaBindings/" + Conekta.VERSION);
             this.connection.setRequestProperty("Accept", "application/vnd.conekta-v"+ Conekta.apiVersion +"+json");
@@ -110,7 +111,7 @@ public class Requestor {
             try {
                 os = connection.getOutputStream();
             } catch (Exception e) {
-                throw new NoConnectionError("Could not connect to " + Conekta.apiBase, null, null, null, null);
+                throw new NoConnectionError(null, null, null, null, null);
             }
             try {
                 BufferedWriter writer = new BufferedWriter(

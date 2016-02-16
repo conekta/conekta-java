@@ -122,8 +122,8 @@ public class CustomerTest extends ConektaTest {
         try {
             customer.createSubscription(params);
             assertTrue(false);
-        } catch (ParameterValidationError e) {
-            assertTrue(e instanceof ParameterValidationError);
+        } catch (Error e) {
+            assertTrue(e instanceof ResourceNotFoundError);
         }
     }
 
@@ -140,7 +140,7 @@ public class CustomerTest extends ConektaTest {
         customer.subscription.pause();
         assertTrue(customer.subscription.status.equals("paused"));
         customer.subscription.resume();
-        assertTrue(customer.subscription.status.equals("active"));
+        assertTrue(customer.subscription.status.equals("in_trial"));
     }
 
     //@Test

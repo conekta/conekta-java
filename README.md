@@ -1,6 +1,6 @@
 ![alt tag](https://raw.github.com/conekta/conekta-java/master/readme_files/cover.png)
 
-# Conekta Java 2.0.1
+# Conekta Java 2.0.2
 
 This is a java library that allows interaction with https://api.conekta.io API.
 
