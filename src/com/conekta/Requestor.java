@@ -90,6 +90,9 @@ public class Requestor {
             System.out.println(e.toString());
         }
         try {
+            if (method.equals("GET") && params != null) {
+                url = url + '?' + Requestor.getQuery(params, null);
+            }
             urlObj = new URL(Requestor.apiUrl(url));
             connection = (HttpURLConnection) urlObj.openConnection();
             connection.setReadTimeout(60000);
@@ -104,9 +107,11 @@ public class Requestor {
             throw new AuthenticationError(e.toString(), e.message_to_purchaser, null, null, null);
         } catch (Error e) {
             throw new Error(e.getMessage(), e.message_to_purchaser, null, null, null);
+        } catch (Exception e) {
+            throw new Error(e.getMessage(), null, null, null, null);
         }
 
-        if (params != null) {
+        if (params != null && (method.equals("POST") || method.equals("PUT"))) {
             OutputStream os = null;
             try {
                 os = connection.getOutputStream();
