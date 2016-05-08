@@ -55,4 +55,8 @@ public class Plan extends Resource {
     public void delete() throws Error {
         this.delete(null, null);
     }
+    
+    //public static ConektaObject payoutMethods() throws Error {
+    //    return (PayoutMethod) scpWhere("PayoutMethod");
+    //}
 }

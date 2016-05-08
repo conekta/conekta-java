@@ -100,6 +100,7 @@ public class ChargeTest extends ConektaTest {
     public void testSuccesfulWhere() throws Exception {
         JSONObject where_params = new JSONObject("{'description':'Stogies'}");
         ConektaObject charges = Charge.where(where_params);
+        System.out.print(charges);
         assertTrue(charges instanceof ConektaObject);
         assertTrue(charges.get(0) instanceof ConektaObject);
     }
