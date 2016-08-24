@@ -44,7 +44,7 @@ public class Customer extends Resource {
             }
         }
         for (int i = 0; i < cards.size(); i++) {
-            ((Card) cards.get(0)).customer = this;
+            ((Card) cards.get(i)).customer = this;
         }
         if (subscription != null) {
             subscription.customer = this;
