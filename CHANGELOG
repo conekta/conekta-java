@@ -25,3 +25,5 @@
 * Add locale.
 === 2.0.3 2016-02-26
 * Fix get parameters in requestor.
+=== 2.0.4 2016-08-24
+* Fix loadFromObject: Cards where not being updated correctly.

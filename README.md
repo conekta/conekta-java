@@ -1,6 +1,6 @@
 ![alt tag](https://raw.github.com/conekta/conekta-java/master/readme_files/cover.png)
 
-# Conekta Java 2.0.3
+# Conekta Java 2.0.4
 
 This is a java library that allows interaction with https://api.conekta.io API.
 
@@ -72,3 +72,9 @@ keytool -import -noprompt -trustcacerts -alias conekta -file %PROJECT_PATH%\ssl_
 License
 -------
 Developed by [Conekta](https://www.conekta.io). Available with [MIT License](LICENSE).
+
+We are hiring
+-------------
+
+If you are a comfortable working with a range of backend languages (Java, Python, Ruby, PHP, etc) and frameworks, you have solid foundation in data structures, algorithms and software design with strong analytical and debugging skills. 
+Send your CV, github to quieroser@conekta.io
