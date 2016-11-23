@@ -152,7 +152,7 @@ public class Requestor {
             }
         }
         String inputLine;
-        StringBuffer response = new StringBuffer();
+        StringBuilder response = new StringBuilder();
         Object object = null;
         try {
             while ((inputLine = in.readLine()) != null) {

@@ -14,8 +14,9 @@ import org.json.JSONObject;
  */
 public class OrderTest extends ConektaTest {
     
-    JSONObject params;
+    JSONObject basic_params;
     JSONObject charges;
+    JSONObject customer_info;
     
 
     public OrderTest() throws JSONException {
@@ -24,7 +25,7 @@ public class OrderTest extends ConektaTest {
         setApiBase("http://localhost:3000");
         setApiKey("PZAHFXPDb53b3a3d6ab9");
         
-        params = new JSONObject("{"
+        basic_params = new JSONObject("{"
                 + "'currency': 'mxn',"
                 + "'line_items': [{"
                 + "'name': 'Box of Cohiba S1s',"
@@ -40,20 +41,29 @@ public class OrderTest extends ConektaTest {
                 + "'source': {"
                 + "'type': 'oxxo_cash'"
                 + "},"
-                + "amount: 3500"
+                + "amount: 35000"
                 + "}]"
+                + "}"
+        );
+        
+        customer_info = new JSONObject("{"
+                + "'customer_info': {"
+                + "'name': 'John Constantine',"
+                + "'phone': '+5213353319758',"
+                + "'email': 'mail@hotmail.com'"
+                + "}"
                 + "}"
         );
     }
     
-    public Order createBasicOrder() throws Exception {
+    public Order createOrder(JSONObject params) throws Exception {
         Order order = Order.create(params);
         return order;
     }
     
     //@Test
-    public void testCreateBasicOrder() throws Exception {
-        Order order = createBasicOrder();
+    public void testCreateSuccessfulBasicOrder() throws Exception {
+        Order order = createOrder(basic_params);
         assertTrue(order.livemode == false);
         assertTrue(order.contextual_data.isEmpty());
         assertTrue(order.amount == 35000);
@@ -77,5 +87,20 @@ public class OrderTest extends ConektaTest {
         assertTrue(order.fiscal_entity == null);
         assertTrue(order.charges == null);
         assertTrue(order.created_at instanceof Integer);
+    }
+    
+    //@Test
+    public void testCreateSuccessfulOrderWithCharges() throws Exception {
+        Order order = createOrder(
+                basic_params.put("charges", charges.get("charges")).put("customer_info", customer_info.get("customer_info"))
+        ); 
+        assertTrue(order.charges instanceof ConektaObject);
+        Charge charge = (Charge) order.charges.get(0);
+        assertTrue(charge instanceof Charge);
+        assertTrue(charge.amount == 35000);
+        assertTrue(charge.payment_method instanceof OxxoPayment);
+        assertTrue(
+                !((OxxoPayment)charge.payment_method)
+                        .reference.isEmpty());
     }
 }
