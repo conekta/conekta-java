@@ -27,12 +27,11 @@ public class LogTest extends ConektaTest {
     public void testSuccesfulWhereWithParams() throws Exception {
         JSONObject params = new JSONObject("{'id':'5709515719ce880954005f91'}");
         ConektaObject log = Log.where(params);
-        System.out.print(log);
         assertTrue(log instanceof ConektaObject);
     }
 
     public void testSuccesfulWhere() throws Exception {
         ConektaObject log = Log.where();
-       assertTrue(log instanceof ConektaObject);
+        assertTrue(log instanceof ConektaObject);
     }
 }

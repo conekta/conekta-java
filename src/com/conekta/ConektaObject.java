@@ -106,7 +106,7 @@ public class ConektaObject extends ArrayList {
                                 } else {
                                     conektaObject.add(ConektaObjectFromJSONFactory.ConektaObjectFactory(jsonArray.getJSONObject(i), key));
                                 }
-                            }
+                            }                           
                             field.set(this, conektaObject);
                             this.setVal(key, conektaObject);
                         }

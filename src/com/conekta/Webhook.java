@@ -39,4 +39,8 @@ public class Webhook extends Resource {
     public void update(JSONObject params) throws Error {
         super.update(params);
     }
+    
+    public void delete() throws Error {
+        this.delete(null, null);
+    }
 }

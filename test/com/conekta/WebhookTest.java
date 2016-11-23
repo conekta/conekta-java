@@ -25,7 +25,6 @@ public class WebhookTest extends ConektaTest {
 
     public Webhook testSuccesfulCreate() throws Exception {
         Webhook webhook = Webhook.create(webhookParams);
-        System.out.print(webhook);
         assertTrue(webhook instanceof ConektaObject);
         return webhook;
     }
@@ -34,12 +33,6 @@ public class WebhookTest extends ConektaTest {
         Webhook webhook = testSuccesfulCreate();
         Webhook webhook2 = Webhook.find(webhook.id);
         assertTrue(webhook2 instanceof ConektaObject);
+        webhook2.delete();
     }
-
-    //public void testSuccesfulUpdate() throws Exception {
-    //    Webhook webhook = testSuccesfulCreate();
-    //    JSONObject params = new JSONObject("{\"url\":\"http://misitio.pich.com/webhooks\", \"subscribed_events\":[]}");
-    //    webhook.update(params);
-    //    assertTrue(true);
-    //}
 }
