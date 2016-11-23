@@ -23,7 +23,7 @@ public class TokenTest extends ConektaTest {
     Integer id;
 
     public TokenTest() throws JSONException, Error {
-        super();
+        super("public");
     }
 
     // @Test

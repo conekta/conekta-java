@@ -88,12 +88,14 @@ public class ErrorTest extends ConektaTest {
     }
     
     public void testNoCardError() throws Error, JSONException {
+        setPublicApiKey();
         valid_visa_card = new JSONObject("{'card':{'number':'tok_test_visa_4242'}}");
         try {
             Token token = Token.create(valid_visa_card);
         } catch(ParameterValidationError e) {
             assertTrue(e instanceof ParameterValidationError);
         }
+        setApiKey();
     }
 
     public void testProcessingError() throws Error, JSONException {

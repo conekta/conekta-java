@@ -81,7 +81,7 @@ public class ChargeTest extends ConektaTest {
         Charge charge = Charge.create(params);
         assertTrue(charge.status.equals("paid"));
         assertTrue(charge.details instanceof Details);
-        assertTrue(charge.details.billing_address instanceof Address);
+        assertTrue(charge.details.billing_address instanceof BillingAddress);
         assertTrue(charge.details.line_items instanceof ConektaObject);
         assertTrue(charge.details.line_items.get(0) instanceof LineItems);
         assertTrue(charge.details.name.equals("Wolverine"));

@@ -21,7 +21,7 @@ public class CustomerTest extends ConektaTest {
 
     public CustomerTest() throws JSONException {
         super();
-        valid_visa_card = new JSONObject("{'name': 'test', 'cards':['tok_test_visa_4242']}");
+        valid_visa_card = new JSONObject("{'name': 'test', 'email': 'test@test.com', 'cards':['tok_test_visa_4242']}");
     }
 
     // @Test
@@ -83,7 +83,7 @@ public class CustomerTest extends ConektaTest {
     //@Test
     public void testUpdateCard() throws Exception {
         Customer customer = testSuccesfulCustomerCreate();
-        JSONObject params = new JSONObject("{'token':'tok_test_mastercard_4444', 'active':false}");
+        JSONObject params = new JSONObject("{'token':'tok_test_mastercard_4444'}");
         ((Card) customer.cards.get(0)).update(params);
         assertTrue(((Card) customer.cards.get(0)).last4.equals("4444"));
         assertTrue(((Card) customer.cards.get(0)).customer ==  customer);
