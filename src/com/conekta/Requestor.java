@@ -54,21 +54,23 @@ public class Requestor {
             this.connection.setRequestProperty("Accept-Language", Conekta.locale);
             this.connection.setRequestProperty("X-Conekta-Client-User-Agent", userAgent.toString());
             this.connection.setRequestProperty("User-Agent", "Conekta/v1 JavaBindings/" + Conekta.VERSION);
-            this.connection.setRequestProperty("Accept", "application/vnd.conekta-v"+ Conekta.apiVersion +"+json");
-            this.connection.setRequestProperty("Content-Type", " application/x-www-form-urlencoded");
+            this.connection.setRequestProperty("Accept", "application/vnd.conekta-v" + Conekta.apiVersion + "+json");
+            //this.connection.setRequestProperty("Content-Type", " application/x-www-form-urlencoded");
+            this.connection.setRequestProperty("Content-Type", " application/json");
         } catch (Exception e) {
             throw new Error(e.getMessage(), null, null, null, null);
         }
-            String base64 = null;
-            if (Conekta.apiKey == null || Conekta.apiKey.isEmpty())
-                throw new AuthenticationError("api_key was not set!", null, null, null, null);
+        String base64 = null;
+        if (Conekta.apiKey == null || Conekta.apiKey.isEmpty()) {
+            throw new AuthenticationError("api_key was not set!", null, null, null, null);
+        }
         try {
             base64 = Base64.encodeToString(Conekta.apiKey.getBytes("UTF-8"), Base64.NO_WRAP);
             this.connection.setRequestProperty("Authorization", "Basic " + base64);
         } catch (Exception e) {
             throw new Error(e.getMessage(), null, null, null, null);
         }
-        
+
     }
 
     public Object request(String method, String url, JSONObject params) throws Error {
@@ -121,7 +123,7 @@ public class Requestor {
             try {
                 BufferedWriter writer = new BufferedWriter(
                         new OutputStreamWriter(os, "UTF-8"));
-                String r = Requestor.getQuery(params, null);
+                String r = params.toString();
                 writer.write(r);
                 writer.flush();
                 writer.close();
@@ -150,7 +152,7 @@ public class Requestor {
             }
         }
         String inputLine;
-        StringBuffer response = new StringBuffer();
+        StringBuilder response = new StringBuilder();
         Object object = null;
         try {
             while ((inputLine = in.readLine()) != null) {
@@ -202,24 +204,25 @@ public class Requestor {
                 result.append(Requestor.getQuery(((JSONObject) value), key));
             } else if (value instanceof JSONArray) {
                 JSONArray array = ((JSONArray) value);
-                    for (int i = 0; i < array.length(); i++) {
-                        if (array.get(i) instanceof JSONObject) {
-                            if (index != null && i == 0) {
-                                key = index + "[" + key + "][]";
-                            }
-                            result.append(Requestor.getQuery(array.getJSONObject(i), key));
+                for (int i = 0; i < array.length(); i++) {
+                    if (array.get(i) instanceof JSONObject) {
+                        if (index != null && i == 0) {
+                            key = index + "[" + key + "][]";
                         } else {
-                            if (index != null) {
-                                result.append(URLEncoder.encode(index + "[" + key + "]" + "[]", "UTF-8"));
-                            } else {
-                                result.append(URLEncoder.encode(key + "[]", "UTF-8"));
-                            }
-                            result.append("=");
-                            result.append(URLEncoder.encode(array.getString(i), "UTF-8"));
+                            key = key + "[]";
                         }
-                        result.append("&");
+                        result.append(Requestor.getQuery(array.getJSONObject(i), key));
+                    } else {
+                        if (index != null) {
+                            result.append(URLEncoder.encode(index + "[" + key + "]" + "[]", "UTF-8"));
+                        } else {
+                            result.append(URLEncoder.encode(key + "[]", "UTF-8"));
+                        }
+                        result.append("=");
+                        result.append(URLEncoder.encode(array.getString(i), "UTF-8"));
                     }
-                
+                    result.append("&");
+                }
             } else {
                 if (index != null) {
                     result.append(URLEncoder.encode(index + "[" + key + "]", "UTF-8"));

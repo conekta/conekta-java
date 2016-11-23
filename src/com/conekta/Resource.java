@@ -1,7 +1,6 @@
 package com.conekta;
 
 
-import static com.conekta.Conekta.locale;
 import java.lang.reflect.Constructor;
 import java.lang.reflect.Field;
 import java.util.HashMap;

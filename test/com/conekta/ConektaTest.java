@@ -28,8 +28,20 @@ public class ConektaTest extends TestCase {
     public void setPublicApiKey() {
         Conekta.apiKey = "key_KJysdbf6PotS2ut2";
     }
+    
+    public void setApiKey(String key) {
+        Conekta.apiKey = key;
+    }
 
     public void unSetApiKey() {
         Conekta.apiKey = null;
+    }
+    
+    public void setApiVersion(String version) {
+        Conekta.apiVersion = version;
+    }
+    
+    public void setApiBase(String base) {
+        Conekta.apiBase = base;
     }
 }

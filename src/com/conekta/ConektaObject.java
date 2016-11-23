@@ -95,7 +95,7 @@ public class ConektaObject extends ArrayList {
                     ConektaObject conektaObject = ConektaObjectFromJSONFactory.ConektaObjectFactory((JSONObject) obj, key);
                     field.set(this, conektaObject);
                     this.setVal(key, conektaObject);
-                } else if (obj instanceof JSONArray || !obj.equals(null)) {
+                } else if (obj instanceof JSONArray || obj != null) {
                     if (obj instanceof JSONArray) {
                         JSONArray jsonArray = (JSONArray) obj;
                         if (jsonArray.length() > 0) {
@@ -126,10 +126,12 @@ public class ConektaObject extends ArrayList {
                 }
             } catch (Exception e) {
                 // No field found
-                if (this.getClass().getCanonicalName().equals("com.conekta.LineItems")) {
-                    // Vertical related fields
-                    ((LineItems)this).addVerticalRelatedField(key, obj.toString());
-                    this.setVal(key, obj);
+                switch(this.getClass().getCanonicalName()) {
+                    case "com.conekta.LineItems":
+                        // Vertical related fields
+                        ((LineItems)this).addVerticalRelatedField(key, obj.toString());
+                        this.setVal(key, obj);
+                        break;
                 }
             }
         }

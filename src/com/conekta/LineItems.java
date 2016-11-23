@@ -6,6 +6,7 @@
 package com.conekta;
 
 import java.lang.reflect.Field;
+import java.util.ArrayList;
 import java.util.HashMap;
 
 /**
@@ -20,7 +21,12 @@ public class LineItems extends Resource {
     public Integer quantity;
     public String type;
     public String category;
+    public String brand;
+    public String parent_id;
+    public Boolean shippable;
     public HashMap vertical_related_fields = new HashMap();
+    public HashMap contextual_data = new HashMap();
+    public ArrayList<String> tags = new ArrayList();
     
     // Helper method to access line item fields
     public String get(String key) {
