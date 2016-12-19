@@ -32,4 +32,16 @@ public class ConektaTest extends TestCase {
     public void unSetApiKey() {
         Conekta.apiKey = null;
     }
+    
+    public void setApiVersion(String version) {
+        Conekta.apiVersion = version;
+    }
+    
+    public void setApiBase(String base) {
+        Conekta.apiBase = base;
+    }
+    
+    public void setApiKey(String key) {
+        Conekta.apiKey = key;
+    }
 }

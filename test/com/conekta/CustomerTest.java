@@ -1,13 +1,7 @@
 package com.conekta;
 
-/*
- * To change this template, choose Tools | Templates
- * and open the template in the editor.
- */
-
 import org.json.JSONException;
 import org.json.JSONObject;
-import static org.junit.Assert.*;
 
 /**
  *
@@ -24,7 +18,7 @@ public class CustomerTest extends ConektaTest {
         valid_visa_card = new JSONObject("{'name': 'test', 'email': 'test@test.com', 'cards':['tok_test_visa_4242']}");
     }
 
-    // @Test
+    //@Test
     public void testSuccesfulCustomerFind() throws Exception {
         Customer customer = testSuccesfulCustomerCreate();
         customer = Customer.find(customer.id);
@@ -107,7 +101,7 @@ public class CustomerTest extends ConektaTest {
         Plan plan = null;
         try {
             plan = Plan.find("gold-plan2");
-        } catch(Exception e) {
+        } catch(Error e) {
             JSONObject params = new JSONObject("{'id':'gold-plan2','name':'Gold plan', 'amount':1000, 'currency':'MXN','interval':'month','frequency':1,'trial_period_days':15,'expiry_count':12}");
             plan = Plan.create(params);
         }

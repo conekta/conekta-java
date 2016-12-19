@@ -8,7 +8,6 @@ package com.conekta;
 import static junit.framework.TestCase.assertTrue;
 import org.json.JSONException;
 import org.json.JSONObject;
-import static org.junit.Assert.*;
 
 /**
  *
