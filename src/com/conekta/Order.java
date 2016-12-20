@@ -18,7 +18,7 @@ public class Order extends Resource {
     public HashMap metadata = new HashMap();
     public HashMap last_payment_info = new HashMap();
     public HashMap transitions = new HashMap();
-    
+
     public Order(String id) {
         super(id);
     }
@@ -26,15 +26,15 @@ public class Order extends Resource {
     public Order() {
         super();
     }
-    
+
     public static Order create(JSONObject params) throws Error {
         String className = Order.class.getCanonicalName();
         return (Order) scpCreate(className, params);
     }
-    
+
     public static Order find(String id) throws Error {
         String className = Order.class.getCanonicalName();
-        
+
         return (Order) scpFind(className, id);
     }
 }
