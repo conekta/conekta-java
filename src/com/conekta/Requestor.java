@@ -57,7 +57,6 @@ public class Requestor {
             this.connection.setRequestProperty("Content-Type", " application/json");
             this.connection.setRequestProperty("User-Agent", "Conekta/v1 JavaBindings/" + Conekta.VERSION);
             this.connection.setRequestProperty("Accept", "application/vnd.conekta-v"+ Conekta.apiVersion +"+json");
-            this.connection.setRequestProperty("Content-Type", " application/x-www-form-urlencoded");
         } catch (Exception e) {
             throw new Error(e.getMessage(), null, null, null, null);
         }
