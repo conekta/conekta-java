@@ -13,6 +13,7 @@ import java.lang.reflect.Field;
 import java.util.HashMap;
 import java.util.ArrayList;
 import java.util.Iterator;
+import java.util.Map;
 import org.json.JSONArray;
 import org.json.JSONObject;
 
@@ -118,6 +119,19 @@ public class ConektaObject extends ArrayList {
                             attr.loadFromObject((JSONObject) obj);
                             field.set(this, attr);
                             this.setVal(key, attr);
+                        } else if (obj instanceof JSONObject){
+                            JSONObject hashObject = jsonObject.getJSONObject(key);
+                            Iterator jsonKeys = hashObject.keys();
+                            HashMap map = new HashMap();
+                            while(jsonKeys.hasNext()){
+                                String k = jsonKeys.next().toString();
+                                Object value = hashObject.get(k);
+
+                                map.put(k, value);
+                            }    
+
+                            field.set(this, map);
+                            this.setVal(key, map);
                         } else {
                             field.set(this, obj);
                             this.setVal(key, obj);
@@ -133,7 +147,6 @@ public class ConektaObject extends ArrayList {
                 }
             }
         }
-
     }
 
     @Override

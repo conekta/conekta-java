@@ -53,9 +53,10 @@ public class Requestor {
             // Set Headers
             this.connection.setRequestProperty("Accept-Language", Conekta.locale);
             this.connection.setRequestProperty("X-Conekta-Client-User-Agent", userAgent.toString());
+            this.connection.setRequestProperty("Accept", "application/vnd.conekta-v" + Conekta.apiVersion + "+json");
+            this.connection.setRequestProperty("Content-Type", " application/json");
             this.connection.setRequestProperty("User-Agent", "Conekta/v1 JavaBindings/" + Conekta.VERSION);
             this.connection.setRequestProperty("Accept", "application/vnd.conekta-v"+ Conekta.apiVersion +"+json");
-            this.connection.setRequestProperty("Content-Type", " application/x-www-form-urlencoded");
         } catch (Exception e) {
             throw new Error(e.getMessage(), null, null, null, null);
         }
@@ -121,7 +122,7 @@ public class Requestor {
             try {
                 BufferedWriter writer = new BufferedWriter(
                         new OutputStreamWriter(os, "UTF-8"));
-                String r = Requestor.getQuery(params, null);
+                String r = params.toString();
                 writer.write(r);
                 writer.flush();
                 writer.close();

@@ -5,13 +5,9 @@ package com.conekta;
  * and open the template in the editor.
  */
 
-import com.conekta.Plan;
-import com.conekta.Error;
-import com.conekta.ConektaObject;
 import java.util.Random;
 import org.json.JSONException;
 import org.json.JSONObject;
-import static org.junit.Assert.*;
 
 /**
  *

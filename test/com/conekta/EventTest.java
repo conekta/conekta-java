@@ -5,12 +5,7 @@ package com.conekta;
  * and open the template in the editor.
  */
 
-import com.conekta.Error;
-import com.conekta.ConektaObject;
-import com.conekta.Event;
 import org.json.JSONException;
-import org.json.JSONObject;
-import static org.junit.Assert.*;
 
 /**
  *

@@ -7,7 +7,6 @@ package com.conekta;
 
 import org.json.JSONException;
 import org.json.JSONObject;
-import static org.junit.Assert.*;
 
 /**
  *
