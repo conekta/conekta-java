@@ -1,6 +1,7 @@
 package com.conekta;
 
 import java.util.HashMap;
+import org.json.JSONException;
 import org.json.JSONObject;
 
 /**
@@ -36,5 +37,10 @@ public class Order extends Resource {
         String className = Order.class.getCanonicalName();
 
         return (Order) scpFind(className, id);
+    }
+    
+    public static ConektaList where(JSONObject params) throws Error, JSONException {
+        String className = Order.class.getSimpleName();
+        return (ConektaList) scpWhereList(className, params);
     }
 }

@@ -6,6 +6,7 @@ import java.lang.reflect.Field;
 import java.util.HashMap;
 import locales.Lang;
 import org.json.JSONArray;
+import org.json.JSONException;
 import org.json.JSONObject;
 
 
@@ -86,7 +87,16 @@ public class Resource extends ConektaObject {
         resource.loadFromArray(jsonArray);
         return resource;
     }
-
+    
+    protected static ConektaList scpWhereList(String className, JSONObject params) throws Error, JSONException {
+        Requestor requestor = new Requestor();
+        String url = Resource.classUrl(className);
+        JSONObject jsonObject = (JSONObject) requestor.request("GET", url, params);
+        ConektaList resource = new ConektaList(className);
+        resource.loadFrom(jsonObject);
+        return resource;
+    }
+    
     protected ConektaObject delete(String parent, String member) throws Error {
         this.customAction("DELETE", null, null);
         return this;

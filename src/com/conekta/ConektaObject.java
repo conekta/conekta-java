@@ -1,9 +1,5 @@
 package com.conekta;
 
-/*
- * To change this template, choose Tools | Templates
- * and open the template in the editor.
- */
 /**
  *
  * @author mauricio
@@ -13,7 +9,6 @@ import java.lang.reflect.Field;
 import java.util.HashMap;
 import java.util.ArrayList;
 import java.util.Iterator;
-import java.util.Map;
 import org.json.JSONArray;
 import org.json.JSONObject;
 
