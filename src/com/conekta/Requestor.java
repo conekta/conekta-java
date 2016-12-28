@@ -72,7 +72,7 @@ public class Requestor {
         
     }
 
-    public Object request(String method, String url, JSONObject params) throws Error {
+    public Object request(String method, String url, JSONObject params) throws Error, ErrorList {
         URL urlObj;
         try {
             // SSL
@@ -172,13 +172,19 @@ public class Requestor {
             }
             in.close();
             if (responseCode != 200) {
-                Error.errorHandler((JSONObject) object, responseCode);
+                if(Conekta.apiVersion.equals("1.1.0")) {
+                    ErrorList.errorHandle((JSONObject) object, responseCode);
+                } else {
+                    Error.errorHandler((JSONObject) object, responseCode);
+                }
             }
         } catch (IOException e) {
             throw new Error(e.getMessage(), null, null, null, null);
         } catch (JSONException e) {
             throw new Error(e.getMessage(), null, null, null, null);
         } catch (Error e) {
+            throw e;
+        }catch (ErrorList e) {
             throw e;
         }
         return object;

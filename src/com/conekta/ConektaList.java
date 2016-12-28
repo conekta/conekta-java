@@ -36,7 +36,7 @@ public class ConektaList extends ConektaObject{
         this.loadFromArray(values.getJSONArray("data"));
     }
     
-    public ConektaList previous(JSONObject options) throws JSONException, Error{
+    public ConektaList previous(JSONObject options) throws JSONException, Error, ErrorList{
         if(!this.isEmpty()){
             ConektaObject object = (ConektaObject) this.get(0);
             this.params.put("ending_before", object.id);
@@ -48,7 +48,7 @@ public class ConektaList extends ConektaObject{
         return this;
     }
 
-    public ConektaList next(JSONObject options) throws JSONException, Error{
+    public ConektaList next(JSONObject options) throws JSONException, Error, ErrorList{
         int last = this.size() - 1;
         if(!this.isEmpty()){
             ConektaObject object = (ConektaObject) this.get(last);
@@ -62,7 +62,7 @@ public class ConektaList extends ConektaObject{
     }
     
     
-    public ConektaList moveCursor(int limit) throws JSONException, Error{
+    public ConektaList moveCursor(int limit) throws JSONException, Error, ErrorList{
         this.params.put("limit", limit);
         
         String className = (String) Utils.getInstance().types.get(this.elements_type);     
