@@ -28,18 +28,18 @@ public class Order extends Resource {
         super();
     }
 
-    public static Order create(JSONObject params) throws Error {
+    public static Order create(JSONObject params) throws ErrorList, Error {
         String className = Order.class.getCanonicalName();
         return (Order) scpCreate(className, params);
     }
 
-    public static Order find(String id) throws Error {
+    public static Order find(String id) throws ErrorList, Error {
         String className = Order.class.getCanonicalName();
 
         return (Order) scpFind(className, id);
     }
     
-    public static ConektaList where(JSONObject params) throws Error, JSONException {
+    public static ConektaList where(JSONObject params) throws Error, JSONException, ErrorList {
         String className = Order.class.getSimpleName();
         return (ConektaList) scpWhereList(className, params);
     }

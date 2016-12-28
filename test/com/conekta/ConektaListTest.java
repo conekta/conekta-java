@@ -8,14 +8,14 @@ public class ConektaListTest extends ConektaTest{
     
     ConektaList list;
     JSONObject paginateParams;
-    public ConektaListTest() throws JSONException, Error {
+    public ConektaListTest() throws JSONException, Error, ErrorList {
         setApiVersion("1.1.0");
         paginateParams = new JSONObject("{'limit': 20}");
         list = Order.where(paginateParams);
     }
     
     // @Test
-    public void testSuccsessfulNext() throws JSONException, Error{
+    public void testSuccsessfulNext() throws JSONException, Error, ErrorList{
         JSONObject paginateParams = new JSONObject("{'limit': 10}");
         JSONObject nextPaginateParams = new JSONObject("{'limit': 1}");
         ConektaList firstWindow = Order.where(paginateParams);
@@ -29,7 +29,7 @@ public class ConektaListTest extends ConektaTest{
     }
     
     // @Test
-    public void testSuccsessfulPrevious() throws JSONException, Error{
+    public void testSuccsessfulPrevious() throws JSONException, Error, ErrorList{
         Order last = (Order) list.get(10);
         JSONObject paginateParams = new JSONObject("{'limit': 10, 'starting_after': " + last.id + "}");
         JSONObject previousPaginateParams = new JSONObject("{'limit': 1}");

@@ -27,14 +27,53 @@ public class Error extends Exception {
         super(message);
         HashMap parameters = new HashMap();
         parameters.put("BASE", Conekta.apiBase);
-        if (message != null)
+        if (message != null) {
             this.message = message;
-        else
+        } else {
             this.message = Lang.translate("error.requestor.connection", parameters, Lang.EN);
-        if (message_to_purchaser != null)
+        }
+        
+        if (message_to_purchaser != null) {
             this.message_to_purchaser = message_to_purchaser;
-        else
+        } else {
             this.message_to_purchaser = Lang.translate("error.requestor.connection_purchaser", parameters, Conekta.locale);
+        }
+        
+        this.type = type;
+        this.code = code;
+        this.params = params;
+    }
+    
+    public Error(JSONObject error) throws JSONException {
+        super(error.getString("message"));
+        String message = error.getString("message");
+        String messageToPurchaser = error.getString("message_to_purchaser");
+        String param = error.getString("param");
+        
+        if(!error.isNull("code")) {
+            int code = error.getInt("code");
+        } else {
+            int code = -1;
+        }
+        
+        String validationError = error.getString("validation_error");
+        String customMessage = error.getString("custom_message");
+
+        HashMap parameters = new HashMap();
+        parameters.put("BASE", Conekta.apiBase);
+        
+        if (message != null){
+            this.message = message;
+        } else {
+            this.message = Lang.translate("error.requestor.connection", parameters, Lang.EN);
+        }
+        
+        if (messageToPurchaser != null){
+            this.message_to_purchaser = messageToPurchaser;
+        } else {
+            this.message_to_purchaser = Lang.translate("error.requestor.connection_purchaser", parameters, Conekta.locale);
+        }
+        
         this.type = type;
         this.code = code;
         this.params = params;

@@ -9,11 +9,6 @@ import org.json.JSONArray;
 import org.json.JSONException;
 import org.json.JSONObject;
 
-
-/*
- * To change this template, choose Tools | Templates
- * and open the template in the editor.
- */
 /**
  *
  * @author mauricio
@@ -45,7 +40,7 @@ public class Resource extends ConektaObject {
         return base + "/" + id;
     }
 
-    protected static ConektaObject scpFind(String className, String id) throws Error {
+    protected static ConektaObject scpFind(String className, String id) throws Error, ErrorList {
         Constructor c;
         ConektaObject resource;
         try {
@@ -65,7 +60,7 @@ public class Resource extends ConektaObject {
         return resource;
     }
 
-    protected static ConektaObject scpCreate(String className, JSONObject params) throws Error {
+    protected static ConektaObject scpCreate(String className, JSONObject params) throws Error, ErrorList {
         Requestor requestor = new Requestor();
         String url = Resource.classUrl(className);
         JSONObject jsonObject = (JSONObject) requestor.request("POST", url, params);
@@ -79,7 +74,7 @@ public class Resource extends ConektaObject {
         return resource;
     }
 
-    protected static ConektaObject scpWhere(String className, JSONObject params) throws Error {
+    protected static ConektaObject scpWhere(String className, JSONObject params) throws Error, ErrorList {
         Requestor requestor = new Requestor();
         String url = Resource.classUrl(className);
         JSONArray jsonArray = (JSONArray) requestor.request("GET", url, params);
@@ -88,7 +83,7 @@ public class Resource extends ConektaObject {
         return resource;
     }
     
-    protected static ConektaList scpWhereList(String className, JSONObject params) throws Error, JSONException {
+    protected static ConektaList scpWhereList(String className, JSONObject params) throws Error, JSONException, ErrorList {
         Requestor requestor = new Requestor();
         String url = Resource.classUrl(className);
         JSONObject jsonObject = (JSONObject) requestor.request("GET", url, params);
@@ -97,12 +92,12 @@ public class Resource extends ConektaObject {
         return resource;
     }
     
-    protected ConektaObject delete(String parent, String member) throws Error {
+    protected ConektaObject delete(String parent, String member) throws Error, ErrorList {
         this.customAction("DELETE", null, null);
         return this;
     }
 
-    protected void update(JSONObject params) throws Error {
+    protected void update(JSONObject params) throws Error, ErrorList {
         Requestor requestor = new Requestor();
         String url = this.instanceUrl();
         JSONObject jsonObject = (JSONObject) requestor.request("PUT", url, params);
@@ -114,7 +109,7 @@ public class Resource extends ConektaObject {
 
     }
 
-    protected ConektaObject customAction(String method, String action, JSONObject params) throws Error {
+    protected ConektaObject customAction(String method, String action, JSONObject params) throws Error, ErrorList {
         if (method == null) {
             method = "POST";
         }
@@ -132,7 +127,7 @@ public class Resource extends ConektaObject {
         return this;
     }
 
-    protected ConektaObject createMember(String member, JSONObject params) throws Error {
+    protected ConektaObject createMember(String member, JSONObject params) throws Error, ErrorList {
         Requestor requestor = new Requestor();
         String url = this.instanceUrl() + "/" + member;
         JSONObject jsonObject = (JSONObject) requestor.request("POST", url, params);
