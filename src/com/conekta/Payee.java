@@ -1,8 +1,3 @@
-/*
- * To change this license header, choose License Headers in Project Properties.
- * To change this template file, choose Tools | Templates
- * and open the template in the editor.
- */
 package com.conekta;
 
 import org.json.JSONObject;
@@ -22,32 +17,32 @@ public class Payee extends Resource{
         super();
     }
 
-    public static Payee find(String id) throws Error {
+    public static Payee find(String id) throws Error, ErrorList {
         String className = Charge.class.getCanonicalName();
         return (Payee) scpFind(className, id);
     }
 
-    public static ConektaObject where(JSONObject params) throws Error {
+    public static ConektaObject where(JSONObject params) throws Error, ErrorList {
         String className = Payee.class.getCanonicalName();
         return (ConektaObject) scpWhere(className, params);
     }
 
-    public static ConektaObject where() throws Error {
+    public static ConektaObject where() throws Error, ErrorList {
         String className = Payee.class.getCanonicalName();
         return (ConektaObject) scpWhere(className, null);
     }
 
-    public static Payee create(JSONObject params) throws Error {
+    public static Payee create(JSONObject params) throws Error, ErrorList {
         String className = Payee.class.getCanonicalName();
         return (Payee) scpCreate(className, params);
     }
 
-    public void delete() throws Error {
+    public void delete() throws Error, ErrorList {
         this.delete(null, null);
     }
 
     @Override
-    public void update(JSONObject params) throws Error {
+    public void update(JSONObject params) throws Error, ErrorList {
         super.update(params);
     }
 }

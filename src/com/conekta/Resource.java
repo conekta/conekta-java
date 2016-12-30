@@ -13,6 +13,7 @@ import org.json.JSONObject;
  *
  * @author mauricio
  */
+
 public class Resource extends ConektaObject {
 
     public Resource(String id) {
@@ -126,15 +127,15 @@ public class Resource extends ConektaObject {
         }
         return this;
     }
-
+ 
     protected ConektaObject createMember(String member, JSONObject params) throws Error, ErrorList {
         Requestor requestor = new Requestor();
         String url = this.instanceUrl() + "/" + member;
         JSONObject jsonObject = (JSONObject) requestor.request("POST", url, params);
-        Field field;
         ConektaObject conektaObject = null;
+
         try {
-            field = this.getClass().getField(member);
+            Field field = this.getClass().getField(member);
             field.setAccessible(true);
             String className;
             String parentClassName = this.getClass().getSimpleName().substring(0, 1).toLowerCase() + this.getClass().getSimpleName().substring(1);
@@ -148,6 +149,13 @@ public class Resource extends ConektaObject {
                 ConektaObject objects = ((ConektaObject) field.get(this));
                 objects.add(conektaObject);
                 field.set(this, objects);
+            } else if(field.get(this).getClass().getSimpleName().equals("ConektaList")){
+                className = Utils.getInstance().classes.get(member).toString();
+                conektaObject = (ConektaObject) Class.forName(className).newInstance();
+                conektaObject.loadFromObject(jsonObject);
+                ConektaList list = (ConektaList) field.get(this);
+                
+                list.addElement(conektaObject);
             } else {
                 className = "com.conekta." + member.substring(0, 1).toUpperCase() + member.substring(1);
                 conektaObject = (ConektaObject) Class.forName(className).newInstance();
@@ -161,6 +169,7 @@ public class Resource extends ConektaObject {
         } catch (Exception e) {
             throw new Error(e.toString(), null, null, null, null);
         }
+
         return conektaObject;
     }
 }

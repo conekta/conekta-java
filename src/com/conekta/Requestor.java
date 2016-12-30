@@ -1,13 +1,10 @@
 package com.conekta;
 
-/*
- * To change this template, choose Tools | Templates
- * and open the template in the editor.
- */
 /**
  *
  * @author mauricio
  */
+
 import android.util.Base64;
 import java.io.BufferedReader;
 import java.io.BufferedWriter;

@@ -2,10 +2,6 @@ package com.conekta;
 
 import org.json.JSONObject;
 
-/*
- * To change this template, choose Tools | Templates
- * and open the template in the editor.
- */
 /**
  *
  * @author mauricio
@@ -35,31 +31,31 @@ public class Charge extends Resource {
         super();
     }
 
-    public static Charge find(String id) throws Error {
+    public static Charge find(String id) throws Error, ErrorList {
         String className = Charge.class.getCanonicalName();
         return (Charge) scpFind(className, id);
     }
 
-    public static ConektaObject where(JSONObject params) throws Error {
+    public static ConektaObject where(JSONObject params) throws Error, ErrorList {
         String className = Charge.class.getCanonicalName();
         return (ConektaObject) scpWhere(className, params);
     }
 
-    public static ConektaObject where() throws Error {
+    public static ConektaObject where() throws Error, ErrorList {
         String className = Charge.class.getCanonicalName();
         return (ConektaObject) scpWhere(className, null);
     }
 
-    public static Charge create(JSONObject params) throws Error {
+    public static Charge create(JSONObject params) throws Error, ErrorList {
         String className = Charge.class.getCanonicalName();
         return (Charge) scpCreate(className, params);
     }
 
-    public Charge capture() throws Error {
+    public Charge capture() throws Error, ErrorList {
         return (Charge) customAction("POST", "capture", null);
     }
 
-    public Charge refund(Integer amount) throws Error {
+    public Charge refund(Integer amount) throws Error, ErrorList {
         JSONObject params;
         try {
             params = new JSONObject("{'amount':" + amount + "}");
@@ -69,7 +65,7 @@ public class Charge extends Resource {
         return (Charge) customAction("POST", "refund", params);
     }
 
-    public Charge refund() throws Error {
+    public Charge refund() throws Error, ErrorList {
         JSONObject params;
         try {
             params = new JSONObject("{'amount':" + amount + "}");

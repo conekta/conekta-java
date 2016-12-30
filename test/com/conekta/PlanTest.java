@@ -17,7 +17,7 @@ public class PlanTest extends ConektaTest {
     JSONObject params;
     Integer id;
 
-    public PlanTest() throws JSONException, Error {
+    public PlanTest() throws JSONException, Error, ErrorList {
         super();
         ConektaObject plans = Plan.where();
         id = (new Random()).nextInt(1000);
@@ -25,14 +25,14 @@ public class PlanTest extends ConektaTest {
     }
 
     // @Test
-    public void testSuccesfulPlanCreate() throws Error {
+    public void testSuccesfulPlanCreate() throws Error, ErrorList {
        ConektaObject plans = Plan.where();
        Plan plan = Plan.create(params);
        assertTrue(plan.id.equals("gold-plan"+id));
     }
 
     // @Test
-    public void testUpdatePlan() throws Error, JSONException {
+    public void testUpdatePlan() throws Error, JSONException, ErrorList {
        ConektaObject plans = Plan.where();
        Plan plan = Plan.create(params);
        plan.update(new JSONObject("{'name':'Silver Plan'}"));
@@ -40,7 +40,7 @@ public class PlanTest extends ConektaTest {
     }
 
     // @Test
-    public void testDeletePlan() throws Error, JSONException {
+    public void testDeletePlan() throws Error, JSONException, ErrorList {
        ConektaObject plans = Plan.where();
        Plan plan = Plan.create(params);
        plan.delete();

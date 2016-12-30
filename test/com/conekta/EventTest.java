@@ -18,7 +18,7 @@ public class EventTest extends ConektaTest {
     }
 
     // @Test
-    public void testSuccesfulWhere() throws Error {
+    public void testSuccesfulWhere() throws Error, ErrorList {
        ConektaObject events = Event.where();
        assertTrue(events.get(0) instanceof Event);
     }  
