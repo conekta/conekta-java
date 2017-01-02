@@ -39,7 +39,7 @@ public class ErrorTest extends ConektaTest {
     }
 
     // @Test
-    public void testNoIdError() throws Error {
+    public void testNoIdError() throws Error, ErrorList {
         try {
             Charge charge = Charge.find(null);
         } catch (Error e) {
@@ -47,7 +47,7 @@ public class ErrorTest extends ConektaTest {
         }
     }
 
-    public void testNoConnectionError() throws Error {
+    public void testNoConnectionError() throws Error, ErrorList {
         String base = Conekta.apiBase;
         Conekta.apiBase = "http://localhost:3001";
         try{
@@ -58,7 +58,7 @@ public class ErrorTest extends ConektaTest {
         Conekta.apiBase = base;
     }
 
-    public void testApiError() throws Error {
+    public void testApiError() throws Error, ErrorList {
         try{
         Customer customer = Customer.create(invalid_visa_card);
         } catch (ParameterValidationError e) {
@@ -66,7 +66,7 @@ public class ErrorTest extends ConektaTest {
         }
     }
 
-    public void testAuthenticationError() throws Error {
+    public void testAuthenticationError() throws Error, ErrorList {
         unSetApiKey();
         try{
         Customer customer = Customer.create(valid_visa_card);
@@ -76,7 +76,7 @@ public class ErrorTest extends ConektaTest {
         setApiKey();
     }
 
-    public void testParameterValidationError() throws Error, JSONException {
+    public void testParameterValidationError() throws Error, JSONException, ErrorList {
         valid_visa_card = new JSONObject("{'card':'tok_test_visa_4242'}");
         JSONObject params = invalid_payment_method.put("card", valid_visa_card.get("card"));
         try {
@@ -87,7 +87,7 @@ public class ErrorTest extends ConektaTest {
         }
     }
     
-    public void testNoCardError() throws Error, JSONException {
+    public void testNoCardError() throws Error, JSONException, ErrorList {
         setPublicApiKey();
         valid_visa_card = new JSONObject("{'card':{'number':'tok_test_visa_4242'}}");
         try {
@@ -98,7 +98,7 @@ public class ErrorTest extends ConektaTest {
         setApiKey();
     }
 
-    public void testProcessingError() throws Error, JSONException {
+    public void testProcessingError() throws Error, JSONException, ErrorList {
         JSONObject capture = new JSONObject("{'capture': false}");
         valid_visa_card = new JSONObject("{'card':'tok_test_visa_4242'}");
         JSONObject params = valid_payment_method.put("card", valid_visa_card.get("card")).put("capture", capture.get("capture"));
@@ -113,7 +113,7 @@ public class ErrorTest extends ConektaTest {
         }
     }
 
-    public void testResourceNotFoundError() throws Error {
+    public void testResourceNotFoundError() throws Error, ErrorList {
         try {
             Charge charge = Charge.find("1");
         } catch (ResourceNotFoundError e) {

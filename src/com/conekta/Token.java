@@ -1,12 +1,7 @@
 package com.conekta;
 
-
 import org.json.JSONObject;
 
-/*
- * To change this template, choose Tools | Templates
- * and open the template in the editor.
- */
 /**
  *
  * @author mauricio
@@ -24,12 +19,12 @@ public class Token extends Resource {
         super();
     }
 
-    public static Token find(String id) throws Error {
+    public static Token find(String id) throws Error, ErrorList {
         String className = Token.class.getCanonicalName();
         return (Token) scpFind(className, id);
     }
 
-    public static Token create(JSONObject params) throws Error {
+    public static Token create(JSONObject params) throws Error, ErrorList {
         String className = Token.class.getCanonicalName();
         return (Token) scpCreate(className, params);
     }

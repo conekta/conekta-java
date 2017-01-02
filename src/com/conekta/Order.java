@@ -1,6 +1,7 @@
 package com.conekta;
 
 import java.util.HashMap;
+import org.json.JSONArray;
 import org.json.JSONException;
 import org.json.JSONObject;
 
@@ -19,6 +20,7 @@ public class Order extends Resource {
     public HashMap metadata = new HashMap();
     public HashMap last_payment_info = new HashMap();
     public HashMap transitions = new HashMap();
+    public FiscalEntity fiscal_entity;
 
     public Order(String id) {
         super(id);
@@ -42,5 +44,13 @@ public class Order extends Resource {
     public static ConektaList where(JSONObject params) throws Error, JSONException, ErrorList {
         String className = Order.class.getSimpleName();
         return (ConektaList) scpWhereList(className, params);
+    }
+    
+    public FiscalEntity createFiscalEntity(JSONObject params) throws JSONException, Error, ErrorList{
+        JSONObject updateParams = new JSONObject();
+        updateParams.put("fiscal_entity", params);
+        this.update(updateParams);
+        
+        return this.fiscal_entity;
     }
 }

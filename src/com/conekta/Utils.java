@@ -9,9 +9,11 @@ import java.util.HashMap;
 public class Utils {
     
     HashMap types = new HashMap();
+    HashMap classes = new HashMap();
     
     private Utils() {
         types.put("Order", Order.class.getSimpleName());
+        classes.put("fiscal_entities", FiscalEntity.class.getCanonicalName());
     }
     
     public static Utils getInstance() {

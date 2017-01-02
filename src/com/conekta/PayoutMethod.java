@@ -1,8 +1,3 @@
-/*
- * To change this license header, choose License Headers in Project Properties.
- * To change this template file, choose Tools | Templates
- * and open the template in the editor.
- */
 package com.conekta;
 
 import org.json.JSONObject;
@@ -13,12 +8,12 @@ import org.json.JSONObject;
  */
 public class PayoutMethod extends Resource{
 
-    public void delete() throws Error {
+    public void delete() throws Error, ErrorList {
         this.delete(null, null);
     }
 
     @Override
-    public void update(JSONObject params) throws Error {
+    public void update(JSONObject params) throws Error, ErrorList {
         super.update(params);
     }
 }

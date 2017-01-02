@@ -25,6 +25,11 @@ public class ConektaList extends ConektaObject{
         this.params = new JSONObject();
     }
     
+    public void addElement(ConektaObject element){
+        this.add(element);
+        total = total + 1;
+    }
+    
     public void loadFrom(JSONObject values) throws JSONException, Error {
         this.starting_after = values.getString("starting_after");
         this.ending_before = values.getString("ending_before");

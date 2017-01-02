@@ -1,15 +1,10 @@
 package com.conekta;
 
-/*
- * To change this template, choose Tools | Templates
- * and open the template in the editor.
- */
-
-
 /**
  *
  * @author mauricio
  */
+
 public class Address extends Resource {
     public String street1;
     public String street2;
@@ -22,4 +17,6 @@ public class Address extends Resource {
     public String company_name;
     public String phone;
     public String email;
+    public int internal_number;
+    public int external_number;
 }

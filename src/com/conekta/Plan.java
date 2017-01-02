@@ -1,12 +1,7 @@
 package com.conekta;
 
-
 import org.json.JSONObject;
 
-/*
- * To change this template, choose Tools | Templates
- * and open the template in the editor.
- */
 /**
  *
  * @author mauricio
@@ -32,27 +27,27 @@ public class Plan extends Resource {
         super();
     }
 
-    public static Plan find(String id) throws Error {
+    public static Plan find(String id) throws Error, ErrorList {
         String className = Plan.class.getCanonicalName();
         return (Plan) scpFind(className, id);
     }
 
-    public static ConektaObject where(JSONObject params) throws Error {
+    public static ConektaObject where(JSONObject params) throws Error, ErrorList {
         String className = Plan.class.getCanonicalName();
         return (ConektaObject) scpWhere(className, params);
     }
 
-    public static ConektaObject where() throws Error {
+    public static ConektaObject where() throws Error, ErrorList {
         String className = Plan.class.getCanonicalName();
         return (ConektaObject) scpWhere(className, null);
     }
 
-    public static Plan create(JSONObject params) throws Error {
+    public static Plan create(JSONObject params) throws Error, ErrorList {
         String className = Plan.class.getCanonicalName();
         return (Plan) scpCreate(className, params);
     }
 
-    public void delete() throws Error {
+    public void delete() throws Error, ErrorList {
         this.delete(null, null);
     }
 }

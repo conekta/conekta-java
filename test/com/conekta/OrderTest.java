@@ -79,7 +79,7 @@ public class OrderTest extends ConektaTest{
         assertTrue((Boolean) orderFound.metadata.get("test"));
     }
     
-    //@Test
+    // @Test
     public void testSuccesfulOrderWhere() throws Exception {
         JSONObject paginateParams = new JSONObject("{'limit': 10}");
         
@@ -89,5 +89,30 @@ public class OrderTest extends ConektaTest{
         assertTrue(orders instanceof ConektaList);
         assertTrue(orders.size() == 10);assertTrue(orders.size() == 10);
         assertTrue(order instanceof Order);
+    }
+    
+    // @Test
+    public void testSuccessfulFiscalEntityCreate() throws JSONException, Error, ErrorList {
+        JSONObject fiscalEntityParams = new JSONObject("{" +
+        "    'tax_id': 'AMGH851205MN1'," +
+        "    'company_name': 'Nike SA de CV'," +
+        "    'email': 'contacto@nike.mx'," +
+        "    'phone': '+5213353319758'," +
+        "    'address': {" +
+        "        'street1': '250 Alexis St'," +
+        "        'internal_number': 19," +
+        "        'external_number': 91," +
+        "        'city': 'Red Deer'," +
+        "        'state': 'Alberta'," +
+        "        'country': 'MX'," +
+        "        'zip': '78215'" +
+        "    }" +
+        "}");
+        
+        Order order = Order.create(validOrder);
+        
+        order.createFiscalEntity(fiscalEntityParams);
+        
+        assertTrue(order.fiscal_entity instanceof FiscalEntity);
     }
 }

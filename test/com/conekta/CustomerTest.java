@@ -15,24 +15,23 @@ public class CustomerTest extends ConektaTest {
 
     public CustomerTest() throws JSONException {
         super();
-        valid_visa_card = new JSONObject("{'name': 'test', 'email': 'test@test.com', 'cards':['tok_test_visa_4242']}");
+        valid_visa_card = new JSONObject("{'name': 'test name', 'email': 'test@test.com', 'cards':['tok_test_visa_4242']}");
     }
 
     //@Test
     public void testSuccesfulCustomerFind() throws Exception {
-        Customer customer = testSuccesfulCustomerCreate();
+        Customer customer = Customer.create(valid_visa_card);
         customer = Customer.find(customer.id);
         assertTrue(customer instanceof Customer);
     }
 
     //@Test
-    public Customer testSuccesfulCustomerCreate() throws Exception {
+    public void testSuccesfulCustomerCreate() throws Exception {
         Customer customer = Customer.create(valid_visa_card);
         assertTrue(customer instanceof Customer);
         assertTrue(customer.cards.get(0) instanceof Card);
         assertTrue(((Card)customer.cards.get(0)).last4.equals("4242"));
         assertTrue(((Card) customer.cards.get(0)).customer ==  customer);
-        return customer;
     }
 
     //@Test
@@ -44,14 +43,14 @@ public class CustomerTest extends ConektaTest {
 
     //@Test
     public void testSuccesfulDeleteCustomer() throws Exception {
-        Customer customer = testSuccesfulCustomerCreate();
+        Customer customer = Customer.create(valid_visa_card);
         customer.delete();
         assertTrue(customer.deleted);
     }
 
     //@Test
     public void testSuccesfulCustomerUpdate() throws Exception {
-        Customer customer = testSuccesfulCustomerCreate();
+        Customer customer = Customer.create(valid_visa_card);
         JSONObject params = new JSONObject("{'name':'Logan', 'email':'logan@x-men.org'}");
         customer.update(params);
         assertTrue(customer.name.equals("Logan"));
@@ -59,7 +58,7 @@ public class CustomerTest extends ConektaTest {
 
     //@Test
     public void testAddCardToCustomer() throws Exception {
-        Customer customer = testSuccesfulCustomerCreate();
+        Customer customer = Customer.create(valid_visa_card);
         JSONObject params = new JSONObject("{'token':'tok_test_visa_1881'}");
         customer.createCard(params);
         assertTrue(((Card)customer.cards.get(0)).last4.equals("4242"));
@@ -69,14 +68,15 @@ public class CustomerTest extends ConektaTest {
 
     //@Test
     public void testDeleteCard() throws Exception {
-        Customer customer = testSuccesfulCustomerCreate();
-        ((Card) customer.cards.get(0)).delete();
-        assertTrue(((Card) customer.cards.get(0)).deleted);
+        setApiVersion("1.0.0");
+        Customer cus = Customer.create(valid_visa_card);
+        ((Card) cus.cards.get(0)).delete();
+        assertTrue(((Card) cus.cards.get(0)).deleted);
     }
 
     //@Test
     public void testUpdateCard() throws Exception {
-        Customer customer = testSuccesfulCustomerCreate();
+        Customer customer = Customer.create(valid_visa_card);
         JSONObject params = new JSONObject("{'token':'tok_test_mastercard_4444'}");
         ((Card) customer.cards.get(0)).update(params);
         assertTrue(((Card) customer.cards.get(0)).last4.equals("4444"));
@@ -85,7 +85,7 @@ public class CustomerTest extends ConektaTest {
     
     //@Test
     public Customer testSuccesfulSubscriptionCreate() throws Exception {
-        Customer customer = testSuccesfulCustomerCreate();
+        Customer customer = Customer.create(valid_visa_card);
         JSONObject params = new JSONObject("{'plan':'gold-plan'}");
         customer.createSubscription(params);
         assertTrue(customer.subscription instanceof Subscription);
@@ -111,7 +111,7 @@ public class CustomerTest extends ConektaTest {
 
         //@Test
     public void testUnSuccesfulSubscriptionCreate() throws Exception {
-        Customer customer = testSuccesfulCustomerCreate();
+        Customer customer = Customer.create(valid_visa_card);
         JSONObject params = new JSONObject("{'plan':'unexistent-plan'}");
         try {
             customer.createSubscription(params);
@@ -143,6 +143,32 @@ public class CustomerTest extends ConektaTest {
         customer.subscription.cancel();
         assertTrue(customer.subscription.status.equals("canceled"));
     }
+ 
+    // @Test
+    public void testSuccessfulFiscalEntityCreate() throws JSONException, Error, ErrorList {
+        setApiVersion("1.1.0");
 
-
+        JSONObject fiscalEntityParams = new JSONObject("{" +
+        "    'tax_id': 'AMGH851205MN1'," +
+        "    'company_name': 'Nike SA de CV'," +
+        "    'email': 'contacto@nike.mx'," +
+        "    'phone': '+5213353319758'," +
+        "    'address': {" +
+        "        'street1': '250 Alexis St'," +
+        "        'internal_number': 19," +
+        "        'external_number': 91," +
+        "        'city': 'Red Deer'," +
+        "        'state': 'Alberta'," +
+        "        'country': 'MX'," +
+        "        'zip': '78215'" +
+        "    }" +
+        "}");
+        
+        Customer customer = Customer.create(valid_visa_card);
+        
+        FiscalEntity fiscalEntity = customer.createFiscalEntity(fiscalEntityParams);
+                
+        assertTrue(fiscalEntity instanceof FiscalEntity);
+        assertTrue(customer.fiscal_entities.size() == 1);
+    }
 }

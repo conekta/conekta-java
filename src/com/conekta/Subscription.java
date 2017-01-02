@@ -1,14 +1,8 @@
 package com.conekta;
 
-
 import java.util.HashMap;
 import locales.Lang;
 import org.json.JSONObject;
-
-/*
- * To change this template, choose Tools | Templates
- * and open the template in the editor.
- */
 
 /**
  *
@@ -36,19 +30,19 @@ public class Subscription extends Resource {
     }
 
     @Override
-    public void update(JSONObject params) throws Error {
+    public void update(JSONObject params) throws Error, ErrorList {
         super.update(params);
     }
 
-    public void pause() throws Error {
+    public void pause() throws Error, ErrorList {
         this.customAction("POST", "pause", null);
     }
 
-    public void cancel() throws Error {
+    public void cancel() throws Error, ErrorList {
         this.customAction("POST", "cancel", null);
     }
 
-    public void resume() throws Error {
+    public void resume() throws Error, ErrorList {
         this.customAction("POST", "resume", null);
     }
 }

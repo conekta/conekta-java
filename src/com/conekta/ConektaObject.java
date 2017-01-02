@@ -4,6 +4,7 @@ package com.conekta;
  *
  * @author mauricio
  */
+
 import java.lang.reflect.Constructor;
 import java.lang.reflect.Field;
 import java.util.HashMap;
@@ -83,8 +84,7 @@ public class ConektaObject extends ArrayList {
             String key = itr.next().toString();
             Object obj = jsonObject.get(key);
             try {
-                Field field;
-                field = this.getClass().getField(key);
+                Field field = this.getClass().getField(key);
                 field.setAccessible(true);
                 Boolean isConektaObject = field.getType().getPackage().getName().equals("com.conekta");
                 if (obj instanceof JSONObject && ((JSONObject) obj).has("object")) {
