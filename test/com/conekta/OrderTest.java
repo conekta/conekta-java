@@ -115,4 +115,32 @@ public class OrderTest extends ConektaTest{
 
         assertTrue(order.fiscal_entity instanceof FiscalEntity);
     }
+
+    // @Test
+    public void testSuccessfulShippingContactCreate() throws JSONException, Error, ErrorList {
+        JSONObject shippingContactParams = new JSONObject("{"+
+        "    'id': '1jap4jmcjnwh34'," +
+        "    'email': 'thomas.logan@xmen.org'," +
+        "    'phone': '+5213353319758'," +
+        "    'receiver': 'Marvin Fuller'," +
+        "    'between_streets': {" +
+        "        'street1': 'Ackerman Crescent'," +
+        "    }," +
+        "    'address': {" +
+        "        'street1': '250 Alexis St'," +
+        "        'internal_number': 19," +
+        "        'external_number': 91," +
+        "        'city': 'Red Deer'," +
+        "        'state': 'Alberta'," +
+        "        'country': 'MX'," +
+        "        'zip': '78215'" +
+        "    }" +
+        "}");
+
+        Order order = Order.create(validOrder);
+
+        order.createShippingContact(shippingContactParams);
+
+        assertTrue(order.shipping_contact instanceof ShippingContact);
+    }
 }
