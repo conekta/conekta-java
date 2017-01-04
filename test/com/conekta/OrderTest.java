@@ -123,11 +123,11 @@ public class OrderTest extends ConektaTest{
             "    'amount': 5," +
             "    'kind': 'loyalty'" +
             "}");
-        
+
         Order order = Order.create(validOrder);
-        
+
         DiscountLine discountLine = order.createDiscountLine(discountLineParams);
-        
+
         assertTrue(order.discount_lines instanceof ConektaList);
         assertTrue(discountLine instanceof DiscountLine);
     }
@@ -157,5 +157,34 @@ public class OrderTest extends ConektaTest{
         order.createShippingContact(shippingContactParams);
 
         assertTrue(order.shipping_contact instanceof ShippingContact);
+    }
+
+    // @Test
+    public void testSuccessfulTaxLineCreate() throws JSONException, Error, ErrorList {
+        JSONObject taxLineIVAParams = new JSONObject("{" +
+        "  'description': 'IVA'," +
+        "  'amount': 60" +
+        "}");
+
+        JSONObject taxLineISRParams = new JSONObject("{" +
+        "  'description': 'ISR'," +
+        "  'amount': 6," +
+        "  'metadata': {" +
+        "      'some_random': 'Stuff'" +
+        "   }" +
+        "}");
+
+
+        Order order = Order.create(validOrder);
+
+        order.createTaxLine(taxLineIVAParams);
+        order.createTaxLine(taxLineISRParams);
+
+        TaxLine taxLine = (TaxLine) order.tax_lines.get(1);
+
+        assertTrue(order.tax_lines instanceof ConektaList);
+        assertTrue(order.tax_lines.size() == 2);
+        assertTrue(taxLine instanceof TaxLine);
+        assertTrue(((String)taxLine.metadata.get("some_random")).equals("Stuff"));
     }
 }

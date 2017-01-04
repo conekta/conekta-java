@@ -24,6 +24,7 @@ public class Order extends Resource {
     public FiscalEntity fiscal_entity;
     public ConektaList discount_lines;
     public ShippingContact shipping_contact;
+    public ConektaList tax_lines;
 
     public Order(String id) {
         super(id);
@@ -32,7 +33,7 @@ public class Order extends Resource {
     public Order() {
         super();
     }
-    
+
     @Override
     public void loadFromObject(JSONObject jsonObject) throws Exception {
         if (jsonObject != null) {
@@ -42,23 +43,30 @@ public class Order extends Resource {
                 throw new Error(e.toString(), null, null, null, null);
             }
         }
-        
+
         if(Conekta.apiVersion.equals("1.1.0")){
-            String[] submodels = { "discount_lines" };
-            
+            String[] submodels = { "discount_lines", "tax_lines" };
+
             for (String submodel : submodels) {
                 ConektaList list = new ConektaList(submodel);
                 list.loadFrom(jsonObject.getJSONObject(submodel));
-                
+
                 Field field = this.getClass().getField(submodel);
                 field.setAccessible(true);
                 field.set(this, list);
                 this.setVal(submodel, list);
-                
+
                 if(list.elements_type.equals("discount_lines")){
                     for (Object item : list){
                         DiscountLine discountLine = (DiscountLine) item;
                         discountLine.order = this;
+                    }
+                }
+
+                if(list.elements_type.equals("tax_lines")){
+                    for (Object item : list){
+                        TaxLine taxLine = (TaxLine) item;
+                        taxLine.order = this;
                     }
                 }
             }
@@ -75,20 +83,20 @@ public class Order extends Resource {
 
         return (Order) scpFind(className, id);
     }
-    
+
     public static ConektaList where(JSONObject params) throws Error, JSONException, ErrorList {
         String className = Order.class.getSimpleName();
         return (ConektaList) scpWhereList(className, params);
     }
-    
+
     public FiscalEntity createFiscalEntity(JSONObject params) throws JSONException, Error, ErrorList{
         JSONObject updateParams = new JSONObject();
         updateParams.put("fiscal_entity", params);
         this.update(updateParams);
-        
+
         return this.fiscal_entity;
     }
-    
+
     public DiscountLine createDiscountLine(JSONObject params) throws JSONException, Error, ErrorList{
         return (DiscountLine) this.createMember("discount_lines", params);
     }
@@ -97,7 +105,11 @@ public class Order extends Resource {
         JSONObject updateParams = new JSONObject();
         updateParams.put("shipping_contact", params);
         this.update(updateParams);
-        
+
         return this.shipping_contact;
+      }
+
+    public TaxLine createTaxLine(JSONObject params) throws JSONException, Error, ErrorList{
+        return (TaxLine) this.createMember("tax_lines", params);
     }
 }
