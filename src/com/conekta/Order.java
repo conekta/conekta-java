@@ -21,6 +21,7 @@ public class Order extends Resource {
     public HashMap last_payment_info = new HashMap();
     public HashMap transitions = new HashMap();
     public FiscalEntity fiscal_entity;
+    public ShippingContact shipping_contact;
 
     public Order(String id) {
         super(id);
@@ -52,5 +53,13 @@ public class Order extends Resource {
         this.update(updateParams);
         
         return this.fiscal_entity;
+    }
+
+    public ShippingContact createShippingContact(JSONObject params) throws JSONException, Error, ErrorList{
+        JSONObject updateParams = new JSONObject();
+        updateParams.put("shipping_contact", params);
+        this.update(updateParams);
+        
+        return this.shipping_contact;
     }
 }
