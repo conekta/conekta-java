@@ -20,6 +20,7 @@ public class Customer extends Resource {
     public String default_card_id;
     public Boolean deleted;
     public ConektaList fiscal_entities;
+    public ConektaList shipping_contacts;
 
     public Customer(String id) {
         super(id);
@@ -44,7 +45,7 @@ public class Customer extends Resource {
         }
         
         if(Conekta.apiVersion.equals("1.1.0")){
-            String[] submodels = { "fiscal_entities" };
+            String[] submodels = { "fiscal_entities", "shipping_contacts" };
             
             for (String submodel : submodels) {
                 ConektaList list = new ConektaList(submodel);
@@ -59,6 +60,13 @@ public class Customer extends Resource {
                     for (Object item : list){
                         FiscalEntity fiscalEntity = (FiscalEntity) item;
                         fiscalEntity.customer = this;
+                    }
+                }
+                
+                if(list.elements_type.equals("shipping_contacts")){
+                    for (Object item : list){
+                        ShippingContact shippingContact = (ShippingContact) item;
+                        shippingContact.customer = this;
                     }
                 }
             }
@@ -111,5 +119,9 @@ public class Customer extends Resource {
     
     public FiscalEntity createFiscalEntity(JSONObject params) throws JSONException, Error, ErrorList{
         return (FiscalEntity) this.createMember("fiscal_entities", params);
+    }
+    
+    public ShippingContact createShippingContact(JSONObject params) throws JSONException, Error, ErrorList{
+        return (ShippingContact) this.createMember("shipping_contacts", params);
     }
 }

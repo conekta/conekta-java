@@ -15,6 +15,7 @@ public class Utils {
         types.put("Order", Order.class.getSimpleName());
         classes.put("fiscal_entities", FiscalEntity.class.getCanonicalName());
         classes.put("discount_lines", DiscountLine.class.getCanonicalName());
+        classes.put("shipping_contacts", ShippingContact.class.getCanonicalName());
     }
     
     public static Utils getInstance() {

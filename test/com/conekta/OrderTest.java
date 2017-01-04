@@ -8,18 +8,18 @@ import org.json.JSONObject;
  * @author L.Carlos
  */
 public class OrderTest extends ConektaTest{
-    
+
     JSONObject validOrder;
     JSONObject customerInfo;
-    
+
     public OrderTest() throws JSONException {
         super();
         setApiVersion("1.1.0");
-        
+
         validOrder = new JSONObject(
             "{ 'currency': 'mxn'," +
             "  'metadata': {" +
-            "    'test': true"+ 
+            "    'test': true"+
             " }," +
             "  'line_items': [{" +
             "    'name': 'Box of Cohiba S1s'," +
@@ -31,7 +31,7 @@ public class OrderTest extends ConektaTest{
             "  }]" +
             "}"
         );
-        
+
         customerInfo = new JSONObject(
             "{ 'name': 'John Constantine'," +
             "  'phone': '+5213353319758'," +
@@ -39,11 +39,11 @@ public class OrderTest extends ConektaTest{
             "}"
         );
     }
-    
+
     //@Test
     public void testSuccesfulOrderCreate() throws Exception {
         Order order = Order.create(validOrder);
-        
+
         assertTrue(order instanceof Order);
         assertTrue(order.livemode == false);
         assertTrue(order.amount == 35000);
@@ -52,24 +52,24 @@ public class OrderTest extends ConektaTest{
         assertTrue(order.currency.equals("MXN"));
         assertTrue((Boolean) order.metadata.get("test"));
     }
-    
+
     //@Test
     public void testSuccesfulOrderUpdate() throws Exception {
         JSONObject newOrderData = new JSONObject();
         newOrderData.put("customer_info", customerInfo);
         Order order = Order.create(validOrder);
-        
+
        order.update(newOrderData);
-       
+
        assertTrue(order.customer_info.get("phone").equals("+5213353319758"));
     }
-    
+
     //@Test
     public void testSuccesfulOrderFind() throws Exception {
         Order order = Order.create(validOrder);
-        
+
         Order orderFound = Order.find(order.id);
-        
+
         assertTrue(orderFound instanceof Order);
         assertTrue(orderFound.livemode == false);
         assertTrue(orderFound.amount == 35000);
@@ -78,19 +78,19 @@ public class OrderTest extends ConektaTest{
         assertTrue(orderFound.currency.equals("MXN"));
         assertTrue((Boolean) orderFound.metadata.get("test"));
     }
-    
+
     // @Test
     public void testSuccesfulOrderWhere() throws Exception {
         JSONObject paginateParams = new JSONObject("{'limit': 10}");
-        
+
         ConektaList orders = Order.where(paginateParams);
         Order order = (Order) orders.get(0);
-        
+
         assertTrue(orders instanceof ConektaList);
         assertTrue(orders.size() == 10);assertTrue(orders.size() == 10);
         assertTrue(order instanceof Order);
     }
-    
+
     // @Test
     public void testSuccessfulFiscalEntityCreate() throws JSONException, Error, ErrorList {
         JSONObject fiscalEntityParams = new JSONObject("{" +
@@ -108,11 +108,11 @@ public class OrderTest extends ConektaTest{
         "        'zip': '78215'" +
         "    }" +
         "}");
-        
+
         Order order = Order.create(validOrder);
-        
+
         order.createFiscalEntity(fiscalEntityParams);
-        
+
         assertTrue(order.fiscal_entity instanceof FiscalEntity);
     }
 
@@ -130,5 +130,32 @@ public class OrderTest extends ConektaTest{
         
         assertTrue(order.discount_lines instanceof ConektaList);
         assertTrue(discountLine instanceof DiscountLine);
+    }
+
+    public void testSuccessfulShippingContactCreate() throws JSONException, Error, ErrorList {
+        JSONObject shippingContactParams = new JSONObject("{"+
+        "    'id': '1jap4jmcjnwh34'," +
+        "    'email': 'thomas.logan@xmen.org'," +
+        "    'phone': '+5213353319758'," +
+        "    'receiver': 'Marvin Fuller'," +
+        "    'between_streets': {" +
+        "        'street1': 'Ackerman Crescent'," +
+        "    }," +
+        "    'address': {" +
+        "        'street1': '250 Alexis St'," +
+        "        'internal_number': 19," +
+        "        'external_number': 91," +
+        "        'city': 'Red Deer'," +
+        "        'state': 'Alberta'," +
+        "        'country': 'MX'," +
+        "        'zip': '78215'" +
+        "    }" +
+        "}");
+
+        Order order = Order.create(validOrder);
+
+        order.createShippingContact(shippingContactParams);
+
+        assertTrue(order.shipping_contact instanceof ShippingContact);
     }
 }

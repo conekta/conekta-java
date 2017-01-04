@@ -19,4 +19,6 @@ public class Address extends Resource {
     public String email;
     public int internal_number;
     public int external_number;
+    public BetweenStreets between_streets;
+    public Boolean residential;
 }

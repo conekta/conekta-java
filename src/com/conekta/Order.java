@@ -23,6 +23,7 @@ public class Order extends Resource {
     public HashMap transitions = new HashMap();
     public FiscalEntity fiscal_entity;
     public ConektaList discount_lines;
+    public ShippingContact shipping_contact;
 
     public Order(String id) {
         super(id);
@@ -90,5 +91,13 @@ public class Order extends Resource {
     
     public DiscountLine createDiscountLine(JSONObject params) throws JSONException, Error, ErrorList{
         return (DiscountLine) this.createMember("discount_lines", params);
+    }
+
+    public ShippingContact createShippingContact(JSONObject params) throws JSONException, Error, ErrorList{
+        JSONObject updateParams = new JSONObject();
+        updateParams.put("shipping_contact", params);
+        this.update(updateParams);
+        
+        return this.shipping_contact;
     }
 }
