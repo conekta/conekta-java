@@ -115,4 +115,20 @@ public class OrderTest extends ConektaTest{
         
         assertTrue(order.fiscal_entity instanceof FiscalEntity);
     }
+
+    // @Test
+    public void testSuccessfulDiscountLineCreate() throws JSONException, Error, ErrorList {
+        JSONObject discountLineParams = new JSONObject("{" +
+            "    'description': 'Cupon de descuento'," +
+            "    'amount': 5," +
+            "    'kind': 'loyalty'" +
+            "}");
+        
+        Order order = Order.create(validOrder);
+        
+        DiscountLine discountLine = order.createDiscountLine(discountLineParams);
+        
+        assertTrue(order.discount_lines instanceof ConektaList);
+        assertTrue(discountLine instanceof DiscountLine);
+    }
 }
