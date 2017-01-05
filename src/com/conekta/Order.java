@@ -25,6 +25,7 @@ public class Order extends Resource {
     public ConektaList discount_lines;
     public ShippingContact shipping_contact;
     public ConektaList tax_lines;
+    public ConektaList shipping_lines;
 
     public Order(String id) {
         super(id);
@@ -45,7 +46,7 @@ public class Order extends Resource {
         }
 
         if(Conekta.apiVersion.equals("1.1.0")){
-            String[] submodels = { "discount_lines", "tax_lines" };
+            String[] submodels = { "discount_lines", "tax_lines", "shipping_lines" };
 
             for (String submodel : submodels) {
                 ConektaList list = new ConektaList(submodel);
@@ -67,6 +68,13 @@ public class Order extends Resource {
                     for (Object item : list){
                         TaxLine taxLine = (TaxLine) item;
                         taxLine.order = this;
+                    }
+                }
+                
+                if(list.elements_type.equals("shipping_lines")){
+                    for (Object item : list){
+                        ShippingLine shippingLine = (ShippingLine) item;
+                        shippingLine.order = this;
                     }
                 }
             }
@@ -107,9 +115,13 @@ public class Order extends Resource {
         this.update(updateParams);
 
         return this.shipping_contact;
-      }
+    }
 
     public TaxLine createTaxLine(JSONObject params) throws JSONException, Error, ErrorList{
         return (TaxLine) this.createMember("tax_lines", params);
+    }
+
+    public ShippingLine createShippingLine(JSONObject params) throws JSONException, Error, ErrorList{
+        return (ShippingLine) this.createMember("shipping_lines", params);
     }
 }
