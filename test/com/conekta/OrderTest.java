@@ -187,4 +187,22 @@ public class OrderTest extends ConektaTest{
         assertTrue(taxLine instanceof TaxLine);
         assertTrue(((String)taxLine.metadata.get("some_random")).equals("Stuff"));
     }
+
+    public void testSuccessfulLineItemCreate() throws JSONException, Error, ErrorList {
+        JSONObject lineItemParams = new JSONObject("{" +
+            "  'name': 'Box of Cohiba S1s'," +
+            "  'description': 'Imported From Mex.'," +
+            "  'unit_price': 20000," +
+            "  'quantity': 1," +
+            "  'type': 'physical'," +
+            "  'tags': ['food', 'mexican food']" +
+            "}");
+
+        Order order = Order.create(validOrder);
+
+        LineItems lineItem = order.createLineItem(lineItemParams);
+
+        assertTrue(order.line_items instanceof ConektaList);
+        assertTrue(lineItem instanceof LineItems);
+    }
 }

@@ -7,6 +7,9 @@ package com.conekta;
 
 import java.lang.reflect.Field;
 import java.util.HashMap;
+import locales.Lang;
+import org.json.JSONArray;
+import org.json.JSONObject;
 
 /**
  *
@@ -21,6 +24,12 @@ public class LineItems extends Resource {
     public String type;
     public String category;
     public HashMap vertical_related_fields = new HashMap();
+    public Order order;
+    public Boolean shippable;
+    public JSONArray tags;
+    public String brand;
+    public HashMap metadata;
+    public Boolean deleted;
     
     // Helper method to access line item fields
     public String get(String key) {
@@ -39,4 +48,25 @@ public class LineItems extends Resource {
     public void addVerticalRelatedField(String key, String value) {
         vertical_related_fields.put(key, value);
     }
+    
+    @Override
+    public String instanceUrl() throws Error {
+        if (id == null || id.length() == 0) {
+            HashMap parameters = new HashMap();
+            parameters.put("RESOURCE", this.getClass().getSimpleName());
+            throw new Error(Lang.translate("error.resource.id", parameters, Lang.EN),
+                    Lang.translate("error.resource.id_purchaser", parameters, Conekta.locale), null, null, null);
+        }
+        String base = this.order.instanceUrl();
+        return base + "/line_items/" + id;
+    }
+    
+    @Override
+    public void update(JSONObject params) throws Error, ErrorList {
+        super.update(params);
+    }
+
+    public LineItems delete() throws Error, ErrorList {
+        return ((LineItems) this.delete(null, null));
+    } 
 }

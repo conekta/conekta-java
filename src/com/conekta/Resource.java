@@ -1,6 +1,5 @@
 package com.conekta;
 
-
 import java.lang.reflect.Constructor;
 import java.lang.reflect.Field;
 import java.util.HashMap;
@@ -13,7 +12,6 @@ import org.json.JSONObject;
  *
  * @author mauricio
  */
-
 public class Resource extends ConektaObject {
 
     public Resource(String id) {

@@ -4,7 +4,6 @@ package com.conekta;
  *
  * @author mauricio
  */
-
 import java.lang.reflect.Constructor;
 import java.lang.reflect.Field;
 import java.util.HashMap;
