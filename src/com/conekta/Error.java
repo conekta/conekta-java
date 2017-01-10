@@ -44,17 +44,13 @@ public class Error extends Exception {
         this.params = params;
     }
     
-    public Error(JSONObject error) throws JSONException {
+    public Error(JSONObject error, int code) throws JSONException {
         super(error.getString("message"));
         String message = error.getString("message");
         String messageToPurchaser = error.getString("message_to_purchaser");
         String param = error.getString("param");
         
-        if(!error.isNull("code")) {
-            int code = error.getInt("code");
-        } else {
-            int code = -1;
-        }
+        this.code = code;
         
         String validationError = error.getString("validation_error");
         String customMessage = error.getString("custom_message");

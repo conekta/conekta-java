@@ -27,7 +27,7 @@ public class ErrorList extends Exception{
             for(int x = 0; x < errors.length(); x++){
                 JSONObject error = errors.getJSONObject(x);
                 
-                errorList.details.add(new Error(error));
+                errorList.details.add(new Error(error, httpStatus));
             }
         }
         

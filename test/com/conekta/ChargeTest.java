@@ -24,7 +24,7 @@ public class ChargeTest extends ConektaTest {
         valid_payment_method = new JSONObject("{'description':'Stogies'," +
                 "'reference_id':'9839-wolf_pack'," +
                 "'amount':20000," +
-                "'currency':'MXN',"+
+                "'currency':'MXN'," +
                 "'details':{'name':'Wolverine', 'phone':'403-342-0642', 'email':'logan@x-men.org', 'billing_address': {'street1':'tamesis'}, line_items: [{'name':'Box of Cohiba S1s', 'sku':'cohb_s1','unit_price': 20000,'description':'Imported from Mex.','quantity':1,'type':'other_human_consumption'}]}"+
                 "}");
         invalid_payment_method = new JSONObject("{'description':'Stogies'," +
@@ -34,46 +34,46 @@ public class ChargeTest extends ConektaTest {
         valid_visa_card = new JSONObject("{'card':'tok_test_visa_4242'}");
 
         params = new JSONObject("{"+
-"    'currency': 'MXN',"+
-"    'details': {"+
-"        'billing_address': {"+
-"            'zip': '53422',"+
-"            'state': 'Estado de Mexico',"+
-"            'country': 'MX',"+
-"            'city': 'Naucalpan',"+
-"            'email': 'oscar.jimenez+loctommy@edgebound.com',"+
-"            'phone': '5514945290',"+
-"            'street1': 'Los Remedios 17, Loma Colorada 2a Seccion'"+
-"        },"+
-"        'line_items': ["+
-"            {"+
-"                'type': 'ecommerce_shopping',"+
-"                'quantity': 2,"+
-"                'name': 'Bg Ss Shoshanna Yd Polo Dress',"+
-"                'description': 'Un vestido que podría ser definido como sporty- chic. De cuello blanco y líneas horizontales en varios colores, hace referencia a la vida en altamar.  ',"+
-"                'sku': '7500244741187',"+
-"                'unit_price': 59000"+
-"            },"+
-"            {"+
-"                'type': 'ecommerce_shopping',"+
-"                'quantity': 1,"+
-"                'name': 'Farris Chino Gmd St',"+
-"                'description': 'Producto Tommy',"+
-"                'sku': '8718771353202',"+
-"                'unit_price': 69000"+
-"            }"+
-"        ],"+
-"        'name': 'Oscar',"+
-"        'email': 'oscar.jimenez+loctommy@edgebound.com',"+
-"        'phone': '5514945290'"+
-"    },"+
-"    'amount': 187000,"+
-"    'bank': {"+
-"        'type': 'banorte'"+
-"    },"+
-"    'description': 'Stogies',"+
-"    'reference_id': 'conekta.tommy_12014_11019'"+
-"}");
+        "    'currency': 'MXN',"+
+        "    'details': {"+
+        "        'billing_address': {"+
+        "            'zip': '53422',"+
+        "            'state': 'Estado de Mexico',"+
+        "            'country': 'MX',"+
+        "            'city': 'Naucalpan',"+
+        "            'email': 'oscar.jimenez+loctommy@edgebound.com',"+
+        "            'phone': '5514945290',"+
+        "            'street1': 'Los Remedios 17, Loma Colorada 2a Seccion'"+
+        "        },"+
+        "        'line_items': ["+
+        "            {"+
+        "                'type': 'ecommerce_shopping',"+
+        "                'quantity': 2,"+
+        "                'name': 'Bg Ss Shoshanna Yd Polo Dress',"+
+        "                'description': 'Un vestido que podría ser definido como sporty- chic. De cuello blanco y líneas horizontales en varios colores, hace referencia a la vida en altamar.  ',"+
+        "                'sku': '7500244741187',"+
+        "                'unit_price': 59000"+
+        "            },"+
+        "            {"+
+        "                'type': 'ecommerce_shopping',"+
+        "                'quantity': 1,"+
+        "                'name': 'Farris Chino Gmd St',"+
+        "                'description': 'Producto Tommy',"+
+        "                'sku': '8718771353202',"+
+        "                'unit_price': 69000"+
+        "            }"+
+        "        ],"+
+        "        'name': 'Oscar',"+
+        "        'email': 'oscar.jimenez+loctommy@edgebound.com',"+
+        "        'phone': '5514945290'"+
+        "    },"+
+        "    'amount': 187000,"+
+        "    'bank': {"+
+        "        'type': 'banorte'"+
+        "    },"+
+        "    'description': 'Stogies',"+
+        "    'reference_id': 'conekta.tommy_12014_11019'"+
+        "}");
     }   
 
     public Charge testSuccesfulCardPMCreate() throws Exception {
