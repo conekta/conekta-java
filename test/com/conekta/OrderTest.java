@@ -1,5 +1,6 @@
 package com.conekta;
 
+import org.json.JSONArray;
 import org.json.JSONException;
 import org.json.JSONObject;
 
@@ -11,6 +12,7 @@ public class OrderTest extends ConektaTest{
 
     JSONObject validOrder;
     JSONObject customerInfo;
+    JSONObject validCharge;
 
     public OrderTest() throws JSONException {
         super();
@@ -38,6 +40,15 @@ public class OrderTest extends ConektaTest{
             "  'email': 'hola@hola.com'" +
             "}"
         );
+        
+        validCharge = new JSONObject("{"
+                + "'source': {"
+                + "    'type': 'card',"
+                + "    'token_id': 'tok_test_visa_4242'"
+                + "}, "
+                + "'amount': 35000"
+                + "}");
+
     }
 
     //@Test
@@ -186,5 +197,20 @@ public class OrderTest extends ConektaTest{
         assertTrue(order.tax_lines.size() == 2);
         assertTrue(taxLine instanceof TaxLine);
         assertTrue(((String)taxLine.metadata.get("some_random")).equals("Stuff"));
+    }
+    
+    // @Test
+    public void testSuccessfulOrderCapture() throws JSONException, Error, ErrorList {
+        validOrder.put("capture", false);
+        validOrder.put("customer_info", customerInfo);
+        JSONArray chargesArray = new JSONArray();
+        chargesArray.put(validCharge);
+        validOrder.put("charges", chargesArray);
+
+        Order order = Order.create(validOrder);
+
+        order.capture();
+
+        assertTrue(order.capture);
     }
 }

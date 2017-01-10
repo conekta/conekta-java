@@ -25,6 +25,7 @@ public class Order extends Resource {
     public ConektaList discount_lines;
     public ShippingContact shipping_contact;
     public ConektaList tax_lines;
+    public Boolean capture;
 
     public Order(String id) {
         super(id);
@@ -111,5 +112,9 @@ public class Order extends Resource {
 
     public TaxLine createTaxLine(JSONObject params) throws JSONException, Error, ErrorList{
         return (TaxLine) this.createMember("tax_lines", params);
+    }
+    
+    public void capture() throws JSONException, Error, ErrorList{
+        this.customAction("PUT", "capture", null);
     }
 }
