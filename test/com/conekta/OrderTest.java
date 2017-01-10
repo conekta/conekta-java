@@ -61,9 +61,9 @@ public class OrderTest extends ConektaTest{
         newOrderData.put("customer_info", customerInfo);
         Order order = Order.create(validOrder);
 
-       order.update(newOrderData);
+        order.update(newOrderData);
 
-       assertTrue(order.customer_info.get("phone").equals("+5213353319758"));
+        assertTrue(order.customer_info.get("phone").equals("+5213353319758"));
     }
 
     //@Test
@@ -291,5 +291,45 @@ public class OrderTest extends ConektaTest{
         dt = c.getTime();
         
         return dt.getTime()/1000L;
+    }
+
+    public void testSuccessfulShippingLineCreate() throws JSONException, Error, ErrorList {
+        JSONObject shippingLineParams = new JSONObject("{" +
+        "    'description': 'Free Shipping'," +
+        "    'amount': 0," +
+        "    'tracking_number': 'TRACK123'," +
+        "    'carrier': 'USPS'," +
+        "    'method': 'Train'," +
+        "    'metadata': {" +
+        "        'some_random': 'Stuff'" +
+        "    }" +
+        "}");
+
+        Order order = Order.create(validOrder);
+
+        ShippingLine shippingLine = order.createShippingLine(shippingLineParams);
+
+        assertTrue(order.shipping_lines instanceof ConektaList);
+        assertTrue(order.shipping_lines.size() == 1);
+        assertTrue(shippingLine instanceof ShippingLine);
+        assertTrue(((String)shippingLine.metadata.get("some_random")).equals("Stuff"));
+    }
+
+    public void testSuccessfulLineItemCreate() throws JSONException, Error, ErrorList {
+        JSONObject lineItemParams = new JSONObject("{" +
+            "  'name': 'Box of Cohiba S1s'," +
+            "  'description': 'Imported From Mex.'," +
+            "  'unit_price': 20000," +
+            "  'quantity': 1," +
+            "  'type': 'physical'," +
+            "  'tags': ['food', 'mexican food']" +
+            "}");
+
+        Order order = Order.create(validOrder);
+
+        LineItems lineItem = order.createLineItem(lineItemParams);
+
+        assertTrue(order.line_items instanceof ConektaList);
+        assertTrue(lineItem instanceof LineItems);
     }
 }
