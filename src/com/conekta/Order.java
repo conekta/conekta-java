@@ -2,7 +2,6 @@ package com.conekta;
 
 import java.lang.reflect.Field;
 import java.util.HashMap;
-import org.json.JSONArray;
 import org.json.JSONException;
 import org.json.JSONObject;
 
@@ -26,6 +25,10 @@ public class Order extends Resource {
     public ShippingContact shipping_contact;
     public ConektaList tax_lines;
     public Boolean capture;
+    public ConektaList charges;
+    public ConektaList shipping_lines;
+    public ConektaList line_items;
+    public Integer amount_refunded;
 
     public Order(String id) {
         super(id);
@@ -46,7 +49,7 @@ public class Order extends Resource {
         }
 
         if(Conekta.apiVersion.equals("1.1.0")){
-            String[] submodels = { "discount_lines", "tax_lines" };
+            String[] submodels = { "discount_lines", "tax_lines", "shipping_lines", "line_items", "charges" };
 
             for (String submodel : submodels) {
                 ConektaList list = new ConektaList(submodel);
@@ -68,6 +71,27 @@ public class Order extends Resource {
                     for (Object item : list){
                         TaxLine taxLine = (TaxLine) item;
                         taxLine.order = this;
+                    }
+                }
+
+                if(list.elements_type.equals("charges")){
+                    for (Object item : list){
+                        Charge charge = (Charge) item;
+                        charge.order = this;
+                    }
+                }
+ 
+                if(list.elements_type.equals("shipping_lines")){
+                    for (Object item : list){
+                        ShippingLine shippingLine = (ShippingLine) item;
+                        shippingLine.order = this;
+                    }
+                }
+
+                if(list.elements_type.equals("line_items")){
+                    for (Object item : list){
+                        LineItems lineItem = (LineItems) item;
+                        lineItem.order = this;
                     }
                 }
             }
@@ -108,7 +132,7 @@ public class Order extends Resource {
         this.update(updateParams);
 
         return this.shipping_contact;
-      }
+    }
 
     public TaxLine createTaxLine(JSONObject params) throws JSONException, Error, ErrorList{
         return (TaxLine) this.createMember("tax_lines", params);
@@ -116,5 +140,17 @@ public class Order extends Resource {
     
     public void capture() throws JSONException, Error, ErrorList{
         this.customAction("PUT", "capture", null);
+    }
+
+    public Charge createCharge(JSONObject params) throws JSONException, Error, ErrorList{
+        return (Charge) this.createMember("charges", params);
+    }
+  
+    public ShippingLine createShippingLine(JSONObject params) throws JSONException, Error, ErrorList{
+        return (ShippingLine) this.createMember("shipping_lines", params);
+    }
+
+    public LineItems createLineItem(JSONObject params) throws JSONException, Error, ErrorList{
+        return (LineItems) this.createMember("line_items", params);
     }
 }

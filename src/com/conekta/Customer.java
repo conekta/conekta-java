@@ -21,6 +21,7 @@ public class Customer extends Resource {
     public Boolean deleted;
     public ConektaList fiscal_entities;
     public ConektaList shipping_contacts;
+    public ConektaList sources;
 
     public Customer(String id) {
         super(id);
@@ -45,8 +46,8 @@ public class Customer extends Resource {
         }
         
         if(Conekta.apiVersion.equals("1.1.0")){
-            String[] submodels = { "fiscal_entities", "shipping_contacts" };
-            
+            String[] submodels = { "fiscal_entities", "shipping_contacts", "sources" };
+
             for (String submodel : submodels) {
                 ConektaList list = new ConektaList(submodel);
                 list.loadFrom(jsonObject.getJSONObject(submodel));
@@ -62,11 +63,18 @@ public class Customer extends Resource {
                         fiscalEntity.customer = this;
                     }
                 }
-                
+
                 if(list.elements_type.equals("shipping_contacts")){
                     for (Object item : list){
                         ShippingContact shippingContact = (ShippingContact) item;
                         shippingContact.customer = this;
+                    }
+                }
+
+                if(list.elements_type.equals("sources")){
+                    for (Object item : list){
+                        Source source = (Source) item;
+                        source.customer = this;
                     }
                 }
             }
@@ -120,8 +128,12 @@ public class Customer extends Resource {
     public FiscalEntity createFiscalEntity(JSONObject params) throws JSONException, Error, ErrorList{
         return (FiscalEntity) this.createMember("fiscal_entities", params);
     }
-    
+
     public ShippingContact createShippingContact(JSONObject params) throws JSONException, Error, ErrorList{
         return (ShippingContact) this.createMember("shipping_contacts", params);
+    }
+
+    public Source createSource(JSONObject params) throws JSONException, Error, ErrorList{
+        return (Source) this.createMember("sources", params);
     }
 }

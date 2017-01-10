@@ -17,6 +17,10 @@ public class Utils {
         classes.put("discount_lines", DiscountLine.class.getCanonicalName());
         classes.put("shipping_contacts", ShippingContact.class.getCanonicalName());
         classes.put("tax_lines", TaxLine.class.getCanonicalName());
+        classes.put("charges", Charge.class.getCanonicalName());
+        classes.put("shipping_lines", ShippingLine.class.getCanonicalName());
+        classes.put("line_items", LineItems.class.getCanonicalName());
+        classes.put("sources", Source.class.getCanonicalName());
     }
 
     public static Utils getInstance() {
