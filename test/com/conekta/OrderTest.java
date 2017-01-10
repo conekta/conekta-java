@@ -1,5 +1,7 @@
 package com.conekta;
 
+import java.util.Calendar;
+import java.util.Date;
 import org.json.JSONException;
 import org.json.JSONObject;
 
@@ -186,6 +188,109 @@ public class OrderTest extends ConektaTest{
         assertTrue(order.tax_lines.size() == 2);
         assertTrue(taxLine instanceof TaxLine);
         assertTrue(((String)taxLine.metadata.get("some_random")).equals("Stuff"));
+    }
+
+    // @Test
+    public void testSuccessfulChargeCreate() throws JSONException, Error, ErrorList {
+        JSONObject chargeParams = new JSONObject("{"
+                + "'source': {"
+                + "    'type': 'oxxo_cash'"
+                + "}, "
+                + "'amount': 35000"
+                + "}");
+
+        Order order = Order.create(validOrder.put("customer_info", customerInfo));
+
+        Charge charge = order.createCharge(chargeParams);
+
+        assertTrue(order.charges instanceof ConektaList);
+        assertTrue(charge instanceof Charge);
+    }
+    
+    //@Test
+    public void testSuccesfulBankPMCreate() throws Exception {
+        JSONObject chargeParams = new JSONObject("{"
+                + "'source': {"
+                + "    'type': 'banorte',"
+                + "    'expires_at': " + tomorrow()
+                + "}, "
+                + "'amount': 35000"
+                + "}");
+
+        Order order = Order.create(validOrder.put("customer_info", customerInfo));
+
+        Charge charge = order.createCharge(chargeParams);
+
+        assertTrue(order.charges instanceof ConektaList);
+        assertTrue(charge instanceof Charge);
+    }
+    
+    //@Test
+    public void testSuccesfulSPEIPMCreate() throws Exception {
+        JSONObject chargeParams = new JSONObject("{"
+                + "'source': {"
+                + "    'type': 'spei',"
+                + "    'expires_at': " + tomorrow()
+                + "}, "
+                + "'amount': 35000"
+                + "}");
+
+        Order order = Order.create(validOrder.put("customer_info", customerInfo));
+
+        Charge charge = order.createCharge(chargeParams);
+
+        assertTrue(order.charges instanceof ConektaList);
+        assertTrue(charge instanceof Charge);
+    }
+
+    //@Test
+    public void testSuccesfulCardCreate() throws Exception {
+        JSONObject chargeParams = new JSONObject("{"
+                + "'source': {"
+                + "    'type': 'card',"
+                + "    'token_id': 'tok_test_visa_4242'"
+                + "}, "
+                + "'amount': 35000"
+                + "}");
+
+        Order order = Order.create(validOrder.put("customer_info", customerInfo));
+
+        Charge charge = order.createCharge(chargeParams);
+
+        assertTrue(order.charges instanceof ConektaList);
+        assertTrue(charge instanceof Charge);
+        
+    }
+    
+    //@Test
+    public void testUnsuccesfulCardCreate() throws Exception {
+        setApiVersion("1.1.0");
+        JSONObject chargeParams = new JSONObject("{"
+                + "'source': {"
+                + "    'type': 'card',"
+                + "    'token_id': 'tok_test_card_declined'"
+                + "}, "
+                + "'amount': 35000"
+                + "}");
+
+        Order order = Order.create(validOrder.put("customer_info", customerInfo));
+        
+        try {
+            Charge charge = order.createCharge(chargeParams);
+        } catch(ErrorList e) {
+            assertTrue(e.details.get(0).message_to_purchaser.equals("La tarjeta ingresada ha sido declinada. Por favor intenta con otro método de pago."));
+        }
+
+    }
+
+    private long tomorrow(){
+        Date dt = new Date();
+        Calendar c = Calendar.getInstance(); 
+        c.setTime(dt); 
+        c.add(Calendar.DATE, 1);
+        dt = c.getTime();
+        
+        return dt.getTime()/1000L;
     }
 
     public void testSuccessfulShippingLineCreate() throws JSONException, Error, ErrorList {

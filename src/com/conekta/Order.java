@@ -24,6 +24,7 @@ public class Order extends Resource {
     public ConektaList discount_lines;
     public ShippingContact shipping_contact;
     public ConektaList tax_lines;
+    public ConektaList charges;
     public ConektaList shipping_lines;
     public ConektaList line_items;
     public Integer amount_refunded;
@@ -47,7 +48,7 @@ public class Order extends Resource {
         }
 
         if(Conekta.apiVersion.equals("1.1.0")){
-            String[] submodels = { "discount_lines", "tax_lines", "shipping_lines", "line_items" };
+            String[] submodels = { "discount_lines", "tax_lines", "shipping_lines", "line_items", "charges" };
 
             for (String submodel : submodels) {
                 ConektaList list = new ConektaList(submodel);
@@ -71,7 +72,14 @@ public class Order extends Resource {
                         taxLine.order = this;
                     }
                 }
-                
+
+                if(list.elements_type.equals("charges")){
+                    for (Object item : list){
+                        Charge charge = (Charge) item;
+                        charge.order = this;
+                    }
+                }
+ 
                 if(list.elements_type.equals("shipping_lines")){
                     for (Object item : list){
                         ShippingLine shippingLine = (ShippingLine) item;
@@ -129,6 +137,10 @@ public class Order extends Resource {
         return (TaxLine) this.createMember("tax_lines", params);
     }
 
+    public Charge createCharge(JSONObject params) throws JSONException, Error, ErrorList{
+        return (Charge) this.createMember("charges", params);
+    }
+  
     public ShippingLine createShippingLine(JSONObject params) throws JSONException, Error, ErrorList{
         return (ShippingLine) this.createMember("shipping_lines", params);
     }
