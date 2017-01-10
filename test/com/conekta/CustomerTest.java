@@ -200,4 +200,20 @@ public class CustomerTest extends ConektaTest {
 
         assertTrue(((ShippingContact) customer.shipping_contacts.get(0)) instanceof ShippingContact);
     }
+
+    public void testSuccessfulSourceCreate() throws JSONException, Error, ErrorList {
+        setApiVersion("1.1.0");
+
+        JSONObject sourceParams = new JSONObject("{" +
+        "    'token_id': 'tok_test_visa_4242'," +
+        "    'type': 'card'" +
+        "  }");
+        
+        Customer customer = Customer.create(valid_visa_card);
+        
+        Source source = customer.createSource(sourceParams);
+                
+        assertTrue(source instanceof Source);
+        assertTrue(customer.sources.size() == 1);
+    }
 }
