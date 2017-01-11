@@ -21,6 +21,7 @@ public class Utils {
         classes.put("shipping_lines", ShippingLine.class.getCanonicalName());
         classes.put("line_items", LineItems.class.getCanonicalName());
         classes.put("sources", Source.class.getCanonicalName());
+        classes.put("returns", OrderReturn.class.getCanonicalName());
     }
 
     public static Utils getInstance() {

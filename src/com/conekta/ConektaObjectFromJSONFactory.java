@@ -22,6 +22,11 @@ public abstract class ConektaObjectFromJSONFactory {
                 if (attributeName.equals("line_item")) {
                     attributeName = "line_items";
                 }
+                
+                if (attributeName.equals("return")) {
+                    attributeName = "order_return";
+                }
+ 
                 conektaObject = (ConektaObject) Class.forName("com.conekta."+ConektaObject.toCamelCase(attributeName)).newInstance();
                 conektaObject.loadFromObject(jsonObject);
             } catch (Exception e) {

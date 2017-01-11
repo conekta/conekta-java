@@ -4,8 +4,6 @@ package com.conekta;
  *
  * @author mauricio
  */
-
-import android.util.Base64;
 import java.io.BufferedReader;
 import java.io.BufferedWriter;
 import java.io.IOException;
@@ -19,6 +17,7 @@ import java.net.URLEncoder;
 import java.security.KeyStore;
 import java.security.cert.CertificateFactory;
 import java.security.cert.X509Certificate;
+import java.util.Base64;
 import java.util.Iterator;
 import javax.net.ssl.SSLContext;
 import javax.net.ssl.TrustManagerFactory;
@@ -61,7 +60,7 @@ public class Requestor {
             if (Conekta.apiKey == null || Conekta.apiKey.isEmpty())
                 throw new AuthenticationError("api_key was not set!", null, null, null, null);
         try {
-            base64 = Base64.encodeToString(Conekta.apiKey.getBytes("UTF-8"), Base64.NO_WRAP);
+            base64 = Base64.getEncoder().encodeToString(Conekta.apiKey.getBytes("UTF-8"));
             this.connection.setRequestProperty("Authorization", "Basic " + base64);
         } catch (Exception e) {
             throw new Error(e.getMessage(), null, null, null, null);
