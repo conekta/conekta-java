@@ -28,6 +28,7 @@ public class Order extends Resource {
     public ConektaList charges;
     public ConektaList shipping_lines;
     public ConektaList line_items;
+    public ConektaList returns;
     public Integer amount_refunded;
 
     public Order(String id) {
@@ -49,7 +50,7 @@ public class Order extends Resource {
         }
 
         if(Conekta.apiVersion.equals("1.1.0")){
-            String[] submodels = { "discount_lines", "tax_lines", "shipping_lines", "line_items", "charges" };
+            String[] submodels = { "discount_lines", "tax_lines", "shipping_lines", "line_items", "charges", "returns" };
 
             for (String submodel : submodels) {
                 ConektaList list = new ConektaList(submodel);
@@ -94,8 +95,21 @@ public class Order extends Resource {
                         lineItem.order = this;
                     }
                 }
+
+                if(list.elements_type.equals("returns")){
+                    for (Object item : list){
+                        OrderReturn orderReturn = (OrderReturn) item;
+                        orderReturn.order = this;
+                    }
+                }
             }
         }
+    }
+    
+    public void reload() throws Exception{
+        Requestor requestor = new Requestor();
+        JSONObject orderJson = (JSONObject) requestor.request("GET", this.instanceUrl(), null);
+        this.loadFromObject(orderJson);
     }
 
     public static Order create(JSONObject params) throws ErrorList, Error {
@@ -152,5 +166,11 @@ public class Order extends Resource {
 
     public LineItems createLineItem(JSONObject params) throws JSONException, Error, ErrorList{
         return (LineItems) this.createMember("line_items", params);
+    }
+    
+    public OrderReturn createReturn(JSONObject params) throws Exception {
+        OrderReturn orderReturn = (OrderReturn) this.createMember("returns", params);
+        this.reload();
+        return orderReturn;
     }
 }

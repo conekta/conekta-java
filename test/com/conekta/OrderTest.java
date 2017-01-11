@@ -1,8 +1,8 @@
 package com.conekta;
 
-import org.json.JSONArray;
 import java.util.Calendar;
 import java.util.Date;
+import org.json.JSONArray;
 import org.json.JSONException;
 import org.json.JSONObject;
 
@@ -357,5 +357,31 @@ public class OrderTest extends ConektaTest{
 
         assertTrue(order.line_items instanceof ConektaList);
         assertTrue(lineItem instanceof LineItems);
+    }
+
+    // @Test
+    public void testSuccessfulOrderReturn() throws Exception {
+        validOrder.put("customer_info", customerInfo);
+        JSONArray chargesArray = new JSONArray();
+        chargesArray.put(validCharge);
+        validOrder.put("charges", chargesArray);
+
+        Order order = Order.create(validOrder);
+        
+        JSONObject validReturn = new JSONObject(
+            "{" +
+            "  'amount': 35000," +
+            "  'reason': 'Reason return'," +
+            "  'currency': 'MXN'," +
+            "  'order_id': '" + order.id + "'" +
+            "}"
+        );
+
+        OrderReturn orderReturn = order.createReturn(validReturn);
+
+        assertTrue(order.status.equals("returned"));
+        assertTrue(orderReturn instanceof OrderReturn);
+        assertTrue(order.returns instanceof ConektaList);
+        assertTrue(order.returns.size() == 1);
     }
 }
