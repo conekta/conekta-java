@@ -12,7 +12,7 @@ Obtain the latest version of the Conekta Java bindings with:
 
 To get started, add the following to your Java code:
 
-    import com.conekta;
+    import io.conekta;
 
 ## Usage
 ```java    
