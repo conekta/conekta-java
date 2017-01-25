@@ -49,32 +49,36 @@ public class Customer extends Resource {
             String[] submodels = { "fiscal_entities", "shipping_contacts", "sources" };
 
             for (String submodel : submodels) {
-                ConektaList list = new ConektaList(submodel);
-                list.loadFrom(jsonObject.getJSONObject(submodel));
-                
-                Field field = this.getClass().getField(submodel);
-                field.setAccessible(true);
-                field.set(this, list);
-                this.setVal(submodel, list);
-                
-                if(list.elements_type.equals("fiscal_entities")){
-                    for (Object item : list){
-                        FiscalEntity fiscalEntity = (FiscalEntity) item;
-                        fiscalEntity.customer = this;
-                    }
-                }
+                if (jsonObject.has(submodel)){
+                    ConektaList list = new ConektaList(submodel);
+                    list.loadFrom(jsonObject.getJSONObject(submodel));
 
-                if(list.elements_type.equals("shipping_contacts")){
-                    for (Object item : list){
-                        ShippingContact shippingContact = (ShippingContact) item;
-                        shippingContact.customer = this;
-                    }
-                }
+                    Field field = this.getClass().getField(submodel);
+                    field.setAccessible(true);
+                    field.set(this, list);
+                    this.setVal(submodel, list);
 
-                if(list.elements_type.equals("sources")){
-                    for (Object item : list){
-                        Source source = (Source) item;
-                        source.customer = this;
+
+
+                    if(list.elements_type.equals("fiscal_entities")){
+                        for (Object item : list){
+                            FiscalEntity fiscalEntity = (FiscalEntity) item;
+                            fiscalEntity.customer = this;
+                        }
+                    }
+
+                    if(list.elements_type.equals("shipping_contacts")){
+                        for (Object item : list){
+                            ShippingContact shippingContact = (ShippingContact) item;
+                            shippingContact.customer = this;
+                        }
+                    }
+
+                    if(list.elements_type.equals("sources")){
+                        for (Object item : list){
+                            Source source = (Source) item;
+                            source.customer = this;
+                        }
                     }
                 }
             }

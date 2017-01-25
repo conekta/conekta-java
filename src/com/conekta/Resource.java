@@ -63,6 +63,7 @@ public class Resource extends ConektaObject {
         Requestor requestor = new Requestor();
         String url = Resource.classUrl(className);
         JSONObject jsonObject = (JSONObject) requestor.request("POST", url, params);
+        
         ConektaObject resource;
         try {
             resource = (ConektaObject) Class.forName(className).newInstance();

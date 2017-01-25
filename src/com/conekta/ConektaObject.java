@@ -77,11 +77,13 @@ public class ConektaObject extends ArrayList {
     }
 
     public void loadFromObject(JSONObject jsonObject) throws Exception {
-
+        
         Iterator itr = jsonObject.keys();
         while (itr.hasNext()) {
             String key = itr.next().toString();
+            
             Object obj = jsonObject.get(key);
+            
             try {
                 Field field = this.getClass().getField(key);
                 field.setAccessible(true);
@@ -115,6 +117,7 @@ public class ConektaObject extends ArrayList {
                             this.setVal(key, attr);
                         } else if (obj instanceof JSONObject){
                             JSONObject hashObject = jsonObject.getJSONObject(key);
+                            
                             Iterator jsonKeys = hashObject.keys();
                             HashMap map = new HashMap();
                             while(jsonKeys.hasNext()){

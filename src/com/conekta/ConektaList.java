@@ -72,6 +72,7 @@ public class ConektaList extends ConektaObject{
         
         String className = (String) Utils.getInstance().types.get(this.elements_type);     
         String url = Resource.classUrl(className);
+        
         Requestor requestor = new Requestor();
         JSONObject response = (JSONObject) requestor.request("GET", url, this.params);
         this.loadFrom(response);

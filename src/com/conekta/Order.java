@@ -54,54 +54,59 @@ public class Order extends Resource {
 
             for (String submodel : submodels) {
                 ConektaList list = new ConektaList(submodel);
-                list.loadFrom(jsonObject.getJSONObject(submodel));
+                
+                if(jsonObject.has(submodel)){
+                    list.loadFrom(jsonObject.getJSONObject(submodel));
 
-                Field field = this.getClass().getField(submodel);
-                field.setAccessible(true);
-                field.set(this, list);
-                this.setVal(submodel, list);
+                    Field field = this.getClass().getField(submodel);
+                    field.setAccessible(true);
+                    field.set(this, list);
+                    this.setVal(submodel, list);
+                    
+                    if(jsonObject.has("discount_lines")){
+                        if(list.elements_type.equals("discount_lines")){
+                            for (Object item : list){
+                                DiscountLine discountLine = (DiscountLine) item;
+                                discountLine.order = this;
+                            }
+                        }
+                    }
 
-                if(list.elements_type.equals("discount_lines")){
-                    for (Object item : list){
-                        DiscountLine discountLine = (DiscountLine) item;
-                        discountLine.order = this;
+                    if(list.elements_type.equals("tax_lines")){
+                        for (Object item : list){
+                            TaxLine taxLine = (TaxLine) item;
+                            taxLine.order = this;
+                        }
                     }
-                }
 
-                if(list.elements_type.equals("tax_lines")){
-                    for (Object item : list){
-                        TaxLine taxLine = (TaxLine) item;
-                        taxLine.order = this;
+                    if(list.elements_type.equals("charges")){
+                        for (Object item : list){
+                            Charge charge = (Charge) item;
+                            charge.order = this;
+                        }
                     }
-                }
 
-                if(list.elements_type.equals("charges")){
-                    for (Object item : list){
-                        Charge charge = (Charge) item;
-                        charge.order = this;
+                    if(list.elements_type.equals("shipping_lines")){
+                        for (Object item : list){
+                            ShippingLine shippingLine = (ShippingLine) item;
+                            shippingLine.order = this;
+                        }
                     }
-                }
- 
-                if(list.elements_type.equals("shipping_lines")){
-                    for (Object item : list){
-                        ShippingLine shippingLine = (ShippingLine) item;
-                        shippingLine.order = this;
-                    }
-                }
 
-                if(list.elements_type.equals("line_items")){
-                    for (Object item : list){
-                        LineItems lineItem = (LineItems) item;
-                        lineItem.order = this;
+                    if(list.elements_type.equals("line_items")){
+                        for (Object item : list){
+                            LineItems lineItem = (LineItems) item;
+                            lineItem.order = this;
+                        }
                     }
-                }
 
-                if(list.elements_type.equals("returns")){
-                    for (Object item : list){
-                        OrderReturn orderReturn = (OrderReturn) item;
-                        orderReturn.order = this;
+                    if(list.elements_type.equals("returns")){
+                        for (Object item : list){
+                            OrderReturn orderReturn = (OrderReturn) item;
+                            orderReturn.order = this;
+                        }
                     }
-                }
+                }                
             }
         }
     }
