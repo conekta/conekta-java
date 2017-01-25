@@ -96,6 +96,8 @@ public class OrderTest extends ConektaTest{
     public void testSuccesfulOrderWhere() throws Exception {
         JSONObject paginateParams = new JSONObject("{'limit': 10}");
 
+        System.out.print("testSuccesfulOrderWhere: \n"); 
+         
         ConektaList orders = Order.where(paginateParams);
         Order order = (Order) orders.get(0);
 
@@ -132,9 +134,9 @@ public class OrderTest extends ConektaTest{
     // @Test
     public void testSuccessfulDiscountLineCreate() throws JSONException, Error, ErrorList {
         JSONObject discountLineParams = new JSONObject("{" +
-            "    'description': 'Cupon de descuento'," +
+            "    'code': 'Cupon de descuento'," +
             "    'amount': 5," +
-            "    'kind': 'loyalty'" +
+            "    'type': 'loyalty'" +
             "}");
 
         Order order = Order.create(validOrder);

@@ -22,6 +22,7 @@ public class ErrorList extends Exception{
     
     public static void errorHandle(JSONObject response, int httpStatus) throws JSONException, ErrorList {
         JSONArray errors = response.getJSONArray("details");
+  
         ErrorList errorList = new ErrorList(response.getString("object"), response.getString("type"));
         if(response.has("details") && errors.length() > 0) {
             for(int x = 0; x < errors.length(); x++){

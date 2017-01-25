@@ -51,9 +51,16 @@ public class TaxLineTest extends ConektaTest{
     
     // @Test
     public void testFiscalEntityUpdate() throws ErrorList, Error, JSONException{
+        
+        System.out.print("ORDER STARTED: \n"); 
+        
         Order order = Order.create(validOrder);
         
+        System.out.print("CREATE: \n"); 
+        
         TaxLine taxLine = (TaxLine) order.tax_lines.get(0);
+        
+        System.out.print("taxLine: \n"); 
         
         taxLine.update(new JSONObject("{ 'amount': 10 }"));
         

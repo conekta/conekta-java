@@ -33,7 +33,7 @@ public class ShippingLineTest extends ConektaTest {
             "        'amount': 0," +
             "        'tracking_number': 'TRACK123'," +
             "        'carrier': 'USPS'," +
-            "       'method': 'Train'" +
+            "        'method': 'Train'" +
             "    }" +
             "]" +
             "}"

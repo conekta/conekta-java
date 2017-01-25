@@ -21,14 +21,14 @@ public class PlanTest extends ConektaTest {
         super();
         ConektaObject plans = Plan.where();
         id = (new Random()).nextInt(1000);
-        params = new JSONObject("{'id' : 'gold-plan"+ id +"','name' : 'Gold Plan','amount' : 10000,'currency' : 'MXN','interval' : 'month','frequency' : 10,'trial_period_days' : 15,'expiry_count' : 12}");
+        params = new JSONObject("{'id' : 'gold-plan2"+ id +"','name' : 'Gold Plan','amount' : 10000,'currency' : 'MXN','interval' : 'month','frequency' : 10,'trial_period_days' : 15,'expiry_count' : 12}");
     }
 
     // @Test
     public void testSuccesfulPlanCreate() throws Error, ErrorList {
        ConektaObject plans = Plan.where();
        Plan plan = Plan.create(params);
-       assertTrue(plan.id.equals("gold-plan"+id));
+       assertTrue(plan.id.equals("gold-plan2"+id));
     }
 
     // @Test

@@ -29,14 +29,14 @@ public class DiscountLineTest extends ConektaTest {
             "  }],"
             + "'discount_lines': [" +
             "    {" +
-            "        'description': 'Cupon de descuento'," +
+            "        'code': 'Cupon de descuento'," +
             "        'amount': 10," +
-            "        'kind': 'loyalty'" +
+            "        'type': 'loyalty'" +
             "    }," +
             "    {" +
-            "        'description': 'Cupon de descuento'," +
+            "        'code': 'Cupon de descuento'," +
             "        'amount': 5," +
-            "        'kind': 'loyalty'" +
+            "        'type': 'loyalty'" +
             "    }" +
             "]" +
             "}"
