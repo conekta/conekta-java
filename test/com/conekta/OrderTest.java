@@ -386,4 +386,129 @@ public class OrderTest extends ConektaTest{
         assertTrue(order.returns instanceof ConektaList);
         assertTrue(order.returns.size() == 1);
     }
+
+    // @Test
+    public void testSuccessfulOrderTransportation() throws JSONException, ErrorList, Error{
+        setApiKey("key_Jqn4jwiAt1fhxgMJbGx7vQ");
+        JSONObject validTransportationOrder = new JSONObject(
+            "{ 'currency': 'mxn'," +
+            "  'line_items': [{" +
+            "    'driver_id': 'driver_id'," +
+            "    'ticket_type': 'Basico'," +
+            "    'pickup_latlon': '23.4323456,-123.1234567'," +
+            "    'dropoff_latlon': '23.4323456,-123.1234567'," +
+            "    'stops': 0," +
+            "    'name': 'Ride'," +
+            "    'description': 'Viaje de la roma a narvarte'," +
+            "    'unit_price': 35000," +
+            "    'quantity': 1," +
+            "    'tags': ['ride', 'standar']," +
+            "    'type': 'physical'" +
+            "  }]" +
+            "}"
+        );
+
+        Order order = Order.create(validTransportationOrder);
+        ConektaList lineItems = (ConektaList) order.line_items;
+        LineItems lineItem = (LineItems) lineItems.get(0);
+
+        assertTrue(lineItem.get("driver_id").equals("driver_id"));
+        assertTrue(lineItem.get("ticket_type").equals("Basico"));
+        assertTrue(lineItem.get("pickup_latlon").equals("23.4323456,-123.1234567"));
+        setApiKey();
+    }
+
+    // @Test
+    public void testSuccessfulOrderTravel() throws JSONException, ErrorList, Error{
+        setApiKey("key_Psbw54NyBwjfq4RXv3zfrA");
+        JSONObject validTraveOrder = new JSONObject(
+            "{ 'currency': 'mxn'," +
+            "  'line_items': [{" +
+            "    'depart_at': " + tomorrow() + "," +
+            "    'arrive_at': " + tomorrow() + "," +
+            "    'ticket_class': 'Turista'," +
+            "    'seat_number': '23'," +
+            "    'seat_type': 'Estandar'," +
+            "    'origin': 'Ciudad de México'," +
+            "    'destination': 'Bahamas'," +
+            "    'stops': 0," +
+            "    'name': 'Viaje a las bahamas'," +
+            "    'description': 'Viaje de lujo a las bahamas'," +
+            "    'unit_price': 35000," +
+            "    'quantity': 1," +
+            "    'tags': ['travel', 'bahamas']," +
+            "    'type': 'physical'" +
+            "  }]" +
+            "}"
+        );
+
+        Order order = Order.create(validTraveOrder);
+        ConektaList lineItems = (ConektaList) order.line_items;
+        LineItems lineItem = (LineItems) lineItems.get(0);
+
+        assertTrue(lineItem.get("seat_type").equals("Estandar"));
+        assertTrue(lineItem.get("ticket_class").equals("Turista"));
+        assertTrue(lineItem.get("seat_number").equals("23"));
+        setApiKey();
+    }
+
+    // @Test
+    public void testSuccessfulOrderEvent() throws JSONException, ErrorList, Error{
+        setApiKey("key_fYFLbCqC8r2THxN5ThuRug");
+        JSONObject validTEventOrder = new JSONObject(
+            "{ 'currency': 'mxn'," +
+            "  'line_items': [{" +
+            "    'start_at': " + tomorrow() + "," +
+            "    'end_at': " + tomorrow() + "," +
+            "    'ticket_class': 'vip'," +
+            "    'seat_number': '62'," +
+            "    'name': 'Daft Punk'," +
+            "    'description': 'Alive 2017'," +
+            "    'unit_price': 35000," +
+            "    'quantity': 1," +
+            "    'tags': ['concert', 'alive']," +
+            "    'type': 'physical'" +
+            "  }]" +
+            "}"
+        );
+
+        Order order = Order.create(validTEventOrder);
+        ConektaList lineItems = (ConektaList) order.line_items;
+        LineItems lineItem = (LineItems) lineItems.get(0);
+
+        assertTrue(lineItem.get("ticket_class").equals("vip"));
+        assertTrue(lineItem.get("seat_number").equals("62"));
+        setApiKey();
+    }
+
+    // @Test
+    public void testSuccessfulOrderFinance() throws JSONException, ErrorList, Error{
+        setApiKey("key_1yLLRs4B26YRGzUpzSKYvQ");
+        JSONObject validFinanceOrder = new JSONObject(
+            "{ 'currency': 'mxn'," +
+            "  'line_items': [{" +
+            "    'project_id': 'project_id'," +
+            "    'project_capacity': 5," +
+            "    'project_start_at':  " + tomorrow() + "," +
+            "    'project_end_at':  " + tomorrow() + "," +
+            "    'project_total_amount': 35000," +
+            "    'name': 'Projecto'," +
+            "    'description': 'La descripcion del proyecto'," +
+            "    'unit_price': 35000," +
+            "    'quantity': 1," +
+            "    'tags': ['proyecto', 'standar']," +
+            "    'type': 'physical'" +
+            "  }]" +
+            "}"
+        );
+
+        Order order = Order.create(validFinanceOrder);
+        ConektaList lineItems = (ConektaList) order.line_items;
+        LineItems lineItem = (LineItems) lineItems.get(0);
+
+        assertTrue(lineItem.get("project_id").equals("project_id"));
+        assertTrue(lineItem.get("project_capacity").equals("5"));
+        assertTrue(lineItem.get("project_total_amount").equals("35000"));
+        setApiKey();
+    }
 }
