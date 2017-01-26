@@ -14,6 +14,7 @@ public class Error extends Exception {
 
     public String message;
     public String message_to_purchaser;
+    public String debug_message;
     public String type;
     public Integer code;
     public String params;
@@ -42,13 +43,11 @@ public class Error extends Exception {
     public Error(JSONObject error, int code) throws JSONException {
         super(error.getString("message"));
         String message = error.getString("message");
-        String messageToPurchaser = error.getString("message_to_purchaser");
+        this.debug_message = error.getString("debug_message");
+        String messageToPurchaser = error.optString("message_to_purchaser");
         String param = error.optString("param", "");
         
         this.code = code;
-        
-        String validationError = error.optString("validation_error", "");
-        String customMessage = error.getString("custom_message");
 
         HashMap parameters = new HashMap();
         parameters.put("BASE", Conekta.apiBase);
@@ -76,34 +75,11 @@ public class Error extends Exception {
     }
 
     static void errorHandler(JSONObject response, Integer responseCode) throws Error {
-        String message = null;
-        String message_to_purchaser = null;
-        String type = null;
-        String params = null;
-        if (response.has("message")) {
-            try {
-                message = response.getString("message");
-            } catch (JSONException ex) {
-            }
-        }
-        if (response.has("message_to_purchaser")) {
-            try {
-                message_to_purchaser = response.getString("message_to_purchaser");
-            } catch (JSONException ex) {
-            }
-        }
-        if (response.has("type")) {
-            try {
-                type = response.getString("type");
-            } catch (JSONException ex) {
-            }
-        }
-        if (response.has("param")) {
-            try {
-                params = response.getString("param");
-            } catch (JSONException ex) {
-            }
-        }
+        String message = response.optString("message");
+        String message_to_purchaser = response.optString("message_to_purchaser");
+        String type = response.optString("type");
+        String params = response.optString("param");
+
         switch (responseCode) {
             case 400:
                 throw new MalformedRequestError(message, message_to_purchaser, type, responseCode, params);

@@ -11,7 +11,7 @@ public class Address extends Resource {
     public String street3;
     public String city;
     public String state;
-    public String zip;
+    public String postal_code;
     public String country;
     public String tax_id;
     public String company_name;
@@ -19,6 +19,6 @@ public class Address extends Resource {
     public String email;
     public int internal_number;
     public int external_number;
-    public BetweenStreets between_streets;
+    public String between_streets;
     public Boolean residential;
 }

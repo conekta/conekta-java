@@ -49,9 +49,6 @@ public class TaxLineTest extends ConektaBase{
 
     // @Test
     public void testFiscalEntityUpdate() throws ErrorList, Error, JSONException{
-
-        System.out.print("ORDER STARTED: \n");
-
         Order order = Order.create(validOrder);
 
         TaxLine taxLine = (TaxLine) order.tax_lines.get(0);

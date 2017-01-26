@@ -23,11 +23,13 @@ public class LineItems extends Resource {
     public Integer quantity;
     public String type;
     public String category;
-    public HashMap vertical_related_fields = new HashMap();
+    public HashMap antifraud_info = new HashMap();
     public Order order;
     public Boolean shippable;
-    public JSONArray tags;
+    public ConektaObject tags;
     public String brand;
+    public String parent_id;
+    public String object;
     public HashMap metadata;
     public Boolean deleted;
     
@@ -38,7 +40,7 @@ public class LineItems extends Resource {
             field = this.getClass().getField(key);
             return (String) field.get(this);
         } catch(NoSuchFieldException e) {
-            return (String) vertical_related_fields.get(key);
+            return (String) antifraud_info.get(key);
         } catch(IllegalAccessException e) {
             return "";
         }
@@ -46,7 +48,7 @@ public class LineItems extends Resource {
     
     // Helper method to push key values to vertical related fields
     public void addVerticalRelatedField(String key, String value) {
-        vertical_related_fields.put(key, value);
+        antifraud_info.put(key, value);
     }
     
     @Override

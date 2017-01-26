@@ -11,12 +11,11 @@ import org.json.JSONObject;
 public class FiscalEntity extends Resource {
     
     public String tax_id;
-    public String company_name;
-    public String email;
-    public String phone;
+    public String name;
     public Boolean deleted;
     public Address address;
     public Customer customer;
+    public Order order;
     
     @Override
     public String instanceUrl() throws Error {
@@ -25,7 +24,7 @@ public class FiscalEntity extends Resource {
             parameters.put("RESOURCE", this.getClass().getSimpleName());
             throw new Error(Lang.translate("error.resource.id", parameters, Lang.EN),
                     Lang.translate("error.resource.id_purchaser", parameters, Conekta.locale), null, null, null);
-        }
+            }
         String base = this.customer.instanceUrl();
         return base + "/fiscal_entities/" + id;
     }

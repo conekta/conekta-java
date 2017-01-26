@@ -171,4 +171,17 @@ public class Resource extends ConektaObject {
 
         return conektaObject;
     }
+    
+    protected ConektaObject createMemberWithRelation(String member, JSONObject params, ConektaObject parent) throws NoSuchFieldException, Error, ErrorList, IllegalArgumentException, IllegalAccessException{
+        String parentClass = parent.getClass().getSimpleName().toLowerCase();
+        
+        ConektaObject child = createMember(member, params);
+        
+        Field field = child.getClass().getField(parentClass);
+        field.setAccessible(true);
+        
+        field.set(child, this);
+        
+        return child;
+    }
 }

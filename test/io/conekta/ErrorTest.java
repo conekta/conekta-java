@@ -82,7 +82,7 @@ public class ErrorTest extends ConektaBase {
             assertTrue(e instanceof ParameterValidationError);
         }
     }
-    
+
     public void testNoCardError() throws Error, JSONException, ErrorList {
         setPublicApiKey();
         valid_visa_card = new JSONObject("{'card':{'number':'tok_test_visa_4242'}}");
@@ -104,7 +104,6 @@ public class ErrorTest extends ConektaBase {
         try {
             charge.refund();
         } catch(ProcessingError e) {
-            System.out.println(e.message_to_purchaser + "-----");
             assertTrue(e instanceof ProcessingError);
         }
     }

@@ -15,9 +15,13 @@ public class OrderTest extends ConektaBase{
     JSONObject validOrder;
     JSONObject customerInfo;
     JSONObject validCharge;
+    JSONObject customerTransportationInfo;
+    JSONObject customerInfoTransportationWithId;
+    Customer customer;
 
-    public OrderTest() throws JSONException {
+    public OrderTest() throws JSONException, Error, ErrorList {
         super();
+        setApiVersion("2.0.0");
         validOrder = new JSONObject(
             "{ 'currency': 'mxn'," +
             "  'metadata': {" +
@@ -40,15 +44,36 @@ public class OrderTest extends ConektaBase{
             "  'email': 'hola@hola.com'" +
             "}"
         );
-
+        
+        customerTransportationInfo = new JSONObject(
+            "{ 'name': 'John Constantine'," +
+            "  'phone': '+5213353319758'," +
+            "  'email': 'hola@hola.com'," +
+            "  'vertical_info': {" +
+            "      'account_created_at': 1484040996," +
+            "      'first_paid_at': 1484040996," +
+            "      'paid_transactions': 9," +
+            "  }" +
+            "}"
+        );
+        
         validCharge = new JSONObject("{"
-                + "'source': {"
+                + "'payment_source': {"
                 + "    'type': 'card',"
                 + "    'token_id': 'tok_test_visa_4242'"
                 + "}, "
                 + "'amount': 35000"
                 + "}");
 
+        customer = Customer.create(new JSONObject("{'name': 'test name', 'email': 'test@test.com', 'cards':['tok_test_visa_4242']}"));
+    
+        customerInfoTransportationWithId = new JSONObject(
+            "{ 'id': '" + customer.id + "'," +
+            "  'vertical_info': {" +
+            "      'paid_transactions': 9," +
+            "  }" +
+            "}"
+        );
     }
 
     //@Test
@@ -67,12 +92,12 @@ public class OrderTest extends ConektaBase{
     //@Test
     public void testSuccesfulOrderUpdate() throws Exception {
         JSONObject newOrderData = new JSONObject();
-        newOrderData.put("customer_info", customerInfo);
+        newOrderData.put("currency", "USD");
         Order order = Order.create(validOrder);
 
         order.update(newOrderData);
 
-        assertTrue(order.customer_info.get("phone").equals("+5213353319758"));
+        assertTrue(order.currency.equals("USD"));
     }
 
     //@Test
@@ -94,8 +119,6 @@ public class OrderTest extends ConektaBase{
     public void testSuccesfulOrderWhere() throws Exception {
         JSONObject paginateParams = new JSONObject("{'limit': 10}");
 
-        System.out.print("testSuccesfulOrderWhere: \n"); 
-         
         ConektaList orders = Order.where(paginateParams);
         Order order = (Order) orders.get(0);
 
@@ -108,17 +131,15 @@ public class OrderTest extends ConektaBase{
     public void testSuccessfulFiscalEntityCreate() throws JSONException, Error, ErrorList {
         JSONObject fiscalEntityParams = new JSONObject("{" +
         "    'tax_id': 'AMGH851205MN1'," +
-        "    'company_name': 'Nike SA de CV'," +
-        "    'email': 'contacto@nike.mx'," +
-        "    'phone': '+5213353319758'," +
+        "    'name': 'Nike SA de CV'," +
         "    'address': {" +
         "        'street1': '250 Alexis St'," +
-        "        'internal_number': 19," +
-        "        'external_number': 91," +
+        "        'internal_number': '19'," +
+        "        'external_number': '91'," +
         "        'city': 'Red Deer'," +
         "        'state': 'Alberta'," +
         "        'country': 'MX'," +
-        "        'zip': '78215'" +
+        "        'postal_code': '78215'" +
         "    }" +
         "}");
 
@@ -130,7 +151,7 @@ public class OrderTest extends ConektaBase{
     }
 
     // @Test
-    public void testSuccessfulDiscountLineCreate() throws JSONException, Error, ErrorList {
+    public void testSuccessfulDiscountLineCreate() throws JSONException, Error, ErrorList, NoSuchFieldException, IllegalArgumentException, IllegalAccessException {
         JSONObject discountLineParams = new JSONObject("{" +
             "    'code': 'Cupon de descuento'," +
             "    'amount': 5," +
@@ -143,6 +164,9 @@ public class OrderTest extends ConektaBase{
 
         assertTrue(order.discount_lines instanceof ConektaList);
         assertTrue(discountLine instanceof DiscountLine);
+        assertTrue(discountLine.code.equals("Cupon de descuento"));
+        assertTrue(discountLine.amount == 5);
+        assertTrue(discountLine.type.equals("loyalty"));
     }
 
     public void testSuccessfulShippingContactCreate() throws JSONException, Error, ErrorList {
@@ -151,17 +175,15 @@ public class OrderTest extends ConektaBase{
         "    'email': 'thomas.logan@xmen.org'," +
         "    'phone': '+5213353319758'," +
         "    'receiver': 'Marvin Fuller'," +
-        "    'between_streets': {" +
-        "        'street1': 'Ackerman Crescent'," +
-        "    }," +
+        "    'between_streets': 'Ackerman Crescent'," +
         "    'address': {" +
         "        'street1': '250 Alexis St'," +
-        "        'internal_number': 19," +
-        "        'external_number': 91," +
+        "        'internal_number': '19'," +
+        "        'external_number': '91'," +
         "        'city': 'Red Deer'," +
         "        'state': 'Alberta'," +
         "        'country': 'MX'," +
-        "        'zip': '78215'" +
+        "        'postal_code': '78215'" +
         "    }" +
         "}");
 
@@ -173,7 +195,7 @@ public class OrderTest extends ConektaBase{
     }
 
     // @Test
-    public void testSuccessfulTaxLineCreate() throws JSONException, Error, ErrorList {
+    public void testSuccessfulTaxLineCreate() throws JSONException, Error, ErrorList, NoSuchFieldException, IllegalArgumentException, IllegalAccessException {
         JSONObject taxLineIVAParams = new JSONObject("{" +
         "  'description': 'IVA'," +
         "  'amount': 60" +
@@ -203,7 +225,7 @@ public class OrderTest extends ConektaBase{
 
     // @Test
     public void testSuccessfulOrderCapture() throws JSONException, Error, ErrorList {
-        validOrder.put("capture", false);
+        validOrder.put("preauthorize", true);
         validOrder.put("customer_info", customerInfo);
         JSONArray chargesArray = new JSONArray();
         chargesArray.put(validCharge);
@@ -212,14 +234,16 @@ public class OrderTest extends ConektaBase{
         Order order = Order.create(validOrder);
 
         order.capture();
+        
+        Charge charge = (Charge) order.charges.get(0);
 
-        assertTrue(order.capture);
+        assertTrue(charge.status.equals("paid"));
     }
 
     // @Test
-    public void testSuccessfulChargeCreate() throws JSONException, Error, ErrorList {
+    public void testSuccessfulChargeCreate() throws JSONException, Error, ErrorList, NoSuchFieldException, IllegalAccessException {
         JSONObject chargeParams = new JSONObject("{"
-                + "'source': {"
+                + "'payment_source': {"
                 + "    'type': 'oxxo_cash'"
                 + "}, "
                 + "'amount': 35000"
@@ -236,7 +260,7 @@ public class OrderTest extends ConektaBase{
     //@Test
     public void testSuccesfulBankPMCreate() throws Exception {
         JSONObject chargeParams = new JSONObject("{"
-                + "'source': {"
+                + "'payment_source': {"
                 + "    'type': 'banorte',"
                 + "    'expires_at': " + tomorrow()
                 + "}, "
@@ -254,7 +278,7 @@ public class OrderTest extends ConektaBase{
     //@Test
     public void testSuccesfulSPEIPMCreate() throws Exception {
         JSONObject chargeParams = new JSONObject("{"
-                + "'source': {"
+                + "'payment_source': {"
                 + "    'type': 'spei',"
                 + "    'expires_at': " + tomorrow()
                 + "}, "
@@ -272,7 +296,7 @@ public class OrderTest extends ConektaBase{
     //@Test
     public void testSuccesfulCardCreate() throws Exception {
         JSONObject chargeParams = new JSONObject("{"
-                + "'source': {"
+                + "'payment_source': {"
                 + "    'type': 'card',"
                 + "    'token_id': 'tok_test_visa_4242'"
                 + "}, "
@@ -291,7 +315,7 @@ public class OrderTest extends ConektaBase{
     //@Test
     public void testUnsuccesfulCardCreate() throws Exception {
         JSONObject chargeParams = new JSONObject("{"
-                + "'source': {"
+                + "'payment_source': {"
                 + "    'type': 'card',"
                 + "    'token_id': 'tok_test_card_declined'"
                 + "}, "
@@ -303,9 +327,8 @@ public class OrderTest extends ConektaBase{
         try {
             Charge charge = order.createCharge(chargeParams);
         } catch(ErrorList e) {
-            assertTrue(e.details.get(0).message_to_purchaser.equals("La tarjeta ingresada ha sido declinada. Por favor intenta con otro método de pago."));
+            assertTrue(e.details.get(0).message.equals("La tarjeta ingresada ha sido declinada. Por favor intenta con otro método de pago."));
         }
-
     }
 
     private long tomorrow(){
@@ -318,7 +341,7 @@ public class OrderTest extends ConektaBase{
         return dt.getTime()/1000L;
     }
 
-    public void testSuccessfulShippingLineCreate() throws JSONException, Error, ErrorList {
+    public void testSuccessfulShippingLineCreate() throws JSONException, Error, ErrorList, NoSuchFieldException, IllegalArgumentException, IllegalAccessException {
         JSONObject shippingLineParams = new JSONObject("{" +
         "    'description': 'Free Shipping'," +
         "    'amount': 0," +
@@ -340,7 +363,7 @@ public class OrderTest extends ConektaBase{
         assertTrue(((String)shippingLine.metadata.get("some_random")).equals("Stuff"));
     }
 
-    public void testSuccessfulLineItemCreate() throws JSONException, Error, ErrorList {
+    public void testSuccessfulLineItemCreate() throws JSONException, Error, ErrorList, NoSuchFieldException, IllegalArgumentException, IllegalAccessException {
         JSONObject lineItemParams = new JSONObject("{" +
             "  'name': 'Box of Cohiba S1s'," +
             "  'description': 'Imported From Mex.'," +
@@ -370,7 +393,7 @@ public class OrderTest extends ConektaBase{
         JSONObject validReturn = new JSONObject(
             "{" +
             "  'amount': 35000," +
-            "  'reason': 'Reason return'," +
+            "  'reason': 'requested_by_client'," +
             "  'currency': 'MXN'," +
             "  'order_id': '" + order.id + "'" +
             "}"
@@ -383,4 +406,38 @@ public class OrderTest extends ConektaBase{
         assertTrue(order.returns instanceof ConektaList);
         assertTrue(order.returns.size() == 1);
     }
+    
+    //@Test
+    public void testSuccesfulOrderTransportationCreate() throws Exception {
+        validOrder.put("customer_info", customerTransportationInfo);
+        Order order = Order.create(validOrder);
+
+        assertTrue(order instanceof Order);
+        assertTrue(order.livemode == false);
+        assertTrue(order.amount == 35000);
+        assertTrue(order.status.equals("created"));
+        assertTrue(order.customer_id == null);
+        assertTrue(order.currency.equals("MXN"));
+        assertTrue((Boolean) order.metadata.get("test"));
+        assertTrue((Integer) order.customer_info.antifraud_info.get("account_created_at") == 1484040996);
+        assertTrue((Integer) order.customer_info.antifraud_info.get("first_paid_at") == 1484040996);
+        assertTrue((Integer) order.customer_info.antifraud_info.get("paid_transactions") == 9);
+    }
+    
+        //@Test
+    public void testSuccesfulOrderTransportationWithCustomerIDCreate() throws Exception {
+        validOrder.put("customer_info", customerInfoTransportationWithId);
+        Order order = Order.create(validOrder);
+
+        assertTrue(order instanceof Order);
+        assertTrue(order.livemode == false);
+        assertTrue(order.amount == 35000);
+        assertTrue(order.status.equals("created"));
+        assertTrue(order.customer_id == null);
+        assertTrue(order.currency.equals("MXN"));
+        assertTrue((Boolean) order.metadata.get("test"));
+        assertTrue((Integer) order.customer_info.antifraud_info.get("paid_transactions") == 9);
+    }
+    
+    
 }

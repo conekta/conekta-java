@@ -8,7 +8,7 @@ import org.json.JSONObject;
  *
  * @author L.Carlos
  */
-public class Source extends Resource{
+public class PaymentSource extends Resource{
     public Customer customer;
     public String type;
     public String name;
@@ -28,7 +28,7 @@ public class Source extends Resource{
                     Lang.translate("error.resource.id_purchaser", parameters, Conekta.locale), null, null, null);
         }
         String base = this.customer.instanceUrl();
-        return base + "/sources/" + id;
+        return base + "/payment_sources/" + id;
     }
     
     @Override
@@ -36,7 +36,7 @@ public class Source extends Resource{
         super.update(params);
     }
 
-    public Source delete() throws Error, ErrorList {
-        return ((Source) this.delete(null, null));
+    public PaymentSource delete() throws Error, ErrorList {
+        return ((PaymentSource) this.delete(null, null));
     }
 }

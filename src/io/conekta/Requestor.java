@@ -17,10 +17,10 @@ import java.net.URLEncoder;
 import java.security.KeyStore;
 import java.security.cert.CertificateFactory;
 import java.security.cert.X509Certificate;
-import java.util.Base64;
 import java.util.Iterator;
 import javax.net.ssl.SSLContext;
 import javax.net.ssl.TrustManagerFactory;
+import org.apache.commons.codec.binary.Base64;
 import org.json.JSONArray;
 import org.json.JSONException;
 import org.json.JSONObject;
@@ -35,6 +35,10 @@ public class Requestor {
     }
 
     public static String apiUrl(String url) {
+        if(url.contains(Conekta.apiBase)){
+            return url;
+        }
+        
         String apiBase = Conekta.apiBase;
         return apiBase + url;
     }
@@ -60,7 +64,8 @@ public class Requestor {
             if (Conekta.apiKey == null || Conekta.apiKey.isEmpty())
                 throw new AuthenticationError("api_key was not set!", null, null, null, null);
         try {
-            base64 = Base64.getEncoder().encodeToString(Conekta.apiKey.getBytes("UTF-8"));
+            byte[] apiKey = Conekta.apiKey.getBytes("UTF-8");
+            base64 = new String(Base64.encodeBase64(apiKey));
             this.connection.setRequestProperty("Authorization", "Basic " + base64);
         } catch (Exception e) {
             throw new Error(e.getMessage(), null, null, null, null);
@@ -71,7 +76,6 @@ public class Requestor {
     public Object request(String method, String url, JSONObject params) throws Error, ErrorList {
         URL urlObj;
         try {
-            // SSL
             InputStream is = getClass().getResourceAsStream("/ssl_data/ca_bundle.crt");
             CertificateFactory cf = CertificateFactory.getInstance("X.509");
             X509Certificate caCert = (X509Certificate) cf.generateCertificate(is);
@@ -83,7 +87,6 @@ public class Requestor {
             SSLContext sslContext = SSLContext.getInstance("TLS");
             sslContext.init(null, tmf.getTrustManagers(), null);
         } catch (Exception e) {
-            // Certificate exception
             System.out.println(e.toString());
         }
         try {
@@ -168,7 +171,7 @@ public class Requestor {
             }
             in.close();
             if (responseCode != 200) {
-                if(Conekta.apiVersion.equals("1.1.0")) {
+                if(Conekta.apiVersion.equals("2.0.0")) {
                     ErrorList.errorHandle((JSONObject) object, responseCode);
                 } else {
                     Error.errorHandler((JSONObject) object, responseCode);

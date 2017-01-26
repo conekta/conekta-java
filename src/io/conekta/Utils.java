@@ -20,7 +20,7 @@ public class Utils {
         classes.put("charges", Charge.class.getCanonicalName());
         classes.put("shipping_lines", ShippingLine.class.getCanonicalName());
         classes.put("line_items", LineItems.class.getCanonicalName());
-        classes.put("sources", Source.class.getCanonicalName());
+        classes.put("payment_sources", PaymentSource.class.getCanonicalName());
         classes.put("returns", OrderReturn.class.getCanonicalName());
     }
 

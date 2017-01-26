@@ -14,6 +14,7 @@ public class ShippingContactTest extends ConektaBase{
 
     public ShippingContactTest() throws JSONException {
         super();
+        setApiVersion("2.0.0");
         validVisaCard = new JSONObject("{"
                 + "'name': 'Nombre de prueba', "
                 + "'email': 'test@test.com', "
@@ -21,25 +22,23 @@ public class ShippingContactTest extends ConektaBase{
                 + "'shipping_contacts': [{" +
                 "    'receiver': 'John Williams'," +
                 "    'phone': '+5213353319758'," +
-                "    'email': 'thomas.logan@xmen.org'," +
                 "    'address': {" +
                 "        'street1': '250 Alexis St'," +
                 "        'city': 'Red Deer'," +
                 "        'state': 'Alberta'," +
                 "        'country': 'CA'," +
-                "        'zip': 'T4N 0B8'" +
+                "        'postal_code': 'T4N 0B8'" +
                 "    }" +
                 "}," +
                 "{" +
                 "    'receiver': 'John Williams'," +
                 "    'phone': '+5213353319758'," +
-                "    'email': 'rogue@xmen.org'," +
                 "    'address': {" +
                 "        'street1': '250 Alexis St'," +
                 "        'city': 'Red Deer'," +
                 "        'state': 'Alberta'," +
                 "        'country': 'CA'," +
-                "        'zip': 'T4N 0B8'" +
+                "        'postal_code': 'T4N 0B8'" +
                 "    }" +
                 "}]"
                 + "}");
@@ -62,8 +61,8 @@ public class ShippingContactTest extends ConektaBase{
 
         ShippingContact shippingContact = (ShippingContact) customer.shipping_contacts.get(0);
 
-        shippingContact.update(new JSONObject("{ 'email': 'hola@hola.com' }"));
+        shippingContact.update(new JSONObject("{ 'phone': '+5213353319759' }"));
 
-        assertTrue(shippingContact.email.equals("hola@hola.com"));
+        assertTrue(shippingContact.phone.equals("+5213353319759"));
     }
 }

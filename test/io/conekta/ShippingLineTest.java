@@ -13,6 +13,7 @@ public class ShippingLineTest extends ConektaBase {
 
     public ShippingLineTest() throws JSONException {
         super();
+        setApiVersion("2.0.0");
         validOrder = new JSONObject(
             "{ 'currency': 'mxn'," +
             "  'metadata': {" +

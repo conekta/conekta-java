@@ -12,10 +12,29 @@ public class CustomerTest extends ConektaBase {
     JSONObject valid_payment_method;
     JSONObject invalid_payment_method;
     JSONObject valid_visa_card;
+    JSONObject valid_visa_cardv2;
+    JSONObject travelCustomerInfo;
 
     public CustomerTest() throws JSONException {
         super();
-        valid_visa_card = new JSONObject("{'name': 'test name', 'email': 'test@test.com', 'cards':['tok_test_visa_4242']}");
+        valid_visa_card = new JSONObject("{"
+                + "'name': 'test name',"
+                + "'email': 'test@test.com',"
+                + "'cards':['tok_test_visa_4242']"
+                + "}");
+        
+        valid_visa_cardv2 = new JSONObject("{"
+                + "'name': 'test name',"
+                + "'email': 'test@test.com',"
+                + "'payment_sources':[{"
+                + "    'token_id': 'tok_test_visa_4242',"
+                + "    'type': 'card' }]"
+                + "}");
+        
+        travelCustomerInfo = new JSONObject("{" +
+        "  'account_created_at': 1484040996," +
+        "  'first_paid_at': 1485151007" +
+        "}");
     }
 
     //@Test
@@ -155,21 +174,19 @@ public class CustomerTest extends ConektaBase {
     }
 
     // @Test
-    public void testSuccessfulFiscalEntityCreate() throws JSONException, Error, ErrorList {
-        setApiVersion("1.1.0");
+    public void testSuccessfulFiscalEntityCreate() throws JSONException, Error, ErrorList, NoSuchFieldException, IllegalArgumentException, IllegalAccessException {
+        setApiVersion("2.0.0");
         JSONObject fiscalEntityParams = new JSONObject("{" +
         "    'tax_id': 'AMGH851205MN1'," +
-        "    'company_name': 'Nike SA de CV'," +
-        "    'email': 'contacto@nike.mx'," +
-        "    'phone': '+5213353319758'," +
+        "    'name': 'Nike SA de CV'," +
         "    'address': {" +
         "        'street1': '250 Alexis St'," +
-        "        'internal_number': 19," +
-        "        'external_number': 91," +
+        "        'internal_number': '19'," +
+        "        'external_number': '91'," +
         "        'city': 'Red Deer'," +
         "        'state': 'Alberta'," +
         "        'country': 'MX'," +
-        "        'zip': '78215'" +
+        "        'postal_code': '78215'" +
         "    }" +
         "}");
 
@@ -182,23 +199,21 @@ public class CustomerTest extends ConektaBase {
     }
 
     // @Test
-    public void testSuccessfulShippingContactCreate() throws JSONException, Error, ErrorList {
-        setApiVersion("1.1.0");
+    public void testSuccessfulShippingContactCreate() throws JSONException, Error, ErrorList, NoSuchFieldException, IllegalArgumentException, IllegalAccessException {
+        setApiVersion("2.0.0");
         JSONObject shippingContactParams = new JSONObject("{"+
         "    'email': 'thomas.logan@xmen.org'," +
         "    'phone': '+5213353319758'," +
         "    'receiver': 'Marvin Fuller'," +
-        "    'between_streets': {" +
-        "        'street1': 'Ackerman Crescent'," +
-        "    }," +
+        "    'between_streets': 'Ackerman Crescent'," +
         "    'address': {" +
         "        'street1': '250 Alexis St'," +
-        "        'internal_number': 19," +
-        "        'external_number': 91," +
+        "        'internal_number': '19'," +
+        "        'external_number': '91'," +
         "        'city': 'Red Deer'," +
         "        'state': 'Alberta'," +
         "        'country': 'MX'," +
-        "        'zip': '78215'" +
+        "        'postal_code': '78215'" +
         "    }" +
         "}");
 
@@ -209,8 +224,8 @@ public class CustomerTest extends ConektaBase {
         assertTrue(((ShippingContact) customer.shipping_contacts.get(0)) instanceof ShippingContact);
     }
 
-    public void testSuccessfulSourceCreate() throws JSONException, Error, ErrorList {
-        setApiVersion("1.1.0");
+    public void testSuccessfulSourceCreate() throws JSONException, Error, ErrorList, NoSuchFieldException, IllegalArgumentException, IllegalAccessException {
+        setApiVersion("2.0.0");
         JSONObject sourceParams = new JSONObject("{" +
         "    'token_id': 'tok_test_visa_4242'," +
         "    'type': 'card'" +
@@ -218,9 +233,19 @@ public class CustomerTest extends ConektaBase {
 
         Customer customer = Customer.create(valid_visa_card);
 
-        Source source = customer.createSource(sourceParams);
+        PaymentSource source = customer.createSource(sourceParams);
 
-        assertTrue(source instanceof Source);
-        assertTrue(customer.sources.size() == 1);
+        assertTrue(source instanceof PaymentSource);
+        assertTrue(customer.payment_sources.size() == 1);
+    }
+    
+    //@Test
+    public void testSuccesfulCustomerCreateTravel() throws Exception {
+        setApiVersion("2.0.0");
+        valid_visa_cardv2.put("vertical_info", travelCustomerInfo);
+        Customer customer = Customer.create(valid_visa_cardv2);
+        assertTrue(customer instanceof Customer);
+        assertTrue(customer.vertical_info.get("account_created_at").equals("1484040996"));
+        assertTrue(customer.vertical_info.get("first_paid_at").equals("1485151007"));
     }
 }

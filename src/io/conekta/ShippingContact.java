@@ -11,7 +11,7 @@ import org.json.JSONObject;
 public class ShippingContact extends Resource{
     public Customer customer;
     public String name;
-    public String email;
+    public String phone;
     public String receiver;
     public Boolean deleted;
     public Address address;

@@ -12,6 +12,8 @@ public class DiscountLine extends Resource {
     public Order order;
     public String description;
     public String kind;
+    public String code;
+    public String type;
     public Integer amount;
     public Boolean deleted;
 

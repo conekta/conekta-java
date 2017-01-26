@@ -16,19 +16,18 @@ public class Order extends Resource {
     public Integer amount;
     public Integer created_at;
     public Boolean livemode;
-    public HashMap customer_info = new HashMap();
+    public CustomerInfo customer_info;
     public HashMap metadata = new HashMap();
     public HashMap last_payment_info = new HashMap();
     public HashMap transitions = new HashMap();
     public FiscalEntity fiscal_entity;
-    public ConektaList discount_lines;
+    public ConektaList discount_lines = new ConektaList("discount_lines");
     public ShippingContact shipping_contact;
-    public ConektaList tax_lines;
-    public Boolean capture;
-    public ConektaList charges;
-    public ConektaList shipping_lines;
-    public ConektaList line_items;
-    public ConektaList returns;
+    public ConektaList tax_lines = new ConektaList("tax_lines");
+    public ConektaList charges = new ConektaList("charges");
+    public ConektaList shipping_lines = new ConektaList("shipping_lines");
+    public ConektaList line_items = new ConektaList("line_items");
+    public ConektaList returns = new ConektaList("returns");
     public Integer amount_refunded;
 
     public Order(String id) {
@@ -49,7 +48,7 @@ public class Order extends Resource {
             }
         }
 
-        if(Conekta.apiVersion.equals("1.1.0")){
+        if(Conekta.apiVersion.equals("2.0.0")){
             String[] submodels = { "discount_lines", "tax_lines", "shipping_lines", "line_items", "charges", "returns" };
 
             for (String submodel : submodels) {
@@ -141,8 +140,8 @@ public class Order extends Resource {
         return this.fiscal_entity;
     }
 
-    public DiscountLine createDiscountLine(JSONObject params) throws JSONException, Error, ErrorList{
-        return (DiscountLine) this.createMember("discount_lines", params);
+    public DiscountLine createDiscountLine(JSONObject params) throws JSONException, Error, ErrorList, NoSuchFieldException, IllegalArgumentException, IllegalAccessException {
+        return (DiscountLine) this.createMemberWithRelation("discount_lines", params, this);
     }
 
     public ShippingContact createShippingContact(JSONObject params) throws JSONException, Error, ErrorList{
@@ -153,29 +152,38 @@ public class Order extends Resource {
         return this.shipping_contact;
     }
 
-    public TaxLine createTaxLine(JSONObject params) throws JSONException, Error, ErrorList{
-        return (TaxLine) this.createMember("tax_lines", params);
+    public TaxLine createTaxLine(JSONObject params) throws JSONException, Error, ErrorList, NoSuchFieldException, IllegalArgumentException, IllegalAccessException{
+        return (TaxLine) this.createMemberWithRelation("tax_lines", params, this);
     }
     
     public void capture() throws JSONException, Error, ErrorList{
         this.customAction("PUT", "capture", null);
     }
 
-    public Charge createCharge(JSONObject params) throws JSONException, Error, ErrorList{
-        return (Charge) this.createMember("charges", params);
+    public Charge createCharge(JSONObject params) throws JSONException, Error, ErrorList, NoSuchFieldException, IllegalArgumentException, IllegalAccessException{
+        return (Charge) this.createMemberWithRelation("charges", params, this);
     }
   
-    public ShippingLine createShippingLine(JSONObject params) throws JSONException, Error, ErrorList{
-        return (ShippingLine) this.createMember("shipping_lines", params);
+    public ShippingLine createShippingLine(JSONObject params) throws JSONException, Error, ErrorList, NoSuchFieldException, IllegalArgumentException, IllegalAccessException{
+        return (ShippingLine) this.createMemberWithRelation("shipping_lines", params, this);
     }
 
-    public LineItems createLineItem(JSONObject params) throws JSONException, Error, ErrorList{
-        return (LineItems) this.createMember("line_items", params);
+    public LineItems createLineItem(JSONObject params) throws JSONException, Error, ErrorList, NoSuchFieldException, IllegalArgumentException, IllegalAccessException{
+        return (LineItems) this.createMemberWithRelation("line_items", params, this);
     }
     
     public OrderReturn createReturn(JSONObject params) throws Exception {
-        OrderReturn orderReturn = (OrderReturn) this.createMember("returns", params);
+        OrderReturn orderReturn = (OrderReturn) this.createMemberWithRelation("returns", params, this);
         this.reload();
         return orderReturn;
+    }
+    
+    @Override
+    public void update(JSONObject params) throws Error, ErrorList {
+        super.update(params);
+    }
+    
+    public void delete() throws Error, ErrorList {
+        this.delete(null, null);
     }
 }

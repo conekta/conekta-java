@@ -7,14 +7,14 @@ import org.json.JSONObject;
  *
  * @author L.Carlos
  */
-public class SourceTest  extends ConektaBase {
+public class PaymentSourceTest  extends ConektaBase {
     JSONObject validCustomer;
 
-    public SourceTest() throws JSONException{
+    public PaymentSourceTest() throws JSONException{
         validCustomer  = new JSONObject("{" +
         "  'email': 'hola@hola.com'," +
         "  'name': 'John Constantine'," +
-        "  'sources': [{" +
+        "  'payment_sources': [{" +
         "    'token_id': 'tok_test_visa_4242'," +
         "    'type': 'card'" +
         "  }]" +
@@ -25,7 +25,7 @@ public class SourceTest  extends ConektaBase {
     public void testSuccesfulDeleteSources() throws Error, ErrorList{
         Customer customer = Customer.create(validCustomer);
 
-        Source source = (Source) customer.sources.get(0);
+        PaymentSource source = (PaymentSource) customer.payment_sources.get(0);
 
         source.delete();
 
@@ -36,7 +36,7 @@ public class SourceTest  extends ConektaBase {
     public void testSuccesfulUpdateSources() throws Error, ErrorList, JSONException{
         Customer customer = Customer.create(validCustomer);
 
-        Source source = (Source) customer.sources.get(0);
+        PaymentSource source = (PaymentSource) customer.payment_sources.get(0);
 
         source.update(new JSONObject("{'exp_month': '11'}"));
 

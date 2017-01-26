@@ -1,6 +1,7 @@
 package io.conekta;
 
 import java.lang.reflect.Field;
+import java.util.HashMap;
 import org.json.JSONException;
 import org.json.JSONObject;
 
@@ -19,9 +20,10 @@ public class Customer extends Resource {
     public String phone;
     public String default_card_id;
     public Boolean deleted;
-    public ConektaList fiscal_entities;
-    public ConektaList shipping_contacts;
-    public ConektaList sources;
+    public HashMap vertical_info;
+    public ConektaList fiscal_entities = new ConektaList("fiscal_entities");
+    public ConektaList shipping_contacts = new ConektaList("shipping_contacts");
+    public ConektaList payment_sources = new ConektaList("payment_sources");
 
     public Customer(String id) {
         super(id);
@@ -45,8 +47,8 @@ public class Customer extends Resource {
             }
         }
         
-        if(Conekta.apiVersion.equals("1.1.0")){
-            String[] submodels = { "fiscal_entities", "shipping_contacts", "sources" };
+        if(Conekta.apiVersion.equals("2.0.0")){
+            String[] submodels = { "fiscal_entities", "shipping_contacts", "payment_sources" };
 
             for (String submodel : submodels) {
                 if (jsonObject.has(submodel)){
@@ -57,8 +59,6 @@ public class Customer extends Resource {
                     field.setAccessible(true);
                     field.set(this, list);
                     this.setVal(submodel, list);
-
-
 
                     if(list.elements_type.equals("fiscal_entities")){
                         for (Object item : list){
@@ -74,9 +74,9 @@ public class Customer extends Resource {
                         }
                     }
 
-                    if(list.elements_type.equals("sources")){
+                    if(list.elements_type.equals("payment_sources")){
                         for (Object item : list){
-                            Source source = (Source) item;
+                            PaymentSource source = (PaymentSource) item;
                             source.customer = this;
                         }
                     }
@@ -121,23 +121,23 @@ public class Customer extends Resource {
         super.update(params);
     }
 
-    public Card createCard(JSONObject params) throws Error, ErrorList {
-        return (Card) this.createMember("cards", params);
+    public Card createCard(JSONObject params) throws Error, ErrorList, NoSuchFieldException, IllegalArgumentException, IllegalAccessException {
+        return (Card) this.createMemberWithRelation("cards", params, this);
     }
 
-    public Subscription createSubscription(JSONObject params) throws Error, ErrorList {
-        return (Subscription) this.createMember("subscription", params);
+    public Subscription createSubscription(JSONObject params) throws Error, ErrorList, NoSuchFieldException, IllegalArgumentException, IllegalAccessException {
+        return (Subscription) this.createMemberWithRelation("subscription", params, this);
     }
     
-    public FiscalEntity createFiscalEntity(JSONObject params) throws JSONException, Error, ErrorList{
-        return (FiscalEntity) this.createMember("fiscal_entities", params);
+    public FiscalEntity createFiscalEntity(JSONObject params) throws JSONException, Error, ErrorList, NoSuchFieldException, IllegalArgumentException, IllegalAccessException{
+        return (FiscalEntity) this.createMemberWithRelation("fiscal_entities", params, this);
     }
 
-    public ShippingContact createShippingContact(JSONObject params) throws JSONException, Error, ErrorList{
-        return (ShippingContact) this.createMember("shipping_contacts", params);
+    public ShippingContact createShippingContact(JSONObject params) throws JSONException, Error, ErrorList, NoSuchFieldException, IllegalArgumentException, IllegalAccessException{
+        return (ShippingContact) this.createMemberWithRelation("shipping_contacts", params, this);
     }
 
-    public Source createSource(JSONObject params) throws JSONException, Error, ErrorList{
-        return (Source) this.createMember("sources", params);
+    public PaymentSource createSource(JSONObject params) throws JSONException, Error, ErrorList, NoSuchFieldException, IllegalArgumentException, IllegalAccessException{
+        return (PaymentSource) this.createMemberWithRelation("payment_sources", params, this);
     }
 }
