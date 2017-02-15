@@ -58,7 +58,7 @@ public class OrderTest extends ConektaBase{
         );
         
         validCharge = new JSONObject("{"
-                + "'payment_source': {"
+                + "'payment_method': {"
                 + "    'type': 'card',"
                 + "    'token_id': 'tok_test_visa_4242'"
                 + "}, "
@@ -243,7 +243,7 @@ public class OrderTest extends ConektaBase{
     // @Test
     public void testSuccessfulChargeCreate() throws JSONException, Error, ErrorList, NoSuchFieldException, IllegalAccessException {
         JSONObject chargeParams = new JSONObject("{"
-                + "'payment_source': {"
+                + "'payment_method': {"
                 + "    'type': 'oxxo_cash'"
                 + "}, "
                 + "'amount': 35000"
@@ -260,7 +260,7 @@ public class OrderTest extends ConektaBase{
     //@Test
     public void testSuccesfulBankPMCreate() throws Exception {
         JSONObject chargeParams = new JSONObject("{"
-                + "'payment_source': {"
+                + "'payment_method': {"
                 + "    'type': 'banorte',"
                 + "    'expires_at': " + tomorrow()
                 + "}, "
@@ -278,7 +278,7 @@ public class OrderTest extends ConektaBase{
     //@Test
     public void testSuccesfulSPEIPMCreate() throws Exception {
         JSONObject chargeParams = new JSONObject("{"
-                + "'payment_source': {"
+                + "'payment_method': {"
                 + "    'type': 'spei',"
                 + "    'expires_at': " + tomorrow()
                 + "}, "
@@ -296,7 +296,7 @@ public class OrderTest extends ConektaBase{
     //@Test
     public void testSuccesfulCardCreate() throws Exception {
         JSONObject chargeParams = new JSONObject("{"
-                + "'payment_source': {"
+                + "'payment_method': {"
                 + "    'type': 'card',"
                 + "    'token_id': 'tok_test_visa_4242'"
                 + "}, "
@@ -315,7 +315,7 @@ public class OrderTest extends ConektaBase{
     //@Test
     public void testUnsuccesfulCardCreate() throws Exception {
         JSONObject chargeParams = new JSONObject("{"
-                + "'payment_source': {"
+                + "'payment_method': {"
                 + "    'type': 'card',"
                 + "    'token_id': 'tok_test_card_declined'"
                 + "}, "
