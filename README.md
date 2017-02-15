@@ -1,18 +1,37 @@
 ![alt tag](https://raw.github.com/conekta/conekta-java/master/readme_files/cover.png)
 
-# Conekta Java 2.0.4
+# Conekta Java 2.1.0
 
 This is a java library that allows interaction with https://api.conekta.io API.
 
 ## Installation
 
+### Gradle
+Add the compile line to your `build.gralde` inside the dependencies section.
+
+```groovy
+compile 'io.conekta:conekta-java:2.1.0'
+```
+
+### Maven
+Add the dependency to your `pom.xml`.
+
+```xml
+<dependency>
+  <groupId>io.conekta</groupId>
+  <artifactId>conekta-java</artifactId>
+  <version>2.1.0</version>
+</dependency>
+```
+
+### Source code
 Obtain the latest version of the Conekta Java bindings with:
 
     git clone https://github.com/conekta/conekta-java
 
 To get started, add the following to your Java code:
 
-    import com.conekta;
+    import io.conekta;
 
 ## Usage
 ```java    
@@ -76,5 +95,5 @@ Developed by [Conekta](https://www.conekta.io). Available with [MIT License](LIC
 We are hiring
 -------------
 
-If you are a comfortable working with a range of backend languages (Java, Python, Ruby, PHP, etc) and frameworks, you have solid foundation in data structures, algorithms and software design with strong analytical and debugging skills. 
+If you are a comfortable working with a range of backend languages (Java, Python, Ruby, PHP, etc) and frameworks, you have solid foundation in data structures, algorithms and software design with strong analytical and debugging skills.
 Send your CV, github to quieroser@conekta.io

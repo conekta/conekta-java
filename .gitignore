@@ -21,3 +21,6 @@ nbbuild/
 dist/
 nbdist/
 .nb-gradle/
+.DS_Store
+target/
+conf/settings.xml
