@@ -7,7 +7,7 @@ This is a java library that allows interaction with https://api.conekta.io API.
 ## Installation
 
 ### Gradle
-Add the compile line to your `build.gralde` inside the dependencies section.
+Add the compile line to your `build.gradle` inside the dependencies section.
 
 ```groovy
 compile 'io.conekta:conekta-java:2.1.0'
