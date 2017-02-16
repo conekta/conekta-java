@@ -27,7 +27,6 @@ public class Order extends Resource {
     public ConektaList charges = new ConektaList("charges");
     public ConektaList shipping_lines = new ConektaList("shipping_lines");
     public ConektaList line_items = new ConektaList("line_items");
-    public ConektaList returns = new ConektaList("returns");
     public Integer amount_refunded;
 
     public Order(String id) {
@@ -98,13 +97,6 @@ public class Order extends Resource {
                             lineItem.order = this;
                         }
                     }
-
-                    if(list.elements_type.equals("returns")){
-                        for (Object item : list){
-                            OrderReturn orderReturn = (OrderReturn) item;
-                            orderReturn.order = this;
-                        }
-                    }
                 }                
             }
         }
@@ -172,10 +164,10 @@ public class Order extends Resource {
         return (LineItems) this.createMemberWithRelation("line_items", params, this);
     }
     
-    public OrderReturn createReturn(JSONObject params) throws Exception {
-        OrderReturn orderReturn = (OrderReturn) this.createMemberWithRelation("returns", params, this);
+    public Order refund(JSONObject params) throws Exception {
+        Order order = (Order) this.customAction("POST", "refund", params);
         this.reload();
-        return orderReturn;
+        return order;
     }
     
     @Override

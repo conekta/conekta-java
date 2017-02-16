@@ -397,12 +397,9 @@ public class OrderTest extends ConektaBase{
             "}"
         );
 
-        OrderReturn orderReturn = order.createReturn(validReturn);
+        order.refund(validReturn);
 
-        assertTrue(order.payment_status.equals("returned"));
-        assertTrue(orderReturn instanceof OrderReturn);
-        assertTrue(order.returns instanceof ConektaList);
-        assertTrue(order.returns.size() == 1);
+        assertTrue(order.payment_status.equals("refunded"));
     }
     
     //@Test
