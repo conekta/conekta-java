@@ -12,13 +12,11 @@ import org.json.JSONObject;
 public class Order extends Resource {
     public String payment_status;
     public String currency;
-    public String customer_id;
     public Integer amount;
     public Integer created_at;
     public Boolean livemode;
     public CustomerInfo customer_info;
     public HashMap metadata = new HashMap();
-    public HashMap last_payment_info = new HashMap();
     public HashMap transitions = new HashMap();
     public ConektaList discount_lines = new ConektaList("discount_lines");
     public ShippingContact shipping_contact;
@@ -47,7 +45,7 @@ public class Order extends Resource {
         }
 
         if(Conekta.apiVersion.equals("2.0.0")){
-            String[] submodels = { "discount_lines", "tax_lines", "shipping_lines", "line_items", "charges", "returns" };
+            String[] submodels = { "discount_lines", "tax_lines", "shipping_lines", "line_items", "charges" };
 
             for (String submodel : submodels) {
                 ConektaList list = new ConektaList(submodel);

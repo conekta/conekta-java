@@ -18,7 +18,6 @@ public class ShippingContactTest extends ConektaBase{
         validVisaCard = new JSONObject("{"
                 + "'name': 'Nombre de prueba', "
                 + "'email': 'test@test.com', "
-                + "'cards':['tok_test_visa_4242'],"
                 + "'shipping_contacts': [{" +
                 "    'receiver': 'John Williams'," +
                 "    'phone': '+5213353319758'," +

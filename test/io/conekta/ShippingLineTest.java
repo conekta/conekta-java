@@ -25,11 +25,9 @@ public class ShippingLineTest extends ConektaBase {
             "    'unit_price': 35000," +
             "    'quantity': 1," +
             "    'tags': ['food', 'mexican food']," +
-            "    'type': 'physical'" +
             "  }]," +
             "'shipping_lines': [" +
             "    {" +
-            "        'description': 'Free Shipping'," +
             "        'amount': 0," +
             "        'tracking_number': 'TRACK123'," +
             "        'carrier': 'USPS'," +

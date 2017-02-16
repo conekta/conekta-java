@@ -23,7 +23,6 @@ public class TaxLineTest extends ConektaBase{
             "    'unit_price': 35000," +
             "    'quantity': 1," +
             "    'tags': ['food', 'mexican food']," +
-            "    'type': 'physical'" +
             "  }]," +
             "'tax_lines': [{" +
                 "  'description': 'IVA'," +

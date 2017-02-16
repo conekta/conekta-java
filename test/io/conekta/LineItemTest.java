@@ -24,14 +24,12 @@ public class LineItemTest extends ConektaBase{
             "    'description': 'Imported From Mex.'," +
             "    'unit_price': 20000," +
             "    'quantity': 1," +
-            "    'type': 'physical'," +
             "    'tags': ['food', 'mexican food']" +
             "  }, {" +
             "    'name': 'Box of Romeo y Julueta'," +
             "    'description': 'Imported From Cuba.'," +
             "    'unit_price': 20001," +
             "    'quantity': 1," +
-            "    'type': 'physical'," +
             "    'tags': ['food', 'mexican food']" +
             "  }]" +
             "}"
@@ -42,7 +40,6 @@ public class LineItemTest extends ConektaBase{
             "    'description': 'Imported From Mex.'," +
             "    'unit_price': 20000," +
             "    'quantity': 1," +
-            "    'type': 'physical'," +
             "    'tags': ['food', 'mexican food']" +
             "  }");
     }

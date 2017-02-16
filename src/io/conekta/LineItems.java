@@ -25,7 +25,6 @@ public class LineItems extends Resource {
     public String category;
     public HashMap antifraud_info = new HashMap();
     public Order order;
-    public Boolean shippable;
     public ConektaObject tags;
     public String brand;
     public String parent_id;

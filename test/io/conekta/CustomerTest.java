@@ -209,7 +209,7 @@ public class CustomerTest extends ConektaBase {
 
         Customer customer = Customer.create(valid_visa_card);
 
-        PaymentSource source = customer.createSource(sourceParams);
+        PaymentSource source = customer.createPaymentSource(sourceParams);
 
         assertTrue(source instanceof PaymentSource);
         assertTrue(customer.payment_sources.size() == 1);

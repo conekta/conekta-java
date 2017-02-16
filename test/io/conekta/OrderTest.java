@@ -33,7 +33,6 @@ public class OrderTest extends ConektaBase{
             "    'unit_price': 35000," +
             "    'quantity': 1," +
             "    'tags': ['food', 'mexican food']," +
-            "    'type': 'physical'" +
             "  }]" +
             "}"
         );
@@ -85,7 +84,6 @@ public class OrderTest extends ConektaBase{
         assertTrue(order instanceof Order);
         assertTrue(order.livemode == false);
         assertTrue(order.amount == 35000);
-        assertTrue(order.customer_id == null);
         assertTrue(order.currency.equals("MXN"));
         assertTrue((Boolean) order.metadata.get("test"));
     }
@@ -110,7 +108,6 @@ public class OrderTest extends ConektaBase{
         assertTrue(orderFound instanceof Order);
         assertTrue(orderFound.livemode == false);
         assertTrue(orderFound.amount == 35000);
-        assertTrue(orderFound.customer_id == null);
         assertTrue(orderFound.currency.equals("MXN"));
         assertTrue((Boolean) orderFound.metadata.get("test"));
     }
@@ -320,7 +317,6 @@ public class OrderTest extends ConektaBase{
 
     public void testSuccessfulShippingLineCreate() throws JSONException, Error, ErrorList, NoSuchFieldException, IllegalArgumentException, IllegalAccessException {
         JSONObject shippingLineParams = new JSONObject("{" +
-        "    'description': 'Free Shipping'," +
         "    'amount': 0," +
         "    'tracking_number': 'TRACK123'," +
         "    'carrier': 'USPS'," +
@@ -346,7 +342,6 @@ public class OrderTest extends ConektaBase{
             "  'description': 'Imported From Mex.'," +
             "  'unit_price': 20000," +
             "  'quantity': 1," +
-            "  'type': 'physical'," +
             "  'tags': ['food', 'mexican food']" +
             "}");
 
@@ -389,7 +384,6 @@ public class OrderTest extends ConektaBase{
         assertTrue(order instanceof Order);
         assertTrue(order.livemode == false);
         assertTrue(order.amount == 35000);
-        assertTrue(order.customer_id == null);
         assertTrue(order.currency.equals("MXN"));
         assertTrue((Boolean) order.metadata.get("test"));
         assertTrue((Integer) order.customer_info.antifraud_info.get("account_created_at") == 1484040996);
@@ -407,7 +401,6 @@ public class OrderTest extends ConektaBase{
         assertTrue(order instanceof Order);
         assertTrue(order.livemode == false);
         assertTrue(order.amount == 35000);
-        assertTrue(order.customer_id == null);
         assertTrue(order.currency.equals("MXN"));
         assertTrue((Boolean) order.metadata.get("test"));
         assertTrue((Integer) order.customer_info.antifraud_info.get("paid_transactions") == 9);

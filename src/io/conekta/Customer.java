@@ -21,7 +21,6 @@ public class Customer extends Resource {
     public String default_card_id;
     public Boolean deleted;
     public HashMap antifraud_info;
-    public ConektaList fiscal_entities = new ConektaList("fiscal_entities");
     public ConektaList shipping_contacts = new ConektaList("shipping_contacts");
     public ConektaList payment_sources = new ConektaList("payment_sources");
 
@@ -48,7 +47,7 @@ public class Customer extends Resource {
         }
         
         if(Conekta.apiVersion.equals("2.0.0")){
-            String[] submodels = { "fiscal_entities", "shipping_contacts", "payment_sources" };
+            String[] submodels = { "shipping_contacts", "payment_sources" };
 
             for (String submodel : submodels) {
                 if (jsonObject.has(submodel)){
@@ -126,7 +125,7 @@ public class Customer extends Resource {
         return (ShippingContact) this.createMemberWithRelation("shipping_contacts", params, this);
     }
 
-    public PaymentSource createSource(JSONObject params) throws JSONException, Error, ErrorList, NoSuchFieldException, IllegalArgumentException, IllegalAccessException{
+    public PaymentSource createPaymentSource(JSONObject params) throws JSONException, Error, ErrorList, NoSuchFieldException, IllegalArgumentException, IllegalAccessException{
         return (PaymentSource) this.createMemberWithRelation("payment_sources", params, this);
     }
 }

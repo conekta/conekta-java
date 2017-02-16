@@ -12,7 +12,6 @@ public class ShippingLine extends Resource {
     public Order order;
     public Boolean deleted;
     public String tracking_number;
-    public String description;
     public String carrier;
     public Integer amount;
     public Integer method;
