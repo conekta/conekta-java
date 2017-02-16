@@ -36,45 +36,34 @@ To get started, add the following to your Java code:
 ## Usage
 ```java    
 Conekta.setApiKey("1tv5yJp3xnVZ7eK67m4h");
-JSONObject valid_payment_method;
-JSONObject valid_visa_card;
-valid_visa_card = new JSONObject("{'card':'tok_test_visa_4242'}");
-valid_payment_method = new JSONObject("{'description':'Stogies'," +
-  "'reference_id':'9839-wolf_pack'," +
-  "'amount':20000," +
-  "'currency':'MXN'}");
-JSONObject params = valid_payment_method.put("card", valid_visa_card.get("card"));
-try {
-  Charge charge = Charge.create(params);
-} catch(Error e) {
-  System.out.println(e.toString());
-}
+JSONObject customerJSON = new JSONObject("{"
+    + "'name': 'James Howlett', "
+    + "'email': 'james.howlett@forces.gov',"
+    + "'phone': '+5213353319758',"
+    + "'payment_sources': [{"
+        + "'token_id': 'tok_test_visa_4242',"
+        + "'type': 'card'"
+    + "}]"
++ "}");
 
-// System.out.println(charge.toString());
+Customer customer = Customer.create(customerJSON);
+System.out.println(customer);
 
 {
-  amount=20000,
-  id=530680e6d7e1a076e4000595,
-  status=paid,
-  description=Stogies,
-  reference_id=9839-wolf_pack,
-  created_at=1392935143,
   livemode=false,
-  payment_method={
-    exp_month=12,
-    exp_year=19,
-    name=JorgeLopez,
-    auth_code=725872,
-    brand=visa,
-    last4=4242
-  },
-  currency=MXN
+  phone=+5213353319758,
+  name=Thane Kyrell,
+  created_at=1485908856,
+  id=cus_2fwNt8hqeq2vsGZk2,
+  email=thane@jelucan.org,
+  payment_sources={}
 }
+
 ```
 
 ## Documentation
 
-Please see https://www.conekta.io/docs/api for up-to-date documentation.
+Please see https://www.conekta.com/docs/api for up-to-date documentation.
 
 ## Tests
 

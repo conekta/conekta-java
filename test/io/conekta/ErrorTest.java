@@ -61,15 +61,6 @@ public class ErrorTest extends ConektaBase {
             assertTrue(e instanceof ParameterValidationError);
         }
     }
-    
-    public void testParameterValidationError() throws Error, JSONException, ErrorList {
-        JSONObject invalidCustomer = new JSONObject("{}");
-        try {
-            Customer customer = Customer.create(invalidCustomer);
-        } catch(ParameterValidationError e) {
-            assertTrue(e instanceof ParameterValidationError);
-        }
-    }
 
     public void testAuthenticationError() throws Error, ErrorList {
         unSetApiKey();
