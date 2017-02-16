@@ -242,10 +242,10 @@ public class CustomerTest extends ConektaBase {
     //@Test
     public void testSuccesfulCustomerCreateTravel() throws Exception {
         setApiVersion("2.0.0");
-        valid_visa_cardv2.put("vertical_info", travelCustomerInfo);
+        valid_visa_cardv2.put("antifraud_info", travelCustomerInfo);
         Customer customer = Customer.create(valid_visa_cardv2);
         assertTrue(customer instanceof Customer);
-        assertTrue(customer.vertical_info.get("account_created_at").equals("1484040996"));
-        assertTrue(customer.vertical_info.get("first_paid_at").equals("1485151007"));
+        assertTrue(customer.antifraud_info.get("account_created_at").equals(1484040996));
+        assertTrue(customer.antifraud_info.get("first_paid_at").equals(1485151007));
     }
 }

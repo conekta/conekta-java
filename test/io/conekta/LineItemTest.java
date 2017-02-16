@@ -80,7 +80,7 @@ public class LineItemTest extends ConektaBase{
         "	'dropoff_latlon': '22.1355397,-100.9976131,17'" +
         "}");
         
-        lineItem.put("vertical_info", transportationLineItemJSON);
+        lineItem.put("antifraud_info", transportationLineItemJSON);
         
         order.createLineItem(lineItem);
         
@@ -107,7 +107,7 @@ public class LineItemTest extends ConektaBase{
         "	'destination': 'Chiapas'" +
         "}");
         
-        lineItem.put("vertical_info", travelLineItemJSON);
+        lineItem.put("antifraud_info", travelLineItemJSON);
         
         order.createLineItem(lineItem);
         
@@ -133,7 +133,7 @@ public class LineItemTest extends ConektaBase{
         "	'seat_number': '22'" +
         "}");
         
-        lineItem.put("vertical_info", travelLineItemJSON);
+        lineItem.put("antifraud_info", travelLineItemJSON);
         
         order.createLineItem(lineItem);
         
@@ -155,7 +155,7 @@ public class LineItemTest extends ConektaBase{
         "	'target_amount': '220000'" +
         "}");
         
-        lineItem.put("vertical_info", travelLineItemJSON);
+        lineItem.put("antifraud_info", travelLineItemJSON);
         
         order.createLineItem(lineItem);
         

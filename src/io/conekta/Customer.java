@@ -20,7 +20,7 @@ public class Customer extends Resource {
     public String phone;
     public String default_card_id;
     public Boolean deleted;
-    public HashMap vertical_info;
+    public HashMap antifraud_info;
     public ConektaList fiscal_entities = new ConektaList("fiscal_entities");
     public ConektaList shipping_contacts = new ConektaList("shipping_contacts");
     public ConektaList payment_sources = new ConektaList("payment_sources");
