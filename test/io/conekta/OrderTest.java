@@ -49,7 +49,7 @@ public class OrderTest extends ConektaBase{
             "{ 'name': 'John Constantine'," +
             "  'phone': '+5213353319758'," +
             "  'email': 'hola@hola.com'," +
-            "  'vertical_info': {" +
+            "  'antifraud_info': {" +
             "      'account_created_at': 1484040996," +
             "      'first_paid_at': 1484040996," +
             "      'paid_transactions': 9," +
@@ -68,8 +68,8 @@ public class OrderTest extends ConektaBase{
         customer = Customer.create(new JSONObject("{'name': 'test name', 'email': 'test@test.com', 'cards':['tok_test_visa_4242']}"));
     
         customerInfoTransportationWithId = new JSONObject(
-            "{ 'id': '" + customer.id + "'," +
-            "  'vertical_info': {" +
+            "{ 'customer_id': '" + customer.id + "'," +
+            "  'antifraud_info': {" +
             "      'paid_transactions': 9," +
             "  }" +
             "}"
@@ -83,7 +83,6 @@ public class OrderTest extends ConektaBase{
         assertTrue(order instanceof Order);
         assertTrue(order.livemode == false);
         assertTrue(order.amount == 35000);
-        assertTrue(order.status.equals("created"));
         assertTrue(order.customer_id == null);
         assertTrue(order.currency.equals("MXN"));
         assertTrue((Boolean) order.metadata.get("test"));
@@ -109,7 +108,6 @@ public class OrderTest extends ConektaBase{
         assertTrue(orderFound instanceof Order);
         assertTrue(orderFound.livemode == false);
         assertTrue(orderFound.amount == 35000);
-        assertTrue(orderFound.status.equals("created"));
         assertTrue(orderFound.customer_id == null);
         assertTrue(orderFound.currency.equals("MXN"));
         assertTrue((Boolean) orderFound.metadata.get("test"));
@@ -401,7 +399,7 @@ public class OrderTest extends ConektaBase{
 
         OrderReturn orderReturn = order.createReturn(validReturn);
 
-        assertTrue(order.status.equals("returned"));
+        assertTrue(order.payment_status.equals("returned"));
         assertTrue(orderReturn instanceof OrderReturn);
         assertTrue(order.returns instanceof ConektaList);
         assertTrue(order.returns.size() == 1);
@@ -415,7 +413,6 @@ public class OrderTest extends ConektaBase{
         assertTrue(order instanceof Order);
         assertTrue(order.livemode == false);
         assertTrue(order.amount == 35000);
-        assertTrue(order.status.equals("created"));
         assertTrue(order.customer_id == null);
         assertTrue(order.currency.equals("MXN"));
         assertTrue((Boolean) order.metadata.get("test"));
@@ -432,7 +429,6 @@ public class OrderTest extends ConektaBase{
         assertTrue(order instanceof Order);
         assertTrue(order.livemode == false);
         assertTrue(order.amount == 35000);
-        assertTrue(order.status.equals("created"));
         assertTrue(order.customer_id == null);
         assertTrue(order.currency.equals("MXN"));
         assertTrue((Boolean) order.metadata.get("test"));

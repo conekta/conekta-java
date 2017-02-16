@@ -10,7 +10,7 @@ import org.json.JSONObject;
  * @author L.Carlos
  */
 public class Order extends Resource {
-    public String status;
+    public String payment_status;
     public String currency;
     public String customer_id;
     public Integer amount;
