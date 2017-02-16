@@ -61,6 +61,15 @@ public class ErrorTest extends ConektaBase {
             assertTrue(e instanceof ParameterValidationError);
         }
     }
+    
+    public void testParameterValidationError() throws Error, JSONException, ErrorList {
+        JSONObject invalidCustomer = new JSONObject("{}");
+        try {
+            Customer customer = Customer.create(invalidCustomer);
+        } catch(ParameterValidationError e) {
+            assertTrue(e instanceof ParameterValidationError);
+        }
+    }
 
     public void testAuthenticationError() throws Error, ErrorList {
         unSetApiKey();
@@ -81,17 +90,6 @@ public class ErrorTest extends ConektaBase {
         } catch (ParameterValidationError e) {
             assertTrue(e instanceof ParameterValidationError);
         }
-    }
-
-    public void testNoCardError() throws Error, JSONException, ErrorList {
-        setPublicApiKey();
-        valid_visa_card = new JSONObject("{'card':{'number':'tok_test_visa_4242'}}");
-        try {
-            Token token = Token.create(valid_visa_card);
-        } catch(ParameterValidationError e) {
-            assertTrue(e instanceof ParameterValidationError);
-        }
-        setApiKey();
     }
 
     public void testProcessingError() throws Error, JSONException, ErrorList {
