@@ -1,61 +1,69 @@
 ![alt tag](https://raw.github.com/conekta/conekta-java/master/readme_files/cover.png)
 
-# Conekta Java 2.0.4
+# Conekta Java 2.1.0
 
 This is a java library that allows interaction with https://api.conekta.io API.
 
 ## Installation
 
+### Gradle
+Add the compile line to your `build.gradle` inside the dependencies section.
+
+```groovy
+compile 'io.conekta:conekta-java:2.1.0'
+```
+
+### Maven
+Add the dependency to your `pom.xml`.
+
+```xml
+<dependency>
+  <groupId>io.conekta</groupId>
+  <artifactId>conekta-java</artifactId>
+  <version>2.1.0</version>
+</dependency>
+```
+
+### Source code
 Obtain the latest version of the Conekta Java bindings with:
 
     git clone https://github.com/conekta/conekta-java
 
 To get started, add the following to your Java code:
 
-    import com.conekta;
+    import io.conekta;
 
 ## Usage
 ```java    
 Conekta.setApiKey("1tv5yJp3xnVZ7eK67m4h");
-JSONObject valid_payment_method;
-JSONObject valid_visa_card;
-valid_visa_card = new JSONObject("{'card':'tok_test_visa_4242'}");
-valid_payment_method = new JSONObject("{'description':'Stogies'," +
-  "'reference_id':'9839-wolf_pack'," +
-  "'amount':20000," +
-  "'currency':'MXN'}");
-JSONObject params = valid_payment_method.put("card", valid_visa_card.get("card"));
-try {
-  Charge charge = Charge.create(params);
-} catch(Error e) {
-  System.out.println(e.toString());
-}
+JSONObject customerJSON = new JSONObject("{"
+    + "'name': 'James Howlett', "
+    + "'email': 'james.howlett@forces.gov',"
+    + "'phone': '+5213353319758',"
+    + "'payment_sources': [{"
+        + "'token_id': 'tok_test_visa_4242',"
+        + "'type': 'card'"
+    + "}]"
++ "}");
 
-// System.out.println(charge.toString());
+Customer customer = Customer.create(customerJSON);
+System.out.println(customer);
 
 {
-  amount=20000,
-  id=530680e6d7e1a076e4000595,
-  status=paid,
-  description=Stogies,
-  reference_id=9839-wolf_pack,
-  created_at=1392935143,
   livemode=false,
-  payment_method={
-    exp_month=12,
-    exp_year=19,
-    name=JorgeLopez,
-    auth_code=725872,
-    brand=visa,
-    last4=4242
-  },
-  currency=MXN
+  phone=+5213353319758,
+  name=Thane Kyrell,
+  created_at=1485908856,
+  id=cus_2fwNt8hqeq2vsGZk2,
+  email=thane@jelucan.org,
+  payment_sources={}
 }
+
 ```
 
 ## Documentation
 
-Please see https://www.conekta.io/docs/api for up-to-date documentation.
+Please see https://www.conekta.com/docs/api for up-to-date documentation.
 
 ## Tests
 
@@ -76,5 +84,5 @@ Developed by [Conekta](https://www.conekta.io). Available with [MIT License](LIC
 We are hiring
 -------------
 
-If you are a comfortable working with a range of backend languages (Java, Python, Ruby, PHP, etc) and frameworks, you have solid foundation in data structures, algorithms and software design with strong analytical and debugging skills. 
+If you are a comfortable working with a range of backend languages (Java, Python, Ruby, PHP, etc) and frameworks, you have solid foundation in data structures, algorithms and software design with strong analytical and debugging skills.
 Send your CV, github to quieroser@conekta.io
