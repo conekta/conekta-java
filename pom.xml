@@ -1,11 +1,11 @@
 <?xml version="1.0" encoding="UTF-8"?>
-<project xmlns="http://maven.apache.org/POM/4.0.0" 
-xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance" 
+<project xmlns="http://maven.apache.org/POM/4.0.0"
+xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance"
 xsi:schemaLocation="http://maven.apache.org/POM/4.0.0 http://maven.apache.org/maven-v4_0_0.xsd">
   <modelVersion>4.0.0</modelVersion>
   <groupId>io.conekta</groupId>
   <artifactId>conekta-java</artifactId>
-  <version>2.1.0</version>
+  <version>2.1.0-SNAPSHOT</version>
   <packaging>jar</packaging>
   <name>conekta-java</name>
   <description>This is a java library that allows interaction with https://api.conekta.io API.</description>
@@ -25,14 +25,19 @@ xsi:schemaLocation="http://maven.apache.org/POM/4.0.0 http://maven.apache.org/ma
     </developer>
   </developers>
   <scm>
-    <connection>scm:git:git://github.com/conekta/conekta-java.git</connection>
-    <developerConnection>scm:git:ssh://github.com:conekta/conekta-java.git</developerConnection>
+    <connection>scm:git:git@github.com:conekta/conekta-java.git</connection>
+    <developerConnection>scm:git:git@github.com:conekta/conekta-java.git</developerConnection>
     <url>http://github.com/conekta/conekta-java/tree/master</url>
   </scm>
   <build>
     <sourceDirectory>src</sourceDirectory>
     <testSourceDirectory>test</testSourceDirectory>
     <plugins>
+      <plugin>
+        <groupId>org.apache.maven.plugins</groupId>
+        <artifactId>maven-release-plugin</artifactId>
+        <version>2.5.3</version>
+      </plugin>
       <plugin>
         <version>2.3.2</version>
         <artifactId>maven-compiler-plugin</artifactId>
@@ -83,6 +88,19 @@ xsi:schemaLocation="http://maven.apache.org/POM/4.0.0 http://maven.apache.org/ma
           </execution>
         </executions>
       </plugin>
+      <plugin>
+        <groupId>org.apache.maven.plugins</groupId>
+        <artifactId>maven-source-plugin</artifactId>
+        <version>3.0.1</version>
+        <executions>
+          <execution>
+            <id>attach-sources</id>
+            <goals>
+              <goal>jar</goal>
+            </goals>
+          </execution>
+        </executions>
+      </plugin>
     </plugins>
     <resources>
       <resource>
@@ -119,7 +137,7 @@ xsi:schemaLocation="http://maven.apache.org/POM/4.0.0 http://maven.apache.org/ma
     </snapshotRepository>
     <repository>
       <id>ossrh</id>
-      <url>https://oss.sonatype.org/service/local/staging/deploy/maven2/</url>
+      <url>https://oss.sonatype.org/service/local/staging/deploy/maven2</url>
     </repository>
   </distributionManagement>
 </project>

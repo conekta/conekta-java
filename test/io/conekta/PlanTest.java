@@ -16,7 +16,7 @@ public class PlanTest extends ConektaBase {
         super();
         setApiVersion("1.0.0");
         ConektaObject plans = Plan.where();
-        id = (new Random()).nextInt(1000);
+        id = (new Random()).nextInt(10000);
         params = new JSONObject("{'id' : 'gold-plan2"+ id +"','name' : 'Gold Plan','amount' : 10000,'currency' : 'MXN','interval' : 'month','frequency' : 10,'trial_period_days' : 15,'expiry_count' : 12}");
     }
 
