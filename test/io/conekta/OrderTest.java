@@ -223,7 +223,7 @@ public class OrderTest extends ConektaBase{
 
     // @Test
     public void testSuccessfulOrderCapture() throws JSONException, Error, ErrorList {
-        validOrder.put("preauthorize", true);
+        validOrder.put("pre_authorize", true);
         validOrder.put("customer_info", customerInfo);
         JSONArray chargesArray = new JSONArray();
         chargesArray.put(validCharge);
