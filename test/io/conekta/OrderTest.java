@@ -53,6 +53,7 @@ public class OrderTest extends ConektaBase{
             "      'account_created_at': 1484040996," +
             "      'first_paid_at': 1484040996," +
             "      'paid_transactions': 9," +
+            "      'requires_receipt': true" +
             "  }" +
             "}"
         );
@@ -71,6 +72,7 @@ public class OrderTest extends ConektaBase{
             "{ 'customer_id': '" + customer.id + "'," +
             "  'antifraud_info': {" +
             "      'paid_transactions': 9," +
+            "      'requires_receipt': true" +
             "  }" +
             "}"
         );
@@ -124,30 +126,7 @@ public class OrderTest extends ConektaBase{
         assertTrue(orders.size() == 10);assertTrue(orders.size() == 10);
         assertTrue(order instanceof Order);
     }
-
-    // @Test
-    public void testSuccessfulFiscalEntityCreate() throws JSONException, Error, ErrorList {
-        JSONObject fiscalEntityParams = new JSONObject("{" +
-        "    'tax_id': 'AMGH851205MN1'," +
-        "    'name': 'Nike SA de CV'," +
-        "    'address': {" +
-        "        'street1': '250 Alexis St'," +
-        "        'internal_number': '19'," +
-        "        'external_number': '91'," +
-        "        'city': 'Red Deer'," +
-        "        'state': 'Alberta'," +
-        "        'country': 'MX'," +
-        "        'postal_code': '78215'" +
-        "    }" +
-        "}");
-
-        Order order = Order.create(validOrder);
-
-        order.createFiscalEntity(fiscalEntityParams);
-
-        assertTrue(order.fiscal_entity instanceof FiscalEntity);
-    }
-
+    
     // @Test
     public void testSuccessfulDiscountLineCreate() throws JSONException, Error, ErrorList, NoSuchFieldException, IllegalArgumentException, IllegalAccessException {
         JSONObject discountLineParams = new JSONObject("{" +
@@ -416,6 +395,8 @@ public class OrderTest extends ConektaBase{
         assertTrue((Integer) order.customer_info.antifraud_info.get("account_created_at") == 1484040996);
         assertTrue((Integer) order.customer_info.antifraud_info.get("first_paid_at") == 1484040996);
         assertTrue((Integer) order.customer_info.antifraud_info.get("paid_transactions") == 9);
+        assertTrue((Boolean) order.customer_info.antifraud_info.get("requires_receipt"));
+
     }
     
         //@Test
@@ -430,6 +411,7 @@ public class OrderTest extends ConektaBase{
         assertTrue(order.currency.equals("MXN"));
         assertTrue((Boolean) order.metadata.get("test"));
         assertTrue((Integer) order.customer_info.antifraud_info.get("paid_transactions") == 9);
+        assertTrue((Boolean) order.customer_info.antifraud_info.get("requires_receipt"));
     }
     
     

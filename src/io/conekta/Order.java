@@ -20,7 +20,6 @@ public class Order extends Resource {
     public HashMap metadata = new HashMap();
     public HashMap last_payment_info = new HashMap();
     public HashMap transitions = new HashMap();
-    public FiscalEntity fiscal_entity;
     public ConektaList discount_lines = new ConektaList("discount_lines");
     public ShippingContact shipping_contact;
     public ConektaList tax_lines = new ConektaList("tax_lines");
@@ -122,14 +121,6 @@ public class Order extends Resource {
     public static ConektaList where(JSONObject params) throws Error, JSONException, ErrorList {
         String className = Order.class.getSimpleName();
         return (ConektaList) scpWhereList(className, params);
-    }
-
-    public FiscalEntity createFiscalEntity(JSONObject params) throws JSONException, Error, ErrorList{
-        JSONObject updateParams = new JSONObject();
-        updateParams.put("fiscal_entity", params);
-        this.update(updateParams);
-
-        return this.fiscal_entity;
     }
 
     public DiscountLine createDiscountLine(JSONObject params) throws JSONException, Error, ErrorList, NoSuchFieldException, IllegalArgumentException, IllegalAccessException {

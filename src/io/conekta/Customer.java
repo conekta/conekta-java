@@ -60,13 +60,6 @@ public class Customer extends Resource {
                     field.set(this, list);
                     this.setVal(submodel, list);
 
-                    if(list.elements_type.equals("fiscal_entities")){
-                        for (Object item : list){
-                            FiscalEntity fiscalEntity = (FiscalEntity) item;
-                            fiscalEntity.customer = this;
-                        }
-                    }
-
                     if(list.elements_type.equals("shipping_contacts")){
                         for (Object item : list){
                             ShippingContact shippingContact = (ShippingContact) item;
@@ -127,10 +120,6 @@ public class Customer extends Resource {
 
     public Subscription createSubscription(JSONObject params) throws Error, ErrorList, NoSuchFieldException, IllegalArgumentException, IllegalAccessException {
         return (Subscription) this.createMemberWithRelation("subscription", params, this);
-    }
-    
-    public FiscalEntity createFiscalEntity(JSONObject params) throws JSONException, Error, ErrorList, NoSuchFieldException, IllegalArgumentException, IllegalAccessException{
-        return (FiscalEntity) this.createMemberWithRelation("fiscal_entities", params, this);
     }
 
     public ShippingContact createShippingContact(JSONObject params) throws JSONException, Error, ErrorList, NoSuchFieldException, IllegalArgumentException, IllegalAccessException{
