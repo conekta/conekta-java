@@ -13,7 +13,6 @@ public class Utils {
 
     private Utils() {
         types.put("Order", Order.class.getSimpleName());
-        classes.put("fiscal_entities", FiscalEntity.class.getCanonicalName());
         classes.put("discount_lines", DiscountLine.class.getCanonicalName());
         classes.put("shipping_contacts", ShippingContact.class.getCanonicalName());
         classes.put("tax_lines", TaxLine.class.getCanonicalName());

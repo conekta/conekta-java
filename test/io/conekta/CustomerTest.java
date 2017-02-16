@@ -33,7 +33,8 @@ public class CustomerTest extends ConektaBase {
         
         travelCustomerInfo = new JSONObject("{" +
         "  'account_created_at': 1484040996," +
-        "  'first_paid_at': 1485151007" +
+        "  'first_paid_at': 1485151007," +
+        "  'requires_receipt': true" +    
         "}");
     }
 
@@ -171,31 +172,6 @@ public class CustomerTest extends ConektaBase {
         Customer customer = testSuccesfulSubscriptionCreate();
         customer.subscription.cancel();
         assertTrue(customer.subscription.status.equals("canceled"));
-    }
-
-    // @Test
-    public void testSuccessfulFiscalEntityCreate() throws JSONException, Error, ErrorList, NoSuchFieldException, IllegalArgumentException, IllegalAccessException {
-        setApiVersion("2.0.0");
-        JSONObject fiscalEntityParams = new JSONObject("{" +
-        "    'tax_id': 'AMGH851205MN1'," +
-        "    'name': 'Nike SA de CV'," +
-        "    'address': {" +
-        "        'street1': '250 Alexis St'," +
-        "        'internal_number': '19'," +
-        "        'external_number': '91'," +
-        "        'city': 'Red Deer'," +
-        "        'state': 'Alberta'," +
-        "        'country': 'MX'," +
-        "        'postal_code': '78215'" +
-        "    }" +
-        "}");
-
-        Customer customer = Customer.create(valid_visa_card);
-
-        FiscalEntity fiscalEntity = customer.createFiscalEntity(fiscalEntityParams);
-
-        assertTrue(fiscalEntity instanceof FiscalEntity);
-        assertTrue(customer.fiscal_entities.size() == 1);
     }
 
     // @Test
