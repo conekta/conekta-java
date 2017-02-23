@@ -33,7 +33,7 @@ public class Requestor {
     public Requestor() {
         this.apiKey = Conekta.apiKey;
     }
-
+    
     public static String apiUrl(String url) {
         if(url.contains(Conekta.apiBase)){
             return url;

@@ -16,13 +16,15 @@ public class OxxoPayment extends PaymentMethod {
     public String barcode;
     public String barcode_url;
     public Integer expires_at;
+    public String store_name;
+    public String reference;
+    public String service_name;
 
     public OxxoPayment(JSONObject jsonObject) throws Error {
         super();
-        //this.type = "cash_payment";
         try {
-            this.barcode = jsonObject.getString("barcode");
-            this.barcode_url = jsonObject.getString("barcode_url");
+            this.barcode = jsonObject.optString("barcode");
+            this.barcode_url = jsonObject.optString("barcode_url");
         } catch (Exception e) {
             throw new Error(e.toString(), null, null, null, null);
         }

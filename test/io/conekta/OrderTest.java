@@ -15,6 +15,7 @@ public class OrderTest extends ConektaBase{
     JSONObject validOrder;
     JSONObject customerInfo;
     JSONObject validCharge;
+    JSONObject validOxxoPayCharge;
     JSONObject customerTransportationInfo;
     JSONObject customerInfoTransportationWithId;
     Customer customer;
@@ -61,6 +62,13 @@ public class OrderTest extends ConektaBase{
                 + "'payment_method': {"
                 + "    'type': 'card',"
                 + "    'token_id': 'tok_test_visa_4242'"
+                + "}, "
+                + "'amount': 35000"
+                + "}");
+        
+        validOxxoPayCharge = new JSONObject("{"
+                + "'payment_method': {"
+                + "    'type': 'oxxo_cash',"
                 + "}, "
                 + "'amount': 35000"
                 + "}");
@@ -393,7 +401,7 @@ public class OrderTest extends ConektaBase{
 
     }
     
-        //@Test
+    //@Test
     public void testSuccesfulOrderTransportationWithCustomerIDCreate() throws Exception {
         validOrder.put("customer_info", customerInfoTransportationWithId);
         Order order = Order.create(validOrder);
@@ -407,5 +415,26 @@ public class OrderTest extends ConektaBase{
         assertTrue((Boolean) order.customer_info.antifraud_info.get("requires_receipt"));
     }
     
+    //@Test
+    public void testOxxoPay() throws Exception {
+        JSONObject chargeParams = new JSONObject("{"
+                + "'payment_method': {"
+                + "    'type': 'oxxo_cash',"
+                + "}, "
+                + "'amount': 35000"
+                + "}");
+
+        Order order = Order.create(validOrder.put("customer_info", customerInfo));
+
+        Charge charge = order.createCharge(chargeParams);
+        
+        OxxoPayment oxxoPayment = (OxxoPayment) charge.payment_method;
+        
+        assertTrue(order.charges instanceof ConektaList);
+        assertTrue(!oxxoPayment.reference.isEmpty());
+        assertTrue(oxxoPayment.service_name.equals("OxxoPay"));
+        assertTrue(oxxoPayment.store_name.equals("OXXO"));
+        assertTrue(charge instanceof Charge);
+    }
     
 }
