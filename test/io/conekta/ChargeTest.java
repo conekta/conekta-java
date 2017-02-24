@@ -99,6 +99,15 @@ public class ChargeTest extends ConektaBase {
         assertTrue(charges instanceof ConektaObject);
         assertTrue(charges.get(0) instanceof ConektaObject);
     }
+    
+    //@Test
+    public void testSuccesfulWhereV2() throws Exception {
+        setApiVersion("2.0.0");
+        JSONObject where_params = new JSONObject("{'description':'Stogies'}");
+        ConektaObject charges = Charge.where(where_params);
+        assertTrue(charges instanceof ConektaObject);
+        assertTrue(charges.get(0) instanceof ConektaObject);
+    }
 
     //@Test
     public void testSuccesfulBankPMCreate() throws Exception {
@@ -123,6 +132,7 @@ public class ChargeTest extends ConektaBase {
 
     //@Test
     public void testSuccesfulOxxoPMCreate() throws Exception {
+        setApiVersion("1.0.0");
         JSONObject oxxo = new JSONObject("{'cash':{'type':'oxxo'}}");
         JSONObject params = valid_payment_method.put("cash", oxxo.get("cash"));
         Charge charge = Charge.create(params);
@@ -132,6 +142,7 @@ public class ChargeTest extends ConektaBase {
 
     //@Test
     public void testUnsuccesfulPMCreate() throws Exception {
+        setApiVersion("1.0.0");
         JSONObject params = invalid_payment_method.put("card", valid_visa_card.get("card"));
         try {
             Charge.create(params);

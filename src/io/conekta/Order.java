@@ -118,7 +118,7 @@ public class Order extends Resource {
 
     public static ConektaList where(JSONObject params) throws Error, JSONException, ErrorList {
         String className = Order.class.getSimpleName();
-        return (ConektaList) scpWhereList(className, params);
+        return (ConektaList) scpWhere(className, params);
     }
 
     public DiscountLine createDiscountLine(JSONObject params) throws JSONException, Error, ErrorList, NoSuchFieldException, IllegalArgumentException, IllegalAccessException {
