@@ -163,7 +163,7 @@ public class Resource extends ConektaObject {
 
                 this.setVal(member, conektaObject);
                 field.set(this, conektaObject);
-                this.loadFromObject(null);
+                this.loadFromObject(params);
             }
         } catch (Exception e) {
             throw new Error(e.toString(), null, null, null, null);

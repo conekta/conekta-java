@@ -12,6 +12,9 @@ public class PaymentSource extends Resource{
     public Customer customer;
     public String type;
     public String name;
+    public String last4;
+    public String bin;
+    public String brand;
     public String exp_month;
     public String exp_year;
     public String cvc;
