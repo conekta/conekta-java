@@ -29,7 +29,7 @@ public class ErrorListTest extends ConektaBase {
         try {
             Order.create(invalidOrder);
         } catch(ErrorList e) {
-            assertTrue(e.details.get(0).message.equals("El parametro line_items es requerido."));
+            assertTrue(e.details.get(0).message.equals("El parametro \"line_items\" es requerido."));
         }
     }
 }
