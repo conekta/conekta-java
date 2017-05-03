@@ -109,7 +109,19 @@ public class CustomerTest extends ConektaBase {
     }
 
     //@Test
-    public Customer testSuccesfulSubscriptionCreate() throws Exception {
+    public Customer testSuccesfulSubscriptionCreateV2() throws Exception {
+        Customer customer = Customer.create(valid_visa_card);
+        JSONObject params = new JSONObject("{'plan':'gold-plan'}");
+        customer.createSubscription(params);
+        assertTrue(customer.subscription instanceof Subscription);
+        assertTrue(customer.subscription.status.equals("in_trial"));
+        assertTrue(customer.subscription.plan_id.equals("gold-plan"));
+        assertTrue(customer.subscription.card_id.equals(customer.default_card_id));
+        return customer;
+    }
+    
+    //@Test
+    public Customer testSuccesfulSubscriptionCreateV1() throws Exception {
         Customer customer = Customer.create(valid_visa_card);
         JSONObject params = new JSONObject("{'plan':'gold-plan'}");
         customer.createSubscription(params);
@@ -121,9 +133,23 @@ public class CustomerTest extends ConektaBase {
     }
 
     //@Test
-    public void testSuccesfulSubscriptionUpdate() throws Exception {
+    public void testSuccesfulSubscriptionUpdateV1() throws Exception {
         setApiVersion("1.0.0");
-        Customer customer = testSuccesfulSubscriptionCreate();
+        Customer customer = testSuccesfulSubscriptionCreateV1();
+        Plan plan = null;
+        try {
+            plan = Plan.find("gold-plan2");
+        } catch(Error e) {
+            JSONObject params = new JSONObject("{'id':'gold-plan2','name':'Gold plan', 'amount':1000, 'currency':'MXN','interval':'month','frequency':1,'trial_period_days':15,'expiry_count':12}");
+            plan = Plan.create(params);
+        }
+        customer.subscription.update(new JSONObject("{'plan':'"+plan.id+"'}"));
+        assertTrue(customer.subscription.plan_id.equals(plan.id));
+    }
+   
+        //@Test
+    public void testSuccesfulSubscriptionUpdateV2() throws Exception {
+        Customer customer = testSuccesfulSubscriptionCreateV2();
         Plan plan = null;
         try {
             plan = Plan.find("gold-plan2");
@@ -135,9 +161,8 @@ public class CustomerTest extends ConektaBase {
         assertTrue(customer.subscription.plan_id.equals(plan.id));
     }
 
-        //@Test
+    //@Test
     public void testUnSuccesfulSubscriptionCreate() throws Exception {
-        setApiVersion("1.0.0");
         Customer customer = Customer.create(valid_visa_card);
         JSONObject params = new JSONObject("{'plan':'unexistent-plan'}");
         try {
@@ -151,7 +176,7 @@ public class CustomerTest extends ConektaBase {
     //@Test
     public void testSuccesfulSubscriptionPause() throws Exception {
         setApiVersion("1.0.0");
-        Customer customer = testSuccesfulSubscriptionCreate();
+        Customer customer = testSuccesfulSubscriptionCreateV1();
         customer.subscription.pause();
         assertTrue(customer.subscription.status.equals("paused"));
     }
@@ -159,7 +184,7 @@ public class CustomerTest extends ConektaBase {
     //@Test
     public void testSuccesfulSubscriptionResume() throws Exception {
         setApiVersion("1.0.0");
-        Customer customer = testSuccesfulSubscriptionCreate();
+        Customer customer = testSuccesfulSubscriptionCreateV1();
         customer.subscription.pause();
         assertTrue(customer.subscription.status.equals("paused"));
         customer.subscription.resume();
@@ -169,7 +194,7 @@ public class CustomerTest extends ConektaBase {
     //@Test
     public void testSuccesfulSubscriptionCancel() throws Exception {
         setApiVersion("1.0.0");
-        Customer customer = testSuccesfulSubscriptionCreate();
+        Customer customer = testSuccesfulSubscriptionCreateV1();
         customer.subscription.cancel();
         assertTrue(customer.subscription.status.equals("canceled"));
     }
