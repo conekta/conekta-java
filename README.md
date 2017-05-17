@@ -1,4 +1,4 @@
-![alt tag](https://raw.github.com/conekta/conekta-java/master/readme_files/cover.png)
+![README Cover Image](readme_cover.png)
 
 # Conekta Java 2.1.3
 
@@ -269,7 +269,7 @@ customer.createCard();
 ```
 ## Documentation
 
-Please see https://www.conekta.com/docs/api for up-to-date documentation.
+Please see [developers.conekta.com/api](https://developers.conekta.com/api) for up-to-date documentation.
 
 ## Tests
 
@@ -283,12 +283,12 @@ If you cannot connect to https://api.conekta.io, try installing the [certificate
 keytool -import -noprompt -trustcacerts -alias conekta -file %PROJECT_PATH%\ssl_data\ca_bundle.pem -keystore %JAVA_HOME%\lib\security\cacerts -storepass changeit
 ```
 
-License
--------
-Developed by [Conekta](https://www.conekta.io). Available with [MIT License](LICENSE).
+## License
 
-We are hiring
--------------
+Developed in Mexico by [Conekta](https://www.conekta.com). Available with [MIT License](LICENSE).
 
-If you are a comfortable working with a range of backend languages (Java, Python, Ruby, PHP, etc) and frameworks, you have solid foundation in data structures, algorithms and software design with strong analytical and debugging skills.
-Send your CV, github to quieroser@conekta.io
+***
+
+## We are always hiring!
+
+If you are a comfortable working with a range of backend languages (Java, Python, Ruby, PHP, etc) and frameworks, you have solid foundation in data structures, algorithms and software design with strong analytical and debugging skills. Send us your CV and GitHub to quieroser@conekta.com
