@@ -15,6 +15,7 @@ public class Subscription extends Resource {
     public Integer billing_cycle_start;
     public Integer billing_cycle_end;
     public String plan_id;
+    public String customer_id;
     public String card_id;
 
     @Override
@@ -25,7 +26,7 @@ public class Subscription extends Resource {
             throw new Error(Lang.translate("error.resource.id", parameters, Lang.EN),
                     Lang.translate("error.resource.id_purchaser", parameters, Conekta.locale), null, null, null);
         }
-        String base = this.customer.instanceUrl();
+        String base = "/customers/"+ this.customer_id;
         return base + "/subscription";
     }
 
