@@ -58,4 +58,33 @@ public class ConektaList extends ConektaObject{
         
         return this;
     }
+
+	@Override
+	public String toString() {
+		StringBuilder builder = new StringBuilder();
+		builder.append("{elements_type=");
+		builder.append(elements_type);
+		builder.append(", next_page_url=");
+		builder.append(next_page_url != null && !next_page_url.isEmpty() ? next_page_url : "null");
+		builder.append(", previous_page_url=");
+		builder.append(previous_page_url != null && !previous_page_url.isEmpty() ? previous_page_url : "null");
+		builder.append(", has_more=");
+		builder.append(has_more);
+		builder.append(", total=");
+		builder.append(total);
+		builder.append(", data: [");
+		int size = this.size();
+		if (size > 0){
+			for(int i = 0; i < size; i++){
+				builder.append(super.get(i).toString());
+				if (i != size -1 )
+					builder.append(", ");
+			}
+		}
+		builder.append(" ]");
+		builder.append("}");
+		return builder.toString();
+	}
+ 
+    
 }
