@@ -40,4 +40,18 @@ public class ConektaListTest extends ConektaBase{
 
         assertTrue(id.equals(last.id));
     }
+    
+    // 	@Test
+    public void testToString() throws JSONException, Error, ErrorList{
+        JSONObject paginateParams = new JSONObject("{ 'limit': 10 }");
+        ConektaList lastWindow = Order.where(paginateParams);
+        String listAsString = lastWindow.toString();
+
+        assertTrue(listAsString.contains("elements_type"));
+        assertTrue(listAsString.contains("next_page_url"));
+        assertTrue(listAsString.contains("previous_page_url"));
+        assertTrue(listAsString.contains("has_more"));
+        assertTrue(listAsString.contains("total"));
+        assertTrue(listAsString.contains("data"));
+    }
 }
