@@ -24,6 +24,8 @@ Add the dependency to your `pom.xml`.
 </dependency>
 ```
 
+### Direct download  <a href="https://oss.sonatype.org/service/local/repositories/releases/content/io/conekta/conekta-java/2.1.4/conekta-java-2.1.4.jar">conekta-java-2.1.4.jar</a> 
+
 ### Source code
 Obtain the latest version of the Conekta Java bindings with:
 
