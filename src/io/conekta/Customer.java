@@ -19,6 +19,7 @@ public class Customer extends Resource {
     public String email;
     public String phone;
     public String default_card_id;
+    public String default_payment_source_id;
     public Boolean deleted;
     public HashMap antifraud_info;
     public ConektaList shipping_contacts = new ConektaList("shipping_contacts");
