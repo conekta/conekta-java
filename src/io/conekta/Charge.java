@@ -10,6 +10,7 @@ public class Charge extends Resource {
 
     public Boolean livemode;
     public Integer created_at;
+    public Integer expires_at;
     public String status;
     public String currency;
     public String description;
