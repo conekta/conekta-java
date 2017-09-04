@@ -259,20 +259,25 @@ public class OrderTest extends ConektaBase{
 
     //@Test
     public void testSuccesfulSPEIPMCreate() throws Exception {
+        long assertTime;
+        assertTime= tomorrow();
+
         JSONObject chargeParams = new JSONObject("{"
                 + "'payment_method': {"
                 + "    'type': 'spei',"
-                + "    'expires_at': " + tomorrow()
+                + "    'expires_at': " + assertTime
                 + "}, "
                 + "'amount': 35000"
                 + "}");
 
         Order order = Order.create(validOrder.put("customer_info", customerInfo));
 
-        Charge charge = order.createCharge(chargeParams);
+        Charge speiPayment = order.createCharge(chargeParams);
 
+
+        assertTrue(speiPayment.payment_method.expires_at == assertTime);
         assertTrue(order.charges instanceof ConektaList);
-        assertTrue(charge instanceof Charge);
+        assertTrue(speiPayment instanceof Charge);
     }
 
     //@Test
@@ -429,7 +434,8 @@ public class OrderTest extends ConektaBase{
         Charge charge = order.createCharge(chargeParams);
         
         OxxoPayment oxxoPayment = (OxxoPayment) charge.payment_method;
-        
+
+
         assertTrue(order.charges instanceof ConektaList);
         assertTrue(!oxxoPayment.reference.isEmpty());
         assertTrue(oxxoPayment.service_name.equals("OxxoPay"));
