@@ -16,11 +16,11 @@ public class ConektaBase extends TestCase {
     }
 
     public void setApiKey() {
-        Conekta.apiKey = "key_eYvWV7gSDkNYXsmr";
+        Conekta.apiKey = "key_ZLy4aP2szht1HqzkCezDEA";
     }
 
     public void setPublicApiKey() {
-        Conekta.apiKey = "key_KJysdbf6PotS2ut2";
+        Conekta.apiKey = "key_OfWoJc2fw6oEydKspmyr76Q";
     }
 
     public void unSetApiKey() {
