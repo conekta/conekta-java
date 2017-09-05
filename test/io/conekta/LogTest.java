@@ -15,12 +15,12 @@ public class LogTest extends ConektaBase {
     }
 
     public void testSuccesfulFind() throws Exception {
-        Log log = Log.find("5709515719ce880954005f91");
+        Log log = Log.find("59ad9325b795b02ebdfef2be");
         assertTrue(log instanceof ConektaObject);
     }
 
     public void testSuccesfulWhereWithParams() throws Exception {
-        JSONObject params = new JSONObject("{'id':'5709515719ce880954005f91'}");
+        JSONObject params = new JSONObject("{'id':'59ad9325b795b02ebdfef2be'}");
         ConektaObject log = Log.where(params);
         assertTrue(log instanceof ConektaObject);
     }
