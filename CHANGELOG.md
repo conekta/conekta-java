@@ -3,7 +3,7 @@
 ### Fix
 - Fix ConektaListTest: add toString() method
 
-## [2.1.3](https://github.com/conekta/conekta-java/releases/tag/conekta-java-2.1.3) - 2017-05-16https://github.com/conekta/conekta-java/releases/tag/conekta-java-2.1.4
+## [2.1.3](https://github.com/conekta/conekta-java/releases/tag/conekta-java-2.1.3) - 2017-05-16
 ### Fix
 - [maven-release-plugin] copy for tag conekta-java-2.1.3
 
@@ -81,30 +81,3 @@
 ## [1.0.0]() - 2014-02-20
 ### Update
 - Deployed
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
