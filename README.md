@@ -1,6 +1,6 @@
 ![README Cover Image](readme_cover.png)
 
-# Conekta Java 2.1.4
+# Conekta Java 2.1.5
 
 This is a java library that allows interaction with https://api.conekta.io API.
 
@@ -10,7 +10,7 @@ This is a java library that allows interaction with https://api.conekta.io API.
 Add the compile line to your `build.gradle` inside the dependencies section.
 
 ```groovy
-compile 'io.conekta:conekta-java:2.1.4'
+compile 'io.conekta:conekta-java:2.1.5'
 ```
 
 ### Maven
@@ -20,11 +20,11 @@ Add the dependency to your `pom.xml`.
 <dependency>
   <groupId>io.conekta</groupId>
   <artifactId>conekta-java</artifactId>
-  <version>2.1.4</version>
+  <version>2.1.5</version>
 </dependency>
 ```
 
-### Direct download  <a href="https://oss.sonatype.org/service/local/repositories/releases/content/io/conekta/conekta-java/2.1.4/conekta-java-2.1.4.jar">conekta-java-2.1.4.jar</a> 
+### Direct download  <a href="https://oss.sonatype.org/service/local/repositories/releases/content/io/conekta/conekta-java/2.1.5/conekta-java-2.1.5.jar">conekta-java-2.1.5.jar</a> 
 
 ### Source code
 Obtain the latest version of the Conekta Java bindings with:
