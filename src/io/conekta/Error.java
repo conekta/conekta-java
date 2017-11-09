@@ -66,7 +66,7 @@ public class Error extends Exception {
         
         this.type = type;
         this.code = code;
-        this.params = params;
+        this.params = param;
     }
 
     @Override
