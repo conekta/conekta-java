@@ -13,6 +13,7 @@ public class DiscountLineTest extends ConektaBase {
 
     public DiscountLineTest() throws JSONException {
         super();
+        setApiVersion("2.0.0");
         validOrder = new JSONObject(
             "{ 'currency': 'mxn'," +
             "  'metadata': {" +

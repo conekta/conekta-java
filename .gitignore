@@ -24,3 +24,5 @@ nbdist/
 .DS_Store
 target/
 conf/settings.xml
+.idea
+conekta-java.iml

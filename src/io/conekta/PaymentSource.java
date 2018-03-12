@@ -10,15 +10,6 @@ import org.json.JSONObject;
  */
 public class PaymentSource extends Resource{
     public Customer customer;
-    public String type;
-    public String name;
-    public String last4;
-    public String bin;
-    public String brand;
-    public String exp_month;
-    public String exp_year;
-    public String cvc;
-    public Address address;
     public Boolean deleted;
     public Integer expires_at;
     
@@ -31,6 +22,7 @@ public class PaymentSource extends Resource{
                     Lang.translate("error.resource.id_purchaser", parameters, Conekta.locale), null, null, null);
         }
         String base = this.customer.instanceUrl();
+
         return base + "/payment_sources/" + id;
     }
     

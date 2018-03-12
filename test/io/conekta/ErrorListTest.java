@@ -12,13 +12,14 @@ public class ErrorListTest extends ConektaBase {
     JSONObject invalidOrder;
 
     public ErrorListTest() throws JSONException {
+        setApiVersion("2.0.0");
         invalidOrder = new JSONObject("{}");
     }
 
     // @Test
     public void testNoIdError() throws Error{
         try {
-                Order.find("0");
+            Order.find("0");
         } catch(ErrorList e) {
             assertTrue(e.details.get(0).message.equals("El recurso no ha sido encontrado."));
         }

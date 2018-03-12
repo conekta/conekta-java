@@ -12,7 +12,7 @@ public class CustomerTest extends ConektaBase {
     JSONObject valid_payment_method;
     JSONObject invalid_payment_method;
     JSONObject valid_visa_card;
-    JSONObject valid_visa_cardv2;
+    JSONObject validCustomerAndCardInfov2;
     JSONObject travelCustomerInfo;
 
     public CustomerTest() throws JSONException {
@@ -23,19 +23,19 @@ public class CustomerTest extends ConektaBase {
                 + "'cards':['tok_test_visa_4242']"
                 + "}");
         
-        valid_visa_cardv2 = new JSONObject("{"
+        validCustomerAndCardInfov2 = new JSONObject("{"
                 + "'name': 'test name',"
                 + "'email': 'test@test.com',"
                 + "'payment_sources':[{"
                 + "    'token_id': 'tok_test_visa_4242',"
                 + "    'type': 'card' }]"
                 + "}");
-        
+
         travelCustomerInfo = new JSONObject("{" +
-        "  'account_created_at': 1484040996," +
-        "  'first_paid_at': 1485151007," +
-        "  'requires_receipt': true" +    
-        "}");
+                "  'account_created_at': 1484040996," +
+                "  'first_paid_at': 1485151007," +
+                "  'requires_receipt': true" +
+                "}");
     }
 
     //@Test
@@ -109,6 +109,25 @@ public class CustomerTest extends ConektaBase {
     }
 
     //@Test
+    public void testAddCardPaymentSourceToCustomerV2() throws Exception {
+        setApiVersion("2.0.0");
+        Customer customer = Customer.create(validCustomerAndCardInfov2);
+        JSONObject params = new JSONObject("{'type': 'card','token_id':'tok_test_visa_1881'}");
+        customer.createCard(params);
+        assertTrue(((Card) customer.payment_sources.get(0)).last4.equals("4242"));
+        assertTrue(((Card) customer.payment_sources.get(1)).last4.equals("1881"));
+        assertTrue(((Card) customer.payment_sources.get(1)).customer == customer);
+    }
+
+    //@Test
+    public void testDeletePaymentSourceCardV2() throws Exception {
+        setApiVersion("2.0.0");
+        Customer cus = Customer.create(validCustomerAndCardInfov2);
+        ((Card) cus.payment_sources.get(0)).delete();
+        assertTrue(((Card) cus.payment_sources.get(0)).deleted);
+    }
+
+    //@Test
     public Customer testSuccesfulSubscriptionCreateV2() throws Exception {
         Customer customer = Customer.create(valid_visa_card);
         JSONObject params = new JSONObject("{'plan':'gold-plan'}");
@@ -147,7 +166,7 @@ public class CustomerTest extends ConektaBase {
         assertTrue(customer.subscription.plan_id.equals(plan.id));
     }
    
-        //@Test
+    //@Test
     public void testSuccesfulSubscriptionUpdateV2() throws Exception {
         Customer customer = testSuccesfulSubscriptionCreateV2();
         Plan plan = null;
@@ -163,6 +182,7 @@ public class CustomerTest extends ConektaBase {
 
     //@Test
     public void testUnSuccesfulSubscriptionCreate() throws Exception {
+        setApiVersion("1.0.0");
         Customer customer = Customer.create(valid_visa_card);
         JSONObject params = new JSONObject("{'plan':'unexistent-plan'}");
         try {
@@ -243,8 +263,8 @@ public class CustomerTest extends ConektaBase {
     //@Test
     public void testSuccesfulCustomerCreateTravel() throws Exception {
         setApiVersion("2.0.0");
-        valid_visa_cardv2.put("antifraud_info", travelCustomerInfo);
-        Customer customer = Customer.create(valid_visa_cardv2);
+        validCustomerAndCardInfov2.put("antifraud_info", travelCustomerInfo);
+        Customer customer = Customer.create(validCustomerAndCardInfov2);
         assertTrue(customer instanceof Customer);
         assertTrue(customer.antifraud_info.get("account_created_at").equals(1484040996));
         assertTrue(customer.antifraud_info.get("first_paid_at").equals(1485151007));

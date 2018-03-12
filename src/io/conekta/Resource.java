@@ -149,12 +149,22 @@ public class Resource extends ConektaObject {
                 objects.add(conektaObject);
                 field.set(this, objects);
             } else if(field.get(this).getClass().getSimpleName().equals("ConektaList")){
-                className = Utils.getInstance().classes.get(member).toString();
-                conektaObject = (ConektaObject) Class.forName(className).newInstance();
-                conektaObject.loadFromObject(jsonObject);
-                ConektaList list = (ConektaList) field.get(this);
-                
-                list.addElement(conektaObject);
+                if(jsonObject.has("type") && jsonObject.get("type").equals("card")) {
+                    Card card = new Card();
+                    card.loadFromObject(jsonObject);
+                    ConektaList list = (ConektaList) field.get(this);
+
+                    list.addElement(card);
+
+                    conektaObject = card;
+                } else {
+                    className = Utils.getInstance().classes.get(member).toString();
+                    conektaObject = (ConektaObject) Class.forName(className).newInstance();
+                    conektaObject.loadFromObject(jsonObject);
+                    ConektaList list = (ConektaList) field.get(this);
+
+                    list.addElement(conektaObject);
+                }
             } else {
                 className = "io.conekta." + member.substring(0, 1).toUpperCase() + member.substring(1);
                 conektaObject = (ConektaObject) Class.forName(className).newInstance();
@@ -171,7 +181,7 @@ public class Resource extends ConektaObject {
 
         return conektaObject;
     }
-    
+
     protected ConektaObject createMemberWithRelation(String member, JSONObject params, ConektaObject parent) throws NoSuchFieldException, Error, ErrorList, IllegalArgumentException, IllegalAccessException{
         String parentClass = parent.getClass().getSimpleName().toLowerCase();
         
