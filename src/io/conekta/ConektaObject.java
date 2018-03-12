@@ -60,6 +60,10 @@ public class ConektaObject extends ArrayList {
         try {
             if (className != null) {
                 key = className;
+            }
+            else if (jsonArray.getJSONObject(i).has("type") &&
+                    jsonArray.getJSONObject(i).getString("type").equals("card")) {
+                key = "card";
             } else {
                 key = jsonArray.getJSONObject(i).getString("object");
             }

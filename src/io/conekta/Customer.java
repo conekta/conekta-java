@@ -69,7 +69,7 @@ public class Customer extends Resource {
 
                     if(list.elements_type.equals("payment_sources")){
                         for (Object item : list){
-                            PaymentSource source = (PaymentSource) item;
+                            PaymentSource source = (Card) item;
                             source.customer = this;
                         }
                     }
@@ -115,6 +115,10 @@ public class Customer extends Resource {
     }
 
     public Card createCard(JSONObject params) throws Error, ErrorList, NoSuchFieldException, IllegalArgumentException, IllegalAccessException {
+        if(Conekta.apiVersion.equals("2.0.0")) {
+            return (Card) this.createMemberWithRelation("payment_sources", params, this);
+        }
+
         return (Card) this.createMemberWithRelation("cards", params, this);
     }
 
