@@ -7,9 +7,8 @@ import org.json.JSONObject;
  *
  * @author L.Carlos
  */
-public class PaymentSourceTest  extends ConektaBase {
+public class PaymentSourceTest extends ConektaBase {
     JSONObject validCustomer;
-    JSONObject validOxxoRecurrentCustomer;
 
     public PaymentSourceTest() throws JSONException{
         validCustomer  = new JSONObject("{" +

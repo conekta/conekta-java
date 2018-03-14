@@ -12,7 +12,6 @@ import org.json.JSONObject;
 public class Card extends PaymentSource {
     public String name;
     public String last4;
-    public String type;
     public String bin;
     public String brand;
     public String cvc;
