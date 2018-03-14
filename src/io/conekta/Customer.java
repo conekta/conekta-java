@@ -69,7 +69,13 @@ public class Customer extends Resource {
 
                     if(list.elements_type.equals("payment_sources")){
                         for (Object item : list){
-                            PaymentSource source = (Card) item;
+                            PaymentSource source = (PaymentSource) item;
+                            if(source.type.equals("oxxo_recurrent")) {
+                                source = (OfflineRecurrentReference) item;
+                            } else {
+                                source = (Card) item;
+                            }
+
                             source.customer = this;
                         }
                     }
@@ -120,6 +126,10 @@ public class Customer extends Resource {
         }
 
         return (Card) this.createMemberWithRelation("cards", params, this);
+    }
+
+    public OfflineRecurrentReference createOfflineRecurrentReference(JSONObject params) throws Error, ErrorList, NoSuchFieldException, IllegalArgumentException, IllegalAccessException {
+        return (OfflineRecurrentReference) this.createMemberWithRelation("payment_sources", params, this);
     }
 
     public Subscription createSubscription(JSONObject params) throws Error, ErrorList, NoSuchFieldException, IllegalArgumentException, IllegalAccessException {

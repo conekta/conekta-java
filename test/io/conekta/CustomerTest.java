@@ -9,11 +9,10 @@ import org.json.JSONObject;
  */
 public class CustomerTest extends ConektaBase {
 
-    JSONObject valid_payment_method;
-    JSONObject invalid_payment_method;
     JSONObject valid_visa_card;
     JSONObject validCustomerAndCardInfov2;
     JSONObject travelCustomerInfo;
+    JSONObject validCustomerWithOfflineRecurrentReference;
 
     public CustomerTest() throws JSONException {
         super();
@@ -36,6 +35,15 @@ public class CustomerTest extends ConektaBase {
                 "  'first_paid_at': 1485151007," +
                 "  'requires_receipt': true" +
                 "}");
+
+        validCustomerWithOfflineRecurrentReference  = new JSONObject("{" +
+                "  'email': 'hola@hola.com'," +
+                "  'name': 'John Constantine'," +
+                "  'payment_sources': [{ " +
+                "     'type': 'oxxo_recurrent', " +
+                "     'expires_at': '1521829163' " +
+                "  }]" +
+                "}");
     }
 
     //@Test
@@ -46,13 +54,22 @@ public class CustomerTest extends ConektaBase {
     }
 
     //@Test
-    public void testSuccesfulCustomerCreate() throws Exception {
+    public void testSuccesfulCustomerWithCardCreate() throws Exception {
         setApiVersion("1.0.0");
         Customer customer = Customer.create(valid_visa_card);
         assertTrue(customer instanceof Customer);
         assertTrue(customer.cards.get(0) instanceof Card);
         assertTrue(((Card)customer.cards.get(0)).last4.equals("4242"));
         assertTrue(((Card) customer.cards.get(0)).customer ==  customer);
+    }
+
+    //@Test
+    public void testSuccesfulCustomerWithOfflineRecurrentReferenceCreate() throws Exception {
+        setApiVersion("2.0.0");
+        Customer customer = Customer.create(validCustomerWithOfflineRecurrentReference);
+        assertTrue(customer instanceof Customer);
+        assertTrue(((OfflineRecurrentReference)customer.payment_sources.get(0)).reference.length() == 16);
+        assertTrue(((OfflineRecurrentReference) customer.payment_sources.get(0)).customer == customer);
     }
 
     //@Test

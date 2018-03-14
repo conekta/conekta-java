@@ -157,6 +157,14 @@ public class Resource extends ConektaObject {
                     list.addElement(card);
 
                     conektaObject = card;
+                } else if(jsonObject.has("type") && jsonObject.get("type").equals("oxxo_recurrent")) {
+                    OfflineRecurrentReference reference = new OfflineRecurrentReference();
+                    reference.loadFromObject(jsonObject);
+                    ConektaList list = (ConektaList) field.get(this);
+
+                    list.addElement(reference);
+
+                    conektaObject = reference;
                 } else {
                     className = Utils.getInstance().classes.get(member).toString();
                     conektaObject = (ConektaObject) Class.forName(className).newInstance();
