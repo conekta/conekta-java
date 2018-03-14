@@ -85,6 +85,4 @@ public class ConektaList extends ConektaObject{
 		builder.append("}");
 		return builder.toString();
 	}
- 
-    
 }

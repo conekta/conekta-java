@@ -1,17 +1,17 @@
 package io.conekta;
 
-import java.util.HashMap;
 import locales.Lang;
-import org.json.JSONObject;
 
-/**
- *
- * @author L.Carlos
- */
-public class PaymentSource extends Resource{
-    public Customer customer;
-    public Boolean deleted;
-    public String type;
+import java.util.HashMap;
+
+public class OfflineRecurrentReference extends PaymentSource {
+    public String reference;
+    public String barcode;
+    public String barcode_url;
+    public String provider;
+    public String expires_at;
+
+
 
     @Override
     public String instanceUrl() throws Error {
@@ -24,14 +24,5 @@ public class PaymentSource extends Resource{
         String base = this.customer.instanceUrl();
 
         return base + "/payment_sources/" + id;
-    }
-    
-    @Override
-    public void update(JSONObject params) throws Error, ErrorList {
-        super.update(params);
-    }
-
-    public PaymentSource delete() throws Error, ErrorList {
-        return ((PaymentSource) this.delete(null, null));
     }
 }
