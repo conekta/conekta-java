@@ -47,7 +47,7 @@ public class CustomerTest extends ConektaBase {
 
     //@Test
     public void testSuccesfulCustomerCreate() throws Exception {
-        setApiVersion("1.0.0");
+        setApiVersion("0.3.0");
         Customer customer = Customer.create(valid_visa_card);
         assertTrue(customer instanceof Customer);
         assertTrue(customer.cards.get(0) instanceof Card);
@@ -57,7 +57,7 @@ public class CustomerTest extends ConektaBase {
 
     //@Test
     public void testSuccesfulCustomerWhere() throws Exception {
-        setApiVersion("1.0.0");
+        setApiVersion("0.3.0");
         ConektaObject customers = Customer.where();
         assertTrue(customers instanceof ConektaObject);
         assertTrue(customers.get(0) instanceof Customer);
@@ -72,7 +72,7 @@ public class CustomerTest extends ConektaBase {
 
     //@Test
     public void testSuccesfulCustomerUpdate() throws Exception {
-        setApiVersion("1.0.0");
+        setApiVersion("0.3.0");
         Customer customer = Customer.create(valid_visa_card);
         JSONObject params = new JSONObject("{'name':'Logan', 'email':'logan@x-men.org'}");
         customer.update(params);
@@ -81,7 +81,7 @@ public class CustomerTest extends ConektaBase {
 
     //@Test
     public void testAddCardToCustomer() throws Exception {
-        setApiVersion("1.0.0");
+        setApiVersion("0.3.0");
         Customer customer = Customer.create(valid_visa_card);
         JSONObject params = new JSONObject("{'token':'tok_test_visa_1881'}");
         customer.createCard(params);
@@ -92,7 +92,7 @@ public class CustomerTest extends ConektaBase {
 
     //@Test
     public void testDeleteCard() throws Exception {
-        setApiVersion("1.0.0");
+        setApiVersion("0.3.0");
         Customer cus = Customer.create(valid_visa_card);
         ((Card) cus.cards.get(0)).delete();
         assertTrue(((Card) cus.cards.get(0)).deleted);
@@ -100,7 +100,7 @@ public class CustomerTest extends ConektaBase {
 
     //@Test
     public void testUpdateCard() throws Exception {
-        setApiVersion("1.0.0");
+        setApiVersion("0.3.0");
         Customer customer = Customer.create(valid_visa_card);
         JSONObject params = new JSONObject("{'token':'tok_test_mastercard_4444'}");
         ((Card) customer.cards.get(0)).update(params);
@@ -134,7 +134,7 @@ public class CustomerTest extends ConektaBase {
 
     //@Test
     public void testSuccesfulSubscriptionUpdateV1() throws Exception {
-        setApiVersion("1.0.0");
+        setApiVersion("0.3.0");
         Customer customer = testSuccesfulSubscriptionCreateV1();
         Plan plan = null;
         try {
@@ -175,7 +175,7 @@ public class CustomerTest extends ConektaBase {
 
     //@Test
     public void testSuccesfulSubscriptionPause() throws Exception {
-        setApiVersion("1.0.0");
+        setApiVersion("0.3.0");
         Customer customer = testSuccesfulSubscriptionCreateV1();
         customer.subscription.pause();
         assertTrue(customer.subscription.status.equals("paused"));
@@ -183,7 +183,7 @@ public class CustomerTest extends ConektaBase {
 
     //@Test
     public void testSuccesfulSubscriptionResume() throws Exception {
-        setApiVersion("1.0.0");
+        setApiVersion("0.3.0");
         Customer customer = testSuccesfulSubscriptionCreateV1();
         customer.subscription.pause();
         assertTrue(customer.subscription.status.equals("paused"));
@@ -193,7 +193,7 @@ public class CustomerTest extends ConektaBase {
 
     //@Test
     public void testSuccesfulSubscriptionCancel() throws Exception {
-        setApiVersion("1.0.0");
+        setApiVersion("0.3.0");
         Customer customer = testSuccesfulSubscriptionCreateV1();
         customer.subscription.cancel();
         assertTrue(customer.subscription.status.equals("canceled"));

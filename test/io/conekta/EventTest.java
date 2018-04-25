@@ -10,7 +10,7 @@ public class EventTest extends ConektaBase {
 
     public EventTest() throws JSONException {
         super();
-        setApiVersion("1.0.0");
+        setApiVersion("0.3.0");
     }
 
     // @Test

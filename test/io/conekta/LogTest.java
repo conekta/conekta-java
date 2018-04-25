@@ -11,7 +11,7 @@ public class LogTest extends ConektaBase {
 
     public LogTest() throws JSONException {
         super();
-        setApiVersion("1.0.0");
+        setApiVersion("0.3.0");
     }
 
     public void testSuccesfulFind() throws Exception {
