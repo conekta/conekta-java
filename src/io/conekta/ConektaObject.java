@@ -84,72 +84,75 @@ public class ConektaObject extends ArrayList {
     }
 
     public void loadFromObject(JSONObject jsonObject) throws Exception {
-        
         Iterator itr = jsonObject.keys();
         while (itr.hasNext()) {
             String key = itr.next().toString();
-            
             Object obj = jsonObject.get(key);
             
             try {
                 Field field = this.getClass().getField(key);
-                field.setAccessible(true);
-                Boolean isConektaObject = field.getType().getPackage().getName().equals("io.conekta");
-                if (obj instanceof JSONObject && ((JSONObject) obj).has("object")) {
-                    ConektaObject conektaObject = ConektaObjectFromJSONFactory.ConektaObjectFactory((JSONObject) obj, key);
-                    field.set(this, conektaObject);
-                    this.setVal(key, conektaObject);
-                } else if (obj instanceof JSONArray || !obj.equals(null)) {
-                    if (obj instanceof JSONArray) {
-                        JSONArray jsonArray = (JSONArray) obj;
-                        if (jsonArray.length() > 0) {
-                            ConektaObject conektaObject = new ConektaObject();
-                            for (int i = 0; i < jsonArray.length(); i++) {
-                                if ((jsonArray.getJSONObject(0).has("object"))) {
-                                    conektaObject.add(ConektaObjectFromJSONFactory.ConektaObjectFactory(jsonArray.getJSONObject(i), jsonArray.getJSONObject(i).getString("object")));
-                                } else {
-                                    conektaObject.add(ConektaObjectFromJSONFactory.ConektaObjectFactory(jsonArray.getJSONObject(i), key));
-                                }
-                            }
-                            field.set(this, conektaObject);
-                            this.setVal(key, conektaObject);
-                        }
-                    } else {
-                        if (isConektaObject) {
-                            Constructor c;
-                            c = Class.forName(field.getType().getCanonicalName()).getConstructor();
-                            ConektaObject attr = (ConektaObject) c.newInstance();
-                            attr.loadFromObject((JSONObject) obj);
-                            field.set(this, attr);
-                            this.setVal(key, attr);
-                        } else if (obj instanceof JSONObject){
-                            JSONObject hashObject = jsonObject.getJSONObject(key);
-                            
-                            Iterator jsonKeys = hashObject.keys();
-                            HashMap map = new HashMap();
-                            while(jsonKeys.hasNext()){
-                                String k = jsonKeys.next().toString();
-                                Object value = hashObject.get(k);
-
-                                map.put(k, value);
-                            }    
-
-                            field.set(this, map);
-                            this.setVal(key, map);
-                        } else {
-                            field.set(this, obj);
-                            this.setVal(key, obj);
-                        }
+                if (obj instanceof JSONObject &&
+                        ((JSONObject) obj).has("object") &&
+                        field.getType().getPackage().getName().equals("io.conekta")) {
+                    setFromConektaObject((JSONObject) obj, key);
+                } else if (obj instanceof JSONArray) {
+                    JSONArray jsonArray = (JSONArray) obj;
+                    if (jsonArray.length() > 0) {
+                        setFromJSONArray(jsonArray, key);
                     }
+                } else if(obj instanceof JSONObject && !obj.equals(null)){
+                    setFromHash(jsonObject, key);
+                } else {
+                    setValue(key, obj);
                 }
-            } catch (Exception e) {
-                // No field found
-                if (this.getClass().getCanonicalName().equals("io.conekta.LineItems")) {
-                    // Vertical related fields
-                    ((LineItems)this).addVerticalRelatedField(key, obj.toString());
-                    this.setVal(key, obj);
-                }
+            } catch (NoSuchFieldException e) {
+                setFromVerticalFields(obj, key);
             }
+        }
+    }
+    
+    private void setValue(String key, Object value) throws NoSuchFieldException, IllegalArgumentException, IllegalAccessException {
+        Field field = this.getClass().getField(key);
+        field.setAccessible(true);
+        field.set(this, value);
+        this.setVal(key, value);
+    }
+    
+    private void setFromJSONArray(JSONArray array, String key) throws Error, NoSuchFieldException, IllegalArgumentException, IllegalAccessException{
+        ConektaObject conektaObject = new ConektaObject();
+        for (int i = 0; i < array.length(); i++) {
+            if ((array.getJSONObject(0).has("object"))) {
+                conektaObject.add(ConektaObjectFromJSONFactory.ConektaObjectFactory(array.getJSONObject(i), array.getJSONObject(i).getString("object")));
+            } else {
+                conektaObject.add(ConektaObjectFromJSONFactory.ConektaObjectFactory(array.getJSONObject(i), key));
+            }
+        }
+        setValue(key, conektaObject);
+    }
+    
+    private void setFromHash(JSONObject jsonObject, String key) throws NoSuchFieldException, IllegalArgumentException, IllegalAccessException{
+        JSONObject hashObject = jsonObject.getJSONObject(key);
+                            
+        Iterator jsonKeys = hashObject.keys();
+        HashMap map = new HashMap();
+        while(jsonKeys.hasNext()){
+            String k = jsonKeys.next().toString();
+            Object value = hashObject.get(k);
+
+            map.put(k, value);
+        }
+        setValue(key, map);   
+    }    
+    
+    private void setFromConektaObject(JSONObject obj, String key) throws Error, NoSuchFieldException, IllegalArgumentException, IllegalAccessException{
+        ConektaObject conektaObject = ConektaObjectFromJSONFactory.ConektaObjectFactory((JSONObject) obj, key);
+        setValue(key, conektaObject);
+    }
+    
+    private void setFromVerticalFields(Object obj, String key){
+        if (this.getClass().getCanonicalName().equals("io.conekta.LineItems")) {
+            ((LineItems)this).addVerticalRelatedField(key, obj.toString());
+            this.setVal(key, obj);
         }
     }
 
