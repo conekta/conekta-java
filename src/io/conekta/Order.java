@@ -49,7 +49,7 @@ public class Order extends Resource {
 
             for (String submodel : submodels) {
                 ConektaList list = new ConektaList(submodel);
-                
+
                 if(jsonObject.has(submodel)){
                     list.loadFrom(jsonObject.getJSONObject(submodel));
 
@@ -57,7 +57,7 @@ public class Order extends Resource {
                     field.setAccessible(true);
                     field.set(this, list);
                     this.setVal(submodel, list);
-                    
+
                     if(jsonObject.has("discount_lines")){
                         if(list.elements_type.equals("discount_lines")){
                             for (Object item : list){
@@ -94,11 +94,11 @@ public class Order extends Resource {
                             lineItem.order = this;
                         }
                     }
-                }                
+                }
             }
         }
     }
-    
+
     public void reload() throws Exception{
         Requestor requestor = new Requestor();
         JSONObject orderJson = (JSONObject) requestor.request("GET", this.instanceUrl(), null);
@@ -136,7 +136,7 @@ public class Order extends Resource {
     public TaxLine createTaxLine(JSONObject params) throws JSONException, Error, ErrorList, NoSuchFieldException, IllegalArgumentException, IllegalAccessException{
         return (TaxLine) this.createMemberWithRelation("tax_lines", params, this);
     }
-    
+
     public void capture() throws JSONException, Error, ErrorList{
         this.customAction("PUT", "capture", null);
     }
@@ -144,7 +144,7 @@ public class Order extends Resource {
     public Charge createCharge(JSONObject params) throws JSONException, Error, ErrorList, NoSuchFieldException, IllegalArgumentException, IllegalAccessException{
         return (Charge) this.createMemberWithRelation("charges", params, this);
     }
-  
+
     public ShippingLine createShippingLine(JSONObject params) throws JSONException, Error, ErrorList, NoSuchFieldException, IllegalArgumentException, IllegalAccessException{
         return (ShippingLine) this.createMemberWithRelation("shipping_lines", params, this);
     }
@@ -152,18 +152,24 @@ public class Order extends Resource {
     public LineItems createLineItem(JSONObject params) throws JSONException, Error, ErrorList, NoSuchFieldException, IllegalArgumentException, IllegalAccessException{
         return (LineItems) this.createMemberWithRelation("line_items", params, this);
     }
-    
+
     public Order refund(JSONObject params) throws Exception {
         Order order = (Order) this.customAction("POST", "refund", params);
         this.reload();
         return order;
     }
-    
+
+    public Order cancel() throws Exception {
+        Order order = (Order) this.customAction("POST", "void", null);
+        this.reload();
+        return order;
+    }
+
     @Override
     public void update(JSONObject params) throws Error, ErrorList {
         super.update(params);
     }
-    
+
     public void delete() throws Error, ErrorList {
         this.delete(null, null);
     }
