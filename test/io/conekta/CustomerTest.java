@@ -13,6 +13,7 @@ public class CustomerTest extends ConektaBase {
     JSONObject validCustomerAndCardInfov2;
     JSONObject travelCustomerInfo;
     JSONObject validCustomerWithOfflineRecurrentReference;
+    JSONObject validCustomerWithCustomReference;
 
     public CustomerTest() throws JSONException {
         super();
@@ -21,7 +22,7 @@ public class CustomerTest extends ConektaBase {
                 + "'email': 'test@test.com',"
                 + "'cards':['tok_test_visa_4242']"
                 + "}");
-        
+
         validCustomerAndCardInfov2 = new JSONObject("{"
                 + "'name': 'test name',"
                 + "'email': 'test@test.com',"
@@ -42,6 +43,14 @@ public class CustomerTest extends ConektaBase {
                 "  'payment_sources': [{ " +
                 "     'type': 'oxxo_recurrent', " +
                 "     'expires_at': '1521829163' " +
+                "  }]" +
+                "}");
+        validCustomerWithCustomReference = new JSONObject("{" +
+                "  'email': 'rick.sanchez@conekta.com'," +
+                "  'name': 'Rick Sanchez'," +
+                "  'payment_sources': [{ " +
+                "     'type': 'oxxo_recurrent', " +
+                "     'reference': '5512345678', " +
                 "  }]" +
                 "}");
     }
@@ -70,6 +79,16 @@ public class CustomerTest extends ConektaBase {
         assertTrue(customer instanceof Customer);
         assertTrue(((OfflineRecurrentReference)customer.payment_sources.get(0)).reference.length() == 16);
         assertTrue(((OfflineRecurrentReference) customer.payment_sources.get(0)).customer == customer);
+    }
+
+    //@Test
+    public void testSuccesfulCustomerWithCustomReference() throws Exception {
+    //    TODO: Not ready yet
+    //    setApiVersion("2.0.0");
+    //    Customer customer = Customer.create(validCustomerWithCustomReference);
+    //    assertTrue(customer instanceof Customer);
+    //    assertTrue(((OfflineRecurrentReference)customer.payment_sources.get(0)).reference.length() == 10);
+    //    assertTrue(((OfflineRecurrentReference)customer.payment_sources.get(0)).reference.equals("5512345678"));
     }
 
     //@Test
@@ -155,7 +174,7 @@ public class CustomerTest extends ConektaBase {
         assertTrue(customer.subscription.card_id.equals(customer.default_card_id));
         return customer;
     }
-    
+
     //@Test
     public Customer testSuccesfulSubscriptionCreateV1() throws Exception {
         Customer customer = Customer.create(valid_visa_card);
@@ -182,7 +201,7 @@ public class CustomerTest extends ConektaBase {
         customer.subscription.update(new JSONObject("{'plan':'"+plan.id+"'}"));
         assertTrue(customer.subscription.plan_id.equals(plan.id));
     }
-   
+
     //@Test
     public void testSuccesfulSubscriptionUpdateV2() throws Exception {
         Customer customer = testSuccesfulSubscriptionCreateV2();
@@ -276,7 +295,7 @@ public class CustomerTest extends ConektaBase {
         assertTrue(source instanceof PaymentSource);
         assertTrue(customer.payment_sources.size() == 1);
     }
-    
+
     //@Test
     public void testSuccesfulCustomerCreateTravel() throws Exception {
         setApiVersion("2.0.0");
