@@ -1,14 +1,17 @@
 ![README Cover Image](readme_cover.png)
-
 <div align="center">
 
-# Conekta Java 2.1.5
+# Conekta Ruby v.2.4.0
 
-[![Made with Java](https://img.shields.io/badge/made%20with-java-red.svg?style=for-the-badge&colorA=ED4040&colorB=C12C2D)](http://www.java.com) [![By Conekta](https://img.shields.io/badge/by-conekta-red.svg?style=for-the-badge&colorA=ee6130&colorB=00a4ac)](https://conekta.com)
+[![Made with Java](https://img.shields.io/badge/made%20with-java-red.svg?style=for-the-badge&colorA=007396&colorB=ED8B00&logo=java&logoColor=white)](https://www.java.com/)
+[![By Conekta](https://img.shields.io/badge/by-conekta-red.svg?style=for-the-badge&colorA=ee6130&colorB=00a4ac)](https://conekta.com)
 </div>
 
+This is a [Java](https://www.java.com) library that allows interaction with [Conekta's API](https://api.conekta.io).
 
-This is a java library that allows interaction with https://api.conekta.io API.
+## Requeriments
+
+Add them!
 
 ## Installation
 
@@ -275,14 +278,6 @@ customer.createPaymentSource();
 customer.createSubscription();
 customer.createCard();
 ```
-## Documentation
-
-Please see [developers.conekta.com/api](https://developers.conekta.com/api) for up-to-date documentation.
-
-## Tests
-
-The library has JUnit tests and you can run them separately.
-
 
 ## Notes on SSL cert
 
@@ -291,15 +286,15 @@ If you cannot connect to https://api.conekta.io, try installing the [certificate
 keytool -import -noprompt -trustcacerts -alias conekta -file %PROJECT_PATH%\ssl_data\ca_bundle.pem -keystore %JAVA_HOME%\lib\security\cacerts -storepass changeit
 ```
 
-## License
+## Tests
 
-Developed in Mexico by [Conekta](https://www.conekta.com). Available with [MIT License](LICENSE).
+The library has JUnit tests and you can run them separately.
 
 ***
 
-## License
+## Documentation
 
-Developed in Mexico by [Conekta](https://www.conekta.com). Available with [MIT License](LICENSE).
+Please see [developers.conekta.com/api](https://developers.conekta.com/api) for up-to-date documentation.
 
 ## How to contribute to the project
 
@@ -307,7 +302,7 @@ Developed in Mexico by [Conekta](https://www.conekta.com). Available with [MIT L
  
 2. Clone the repository
 ```
-    git clone git@github.com:yourUserName/conekta-java.git
+    git clone git@github.com:yourUserName/conekta-ruby.git
 ```
 3. Create a branch
 ```
@@ -338,3 +333,11 @@ Developed in Mexico by [Conekta](https://www.conekta.com). Available with [MIT L
 ## We are always hiring!
 
 If you are a comfortable working with a range of backend languages (Java, Python, Ruby, PHP, etc) and frameworks, you have solid foundation in data structures, algorithms and software design with strong analytical and debugging skills, check our open positions: https://www.conekta.com/careers
+
+### License
+
+<div align="center">
+
+Developed in :mexico: Mexico by [Conekta](https://www.conekta.com). Available with [MIT License](LICENSE).
+
+</div>
