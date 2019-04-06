@@ -1,12 +1,13 @@
-![README Cover Image](readme_cover.png)
-
 <div align="center">
 
-# Conekta Java 2.1.5
+![banner](readme_files/banner.png)
 
-[![Made with Java](https://img.shields.io/badge/made%20with-java-red.svg?style=for-the-badge&colorA=ED4040&colorB=C12C2D)](http://www.java.com) [![By Conekta](https://img.shields.io/badge/by-conekta-red.svg?style=for-the-badge&colorA=ee6130&colorB=00a4ac)](https://conekta.com)
+# Conekta Java v2.1.5
+
+![java badge](readme_files/java-badge.png)
+![conekta badge](readme_files/conekta-badge.png)
+
 </div>
-
 
 This is a java library that allows interaction with https://api.conekta.io API.
 
@@ -30,7 +31,7 @@ Add the dependency to your `pom.xml`.
 </dependency>
 ```
 
-### Direct download  <a href="https://oss.sonatype.org/service/local/repositories/releases/content/io/conekta/conekta-java/2.1.5/conekta-java-2.1.5.jar">conekta-java-2.1.5.jar</a> 
+### Direct download  <a href="https://oss.sonatype.org/service/local/repositories/releases/content/io/conekta/conekta-java/2.1.5/conekta-java-2.1.5.jar">conekta-java-2.1.5.jar</a>
 
 ### Source code
 Obtain the latest version of the Conekta Java bindings with:
@@ -42,7 +43,7 @@ To get started, add the following to your Java code:
     import io.conekta;
 
 ## Usage
-### Create a customer  
+### Create a customer
 ```java
 Conekta.setApiKey("1tv5yJp3xnVZ7eK67m4h");
 JSONObject customerJSON = new JSONObject("{"
@@ -304,7 +305,7 @@ Developed in Mexico by [Conekta](https://www.conekta.com). Available with [MIT L
 ## How to contribute to the project
 
 1. Fork the repository
- 
+
 2. Clone the repository
 ```
     git clone git@github.com:yourUserName/conekta-java.git
@@ -315,7 +316,7 @@ Developed in Mexico by [Conekta](https://www.conekta.com). Available with [MIT L
     git pull origin develop
     # You should choose the name of your branch
     git checkout -b <feature/my_branch>
-```    
+```
 4. Make necessary changes and commit those changes
 ```
     git add .
