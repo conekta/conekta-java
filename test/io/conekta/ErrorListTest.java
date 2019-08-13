@@ -33,4 +33,15 @@ public class ErrorListTest extends ConektaBase {
             assertTrue(e.details.get(0).message.equals("El parametro \"line_items\" es requerido."));
         }
     }
+
+    // @Test
+    public void testReadErrorData() {
+        try {
+            JSONObject jsonObject = new JSONObject("{\"object\": \"error\", \"type\": \"processing_error\", \"details\": [], \"data\": {\"id\": \"order_id\"}}");
+            ErrorList.errorHandle(jsonObject, 402);
+        } catch (ErrorList list) {
+            assertNotNull(list.data);
+            assertEquals("order_id", list.data.getString("id"));
+        }
+    }
 }
