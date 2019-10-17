@@ -73,6 +73,7 @@ public class ErrorTest extends ConektaBase {
     }
 
     public void testParameterValidationError() throws Error, JSONException, ErrorList {
+        setApiVersion("1.0.0");
         valid_visa_card = new JSONObject("{'card':'tok_test_visa_4242'}");
         JSONObject params = invalid_payment_method.put("card", valid_visa_card.get("card"));
         try {

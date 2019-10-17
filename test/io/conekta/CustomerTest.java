@@ -41,7 +41,7 @@ public class CustomerTest extends ConektaBase {
                 "  'name': 'John Constantine'," +
                 "  'payment_sources': [{ " +
                 "     'type': 'oxxo_recurrent', " +
-                "     'expires_at': '1521829163' " +
+                "     'expires_at': '1760472787' " +
                 "  }]" +
                 "}");
     }
@@ -65,10 +65,9 @@ public class CustomerTest extends ConektaBase {
 
     //@Test
     public void testSuccesfulCustomerWithOfflineRecurrentReferenceCreate() throws Exception {
-        setApiVersion("2.0.0");
         Customer customer = Customer.create(validCustomerWithOfflineRecurrentReference);
         assertTrue(customer instanceof Customer);
-        assertTrue(((OfflineRecurrentReference)customer.payment_sources.get(0)).reference.length() == 16);
+        assertTrue(((OfflineRecurrentReference)customer.payment_sources.get(0)).reference.length() == 14);
         assertTrue(((OfflineRecurrentReference) customer.payment_sources.get(0)).customer == customer);
     }
 

@@ -45,6 +45,7 @@ public class ShippingContactTest extends ConektaBase{
 
     // @Test
     public void testShippingContactDelete() throws ErrorList, Error{
+        setApiVersion("2.0.0");
         Customer customer = Customer.create(validVisaCard);
 
         ShippingContact shippingContact = (ShippingContact) customer.shipping_contacts.get(0);

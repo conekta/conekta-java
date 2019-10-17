@@ -29,6 +29,7 @@ public class PlanTest extends ConektaBase {
 
     // @Test
     public void testUpdatePlan() throws Error, JSONException, ErrorList {
+        setApiVersion("1.0.0");
        ConektaObject plans = Plan.where();
        Plan plan = Plan.create(params);
        plan.update(new JSONObject("{'name':'Silver Plan'}"));

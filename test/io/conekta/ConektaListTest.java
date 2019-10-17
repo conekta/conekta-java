@@ -29,6 +29,7 @@ public class ConektaListTest extends ConektaBase{
 
     // @Test
     public void testSuccsessfulPrevious() throws JSONException, Error, ErrorList{
+        setApiVersion("2.0.0");
         Order last = (Order) list.get(0);
         JSONObject paginateParams = new JSONObject("{ 'limit': 10 }");
         ConektaList lastWindow = Order.where(paginateParams);

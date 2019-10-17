@@ -22,7 +22,7 @@ public abstract class Conekta {
         Conekta.apiKey = apiKey;
     }
 
-    public static void setApiVerion(String version) {
+    public static void setApiVersion(String version) {
         Conekta.apiVersion = version;
     }
     

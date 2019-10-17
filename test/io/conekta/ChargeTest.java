@@ -143,6 +143,7 @@ public class ChargeTest extends ConektaBase {
 
     //@Test
     public void testSuccesfulRefund() throws Exception {
+        setApiVersion("1.0.0");
         Charge charge = testSuccesfulCardPMCreate();
         charge.refund(20000);
         assertTrue(charge.status.equals("refunded"));

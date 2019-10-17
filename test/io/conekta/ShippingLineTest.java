@@ -41,6 +41,7 @@ public class ShippingLineTest extends ConektaBase {
 
     // @Test
     public void testShippingLineDelete() throws ErrorList, Error{
+        setApiVersion("2.0.0");
         Order order = Order.create(validOrder);
 
         ShippingLine shippingLine = (ShippingLine) order.shipping_lines.get(0);

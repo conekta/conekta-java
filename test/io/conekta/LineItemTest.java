@@ -92,6 +92,7 @@ public class LineItemTest extends ConektaBase{
     
     // @Test
     public void testCreateTravelLineItem() throws Exception {
+        setApiVersion("2.0.0");
         Order order = Order.create(validOrder);
         JSONObject travelLineItemJSON = new JSONObject("{" +
         "	'trip_id': 'trip-id'," +

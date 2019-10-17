@@ -9,7 +9,11 @@ public class OfflineRecurrentReferenceTest extends ConektaBase {
     public OfflineRecurrentReferenceTest() {
         validCustomer  = new JSONObject("{" +
                 "  'email': 'hola@hola.com'," +
-                "  'name': 'John Constantine'" +
+                "  'name': 'John Constantine'," +
+                "  'payment_sources': [{ " +
+                "     'type': 'oxxo_recurrent', " +
+                "     'expires_at': '1760472787' " +
+                "  }]" +
                 "}");
 
         validCustomerWithOfflineRecurrentReference  = new JSONObject("{" +
@@ -17,7 +21,7 @@ public class OfflineRecurrentReferenceTest extends ConektaBase {
                 "  'name': 'John Constantine'," +
                 "  'payment_sources': [{ " +
                 "     'type': 'oxxo_recurrent', " +
-                "     'expires_at': '1521829163' " +
+                "     'expires_at': '1760472787' " +
                 "  }]" +
                 "}");
     }
@@ -28,10 +32,10 @@ public class OfflineRecurrentReferenceTest extends ConektaBase {
         Customer customer = Customer.create(validCustomer);
         JSONObject params = new JSONObject("{ " +
                 "      'type': 'oxxo_recurrent'," +
-                "      'expires_at': '1521829163'" +
+                "      'expires_at': '1760472787'" +
                 "    }");
         customer.createOfflineRecurrentReference(params);
-        assertTrue(((OfflineRecurrentReference) customer.payment_sources.get(0)).reference.length() == 16);
+        assertTrue(((OfflineRecurrentReference) customer.payment_sources.get(0)).reference.length() == 14);
         assertTrue(((OfflineRecurrentReference) customer.payment_sources.get(0)).customer == customer);
     }
 

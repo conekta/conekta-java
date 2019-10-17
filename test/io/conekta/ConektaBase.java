@@ -28,7 +28,7 @@ public class ConektaBase extends TestCase {
     }
     
     public void setApiVersion(String version) {
-        Conekta.apiVersion = version;
+        Conekta.setApiVersion(version);
     }
     
     public void setApiBase(String base) {

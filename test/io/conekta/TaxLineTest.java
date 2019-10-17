@@ -37,6 +37,7 @@ public class TaxLineTest extends ConektaBase{
 
     // @Test
     public void testFiscalEntityDelete() throws ErrorList, Error{
+        setApiVersion("2.0.0");
         Order order = Order.create(validOrder);
 
         TaxLine taxLine = (TaxLine) order.tax_lines.get(0);

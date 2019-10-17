@@ -15,6 +15,7 @@ public class EventTest extends ConektaBase {
 
     // @Test
     public void testSuccesfulWhere() throws Error, ErrorList {
+        setApiVersion("1.0.0");
        ConektaObject events = Event.where();
        assertTrue(events.get(0) instanceof Event);
     }  
