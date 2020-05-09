@@ -41,7 +41,7 @@ public class CustomerTest extends ConektaBase {
                 "  'name': 'John Constantine'," +
                 "  'payment_sources': [{ " +
                 "     'type': 'oxxo_recurrent', " +
-                "     'expires_at': '1521829163' " +
+                "     'expires_at': '1893456000' " +
                 "  }]" +
                 "}");
     }
@@ -68,13 +68,20 @@ public class CustomerTest extends ConektaBase {
         setApiVersion("2.0.0");
         Customer customer = Customer.create(validCustomerWithOfflineRecurrentReference);
         assertTrue(customer instanceof Customer);
-        assertTrue(((OfflineRecurrentReference)customer.payment_sources.get(0)).reference.length() == 16);
-        assertTrue(((OfflineRecurrentReference) customer.payment_sources.get(0)).customer == customer);
+        assertEquals(14, ((OfflineRecurrentReference) customer.payment_sources.get(0)).reference.length());
+        assertSame(customer, ((OfflineRecurrentReference) customer.payment_sources.get(0)).customer);
     }
 
     //@Test
-    public void testSuccesfulCustomerWhere() throws Exception {
+    public void testSuccesfulCustomerWhereV1() throws Exception {
         setApiVersion("1.0.0");
+        ConektaObject customers = Customer.where();
+        assertTrue(customers instanceof ConektaObject);
+        assertTrue(customers.get(0) instanceof Customer);
+    }
+
+    public void testSuccesfulCustomerWhereV2() throws Exception {
+        setApiVersion("2.0.0");
         ConektaObject customers = Customer.where();
         assertTrue(customers instanceof ConektaObject);
         assertTrue(customers.get(0) instanceof Customer);

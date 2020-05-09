@@ -22,22 +22,20 @@ public class PlanTest extends ConektaBase {
 
     // @Test
     public void testSuccesfulPlanCreate() throws Error, ErrorList {
-       ConektaObject plans = Plan.where();
        Plan plan = Plan.create(params);
        assertTrue(plan.id.equals("gold-plan2"+id));
     }
 
     // @Test
     public void testUpdatePlan() throws Error, JSONException, ErrorList {
-       ConektaObject plans = Plan.where();
-       Plan plan = Plan.create(params);
+       ConektaObject plans = Plan.where(new JSONObject("{'name' : 'Gold Plan'}"));
+       Plan plan = (Plan) plans.get(0);
        plan.update(new JSONObject("{'name':'Silver Plan'}"));
        assertTrue(plan.name.equals("Silver Plan"));
     }
 
     // @Test
     public void testDeletePlan() throws Error, JSONException, ErrorList {
-       ConektaObject plans = Plan.where();
        Plan plan = Plan.create(params);
        plan.delete();
        assertTrue(plan.deleted);
