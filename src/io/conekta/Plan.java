@@ -1,5 +1,6 @@
 package io.conekta;
 
+import org.json.JSONArray;
 import org.json.JSONObject;
 
 /**
@@ -18,9 +19,12 @@ public class Plan extends Resource {
     public Integer trial_period_days;
     public String currency;
     public Integer amount;
+    //Constantes
+    public static String API_VERSION_V2= "2.0.0";
 
     public Plan(String id) {
         super(id);
+
     }
 
     public Plan() {
@@ -34,11 +38,19 @@ public class Plan extends Resource {
 
     public static ConektaObject where(JSONObject params) throws Error, ErrorList {
         String className = Plan.class.getCanonicalName();
+
+        if(API_VERSION_V2==Conekta.apiVersion)
+            return (ConektaObject) scpWherev2(className, params);
+
         return (ConektaObject) scpWhere(className, params);
     }
 
     public static ConektaObject where() throws Error, ErrorList {
         String className = Plan.class.getCanonicalName();
+
+        if(API_VERSION_V2==Conekta.apiVersion)
+            return (ConektaObject) scpWherev2(className, null);
+
         return (ConektaObject) scpWhere(className, null);
     }
 

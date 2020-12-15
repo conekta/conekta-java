@@ -82,7 +82,17 @@ public class Resource extends ConektaObject {
         resource.loadFromArray(jsonArray);
         return resource;
     }
-    
+
+    protected static ConektaObject scpWherev2(String className, JSONObject params) throws Error, ErrorList{
+        Requestor requestor = new Requestor();
+        String url = Resource.classUrl(className);
+        JSONObject jsnObj= (JSONObject) requestor.request("GET", url, params);
+        JSONArray  jsonArray = jsnObj.getJSONArray("data");
+        ConektaObject resource = new ConektaObject();
+        resource.loadFromArray( jsonArray);
+        return  resource;
+    }
+
     protected static ConektaList scpWhereList(String className, JSONObject params) throws Error, JSONException, ErrorList {
         Requestor requestor = new Requestor();
         String url = Resource.classUrl(className);
