@@ -17,6 +17,7 @@ public class Order extends Resource {
     public Boolean livemode;
     public CustomerInfo customer_info;
     public HashMap metadata = new HashMap();
+    public Checkout checkout;
     public HashMap transitions = new HashMap();
     public ConektaList discount_lines = new ConektaList("discount_lines");
     public ShippingContact shipping_contact;

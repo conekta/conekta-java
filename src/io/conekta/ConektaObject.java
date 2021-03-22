@@ -9,6 +9,8 @@ import java.lang.reflect.Field;
 import java.util.HashMap;
 import java.util.ArrayList;
 import java.util.Iterator;
+import java.util.List;
+
 import org.json.JSONArray;
 import org.json.JSONObject;
 
@@ -103,16 +105,33 @@ public class ConektaObject extends ArrayList {
                     if (obj instanceof JSONArray) {
                         JSONArray jsonArray = (JSONArray) obj;
                         if (jsonArray.length() > 0) {
-                            ConektaObject conektaObject = new ConektaObject();
-                            for (int i = 0; i < jsonArray.length(); i++) {
-                                if ((jsonArray.getJSONObject(0).has("object"))) {
-                                    conektaObject.add(ConektaObjectFromJSONFactory.ConektaObjectFactory(jsonArray.getJSONObject(i), jsonArray.getJSONObject(i).getString("object")));
-                                } else {
-                                    conektaObject.add(ConektaObjectFromJSONFactory.ConektaObjectFactory(jsonArray.getJSONObject(i), key));
+                            String className = jsonArray.get(0).getClass().getCanonicalName();
+                            if (className == "java.lang.String"){
+                                List<String> conektaObject = new ArrayList<String>();
+                                for (int i = 0; i < jsonArray.length(); i++) {
+                                    conektaObject.add(jsonArray.getString(i));
                                 }
+                                field.set(this, conektaObject);
+                                this.setVal(key, conektaObject);
+                            } else if (className == "java.lang.Integer"){
+                                List<Integer> conektaObject = new ArrayList<Integer>();
+                                for (int i = 0; i < jsonArray.length(); i++) {
+                                    conektaObject.add(jsonArray.getInt(i));
+                                }
+                                field.set(this, conektaObject);
+                                this.setVal(key, conektaObject);
+                            } else {
+                                ConektaObject conektaObject = new ConektaObject();
+                                for (int i = 0; i < jsonArray.length(); i++) {
+                                    if ((jsonArray.getJSONObject(0).has("object"))) {
+                                        conektaObject.add(ConektaObjectFromJSONFactory.ConektaObjectFactory(jsonArray.getJSONObject(i), jsonArray.getJSONObject(i).getString("object")));
+                                    } else {
+                                        conektaObject.add(ConektaObjectFromJSONFactory.ConektaObjectFactory(jsonArray.getJSONObject(i), key));
+                                    }
+                                }
+                                field.set(this, conektaObject);
+                                this.setVal(key, conektaObject);
                             }
-                            field.set(this, conektaObject);
-                            this.setVal(key, conektaObject);
                         }
                     } else {
                         if (isConektaObject) {
