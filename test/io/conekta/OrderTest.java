@@ -13,6 +13,7 @@ import org.json.JSONObject;
 public class OrderTest extends ConektaBase{
 
     JSONObject validOrder;
+    JSONObject validOrderWithCheckout;
     JSONObject customerInfo;
     JSONObject validCharge;
     JSONObject validOxxoPayCharge;
@@ -40,7 +41,7 @@ public class OrderTest extends ConektaBase{
 
         customerInfo = new JSONObject(
             "{ 'name': 'John Constantine'," +
-            "  'phone': '+5213353319758'," +
+            "  'phone': '3353319758'," +
             "  'email': 'hola@hola.com'" +
             "}"
         );
@@ -83,6 +84,25 @@ public class OrderTest extends ConektaBase{
             "  }" +
             "}"
         );
+
+        validOrderWithCheckout = new JSONObject(
+                "{ 'currency': 'mxn'," +
+                        " 'customer_info': {" +
+                        "   'customer_id': '" + customer.id + "'" +
+                        "  }," +
+                        "  'line_items': [{" +
+                        "    'name': 'Box of Cohiba S1s'," +
+                        "    'description': 'Imported From Mex.'," +
+                        "    'unit_price': 35000," +
+                        "    'quantity': 1," +
+                        "    'tags': ['food', 'mexican food']," +
+                        "  }]," +
+                        "  'checkout': {" +
+                        "    'expired_at': " + (System.currentTimeMillis() / 1000L) + 259200 + "," +
+                        "    'allowed_payment_methods': ['cash','card','bank_transfer']," +
+                        "  }" +
+                        "}"
+        );
     }
 
     //@Test
@@ -94,6 +114,19 @@ public class OrderTest extends ConektaBase{
         assertTrue(order.amount == 35000);
         assertTrue(order.currency.equals("MXN"));
         assertTrue((Boolean) order.metadata.get("test"));
+    }
+
+    //@Test
+    public void testSuccesfulOrderCreateWithCheckout() throws Exception {
+        Order order = Order.create(validOrderWithCheckout);
+
+        assertTrue(order instanceof Order);
+        assertTrue(order.livemode == false);
+        assertTrue(order.amount == 35000);
+        assertTrue(order.currency.equals("MXN"));
+        assertTrue(order.checkout.type.equals("Integration"));
+        assertFalse(order.checkout.monthly_installments_enabled);
+        assertFalse(order.checkout.on_demand_enabled);
     }
 
     //@Test
