@@ -103,12 +103,20 @@ public class Customer extends Resource {
 
     public static ConektaObject where(JSONObject params) throws Error, ErrorList {
         String className = Customer.class.getCanonicalName();
-        return (ConektaObject) scpWhere(className, params);
+        if (Conekta.apiVersion.startsWith("2")) {
+            return scpWhereList(className, params);
+        }
+        //default v1 behavior
+        return scpWhere(className, params);
     }
 
     public static ConektaObject where() throws Error, ErrorList {
         String className = Customer.class.getCanonicalName();
-        return (ConektaObject) scpWhere(className, null);
+        if (Conekta.apiVersion.startsWith("2")) {
+            return scpWhereList(className, null);
+        }
+        //default v1 behavior
+        return scpWhere(className, null);
     }
 
     public void delete() throws Error, ErrorList {

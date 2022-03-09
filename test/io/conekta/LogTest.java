@@ -15,7 +15,7 @@ public class LogTest extends ConektaBase {
     }
 
     public void testSuccesfulFind() throws Exception {
-        Log log = Log.find("5aa6bb38edbb6e3d63c7156d");
+        Log log = Log.find("5eb5af9882c27243341ce906");
         assertTrue(log instanceof ConektaObject);
     }
 

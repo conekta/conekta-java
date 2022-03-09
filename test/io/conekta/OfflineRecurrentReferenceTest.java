@@ -17,7 +17,7 @@ public class OfflineRecurrentReferenceTest extends ConektaBase {
                 "  'name': 'John Constantine'," +
                 "  'payment_sources': [{ " +
                 "     'type': 'oxxo_recurrent', " +
-                "     'expires_at': '1521829163' " +
+                "     'expires_at': '1893456000' " +
                 "  }]" +
                 "}");
     }
@@ -28,11 +28,11 @@ public class OfflineRecurrentReferenceTest extends ConektaBase {
         Customer customer = Customer.create(validCustomer);
         JSONObject params = new JSONObject("{ " +
                 "      'type': 'oxxo_recurrent'," +
-                "      'expires_at': '1521829163'" +
+                "      'expires_at': '1893456000'" +
                 "    }");
         customer.createOfflineRecurrentReference(params);
-        assertTrue(((OfflineRecurrentReference) customer.payment_sources.get(0)).reference.length() == 16);
-        assertTrue(((OfflineRecurrentReference) customer.payment_sources.get(0)).customer == customer);
+        assertEquals(14, ((OfflineRecurrentReference) customer.payment_sources.get(0)).reference.length());
+        assertSame(customer, ((OfflineRecurrentReference) customer.payment_sources.get(0)).customer);
     }
 
     //@Test
