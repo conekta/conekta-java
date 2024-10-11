@@ -21,6 +21,9 @@ public abstract class Conekta {
     public static void setApiKey(String apiKey) {
         Conekta.apiKey = apiKey;
     }
+    public static void setApiBase(String apiBase) {
+        Conekta.apiBase = apiBase;
+    }
 
     public static void setApiVerion(String version) {
         Conekta.apiVersion = version;
